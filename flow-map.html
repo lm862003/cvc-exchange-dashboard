@@ -102,6 +102,23 @@ const {
 function shortLabel(name) {
   return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 18);
 }
+const TILE_LAYERS = {
+  minimal: {
+    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    attribution: '© <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19
+  },
+  topo: {
+    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: '© <a href="https://opentopomap.org">OpenTopoMap</a>',
+    maxZoom: 17
+  },
+  street: {
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19
+  }
+};
 const FlowMap = () => {
   const [leafletMap, setLeafletMap] = useState(null);
   const [tick, setTick] = useState(0);
@@ -110,20 +127,32 @@ const FlowMap = () => {
   const [selected, setSelected] = useState(null);
   const [regionFilter, setRegionFilter] = useState(null);
   const [showLabels, setShowLabels] = useState(false);
+  const [tileStyle, setTileStyle] = useState('minimal');
+  const tileLayerRef = useRef(null);
   useEffect(() => {
     const m = L.map('map', {
       center: [37.3, -119.5],
       zoom: 6,
       zoomControl: true
     });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://carto.com/">CARTO</a>',
-      maxZoom: 19
+    const cfg = TILE_LAYERS.minimal;
+    tileLayerRef.current = L.tileLayer(cfg.url, {
+      attribution: cfg.attribution,
+      maxZoom: cfg.maxZoom
     }).addTo(m);
     m.on('zoomend moveend zoom move', () => setTick(t => t + 1));
     setLeafletMap(m);
     return () => m.remove();
   }, []);
+  useEffect(() => {
+    if (!leafletMap || !tileLayerRef.current) return;
+    leafletMap.removeLayer(tileLayerRef.current);
+    const cfg = TILE_LAYERS[tileStyle];
+    tileLayerRef.current = L.tileLayer(cfg.url, {
+      attribution: cfg.attribution,
+      maxZoom: cfg.maxZoom
+    }).addTo(leafletMap);
+  }, [tileStyle]);
   const project = useCallback((lat, lon) => {
     if (!leafletMap) return null;
     return leafletMap.latLngToLayerPoint(L.latLng(lat, lon));
@@ -298,6 +327,22 @@ const FlowMap = () => {
       marginTop: 2
     }
   }, TOTAL_APPS.toLocaleString(), " total applications \xB7 ", COLLEGES.length, " colleges \xB7 showing flows ", "≥", " ", threshold));
+  const tileBtn = (id, label) => /*#__PURE__*/React.createElement("button", {
+    key: id,
+    onClick: () => setTileStyle(id),
+    style: {
+      padding: '3px 9px',
+      fontSize: 9,
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      cursor: 'pointer',
+      borderRadius: 3,
+      transition: 'all 0.15s',
+      background: tileStyle === id ? 'rgba(0,212,255,0.18)' : 'transparent',
+      border: tileStyle === id ? '1px solid #00d4ff' : '1px solid rgba(255,255,255,0.1)',
+      color: tileStyle === id ? '#00d4ff' : '#64748b'
+    }
+  }, label);
   const controlsContent = /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
@@ -306,6 +351,11 @@ const FlowMap = () => {
       alignItems: 'flex-end'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 4
+    }
+  }, tileBtn('minimal', 'Minimal'), tileBtn('topo', 'Topo'), tileBtn('street', 'Street')), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
