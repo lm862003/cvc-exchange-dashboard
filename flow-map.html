@@ -39,7 +39,6 @@
 </script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body, #root { height: 100%; overflow: hidden; }
@@ -65,54 +64,42 @@ const ALL_FLOWS = [{"from": "Mt. San Antonio College", "to": "Saddleback College
 const REGIONS   = {"North Coast": "#2dd4bf", "North Interior": "#4ade80", "Sacramento": "#60a5fa", "San Joaquin": "#fbbf24", "Bay Area": "#a78bfa", "Central Coast": "#34d399", "LA Basin": "#fb923c", "Orange County": "#f472b6", "Inland Empire": "#f87171", "San Diego": "#38bdf8", "Desert": "#e2e8f0"};
 const TOTAL_APPS = 42487;
 </script>
-<script type="text/babel">
-const { useState, useEffect, useRef, useMemo, useCallback } = React;
-
-const VIEWBOX_X = 20, VIEWBOX_Y = 15, VIEWBOX_W = 40, VIEWBOX_H = 82;
-
+<script type="text/javascript">
+const {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback
+} = React;
+const VIEWBOX_X = 20,
+  VIEWBOX_Y = 15,
+  VIEWBOX_W = 40,
+  VIEWBOX_H = 82;
 function shortLabel(name) {
-  return name.replace(/Community College/g,'CC')
-             .replace(/Junior College/,'JC')
-             .replace(/College of the /,'')
-             .replace(/ College$/,'')
-             .replace(/Los Angeles /,'LA ')
-             .replace(/ Community$/,'')
-             .trim().slice(0,18);
+  return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 18);
 }
-
 function FlowMap() {
-  const [threshold, setThreshold]       = useState(20);
-  const [hovered, setHovered]           = useState(null);   // college id
-  const [selected, setSelected]         = useState(null);   // college id
+  const [threshold, setThreshold] = useState(20);
+  const [hovered, setHovered] = useState(null); // college id
+  const [selected, setSelected] = useState(null); // college id
   const [regionFilter, setRegionFilter] = useState(null);
-  const [showLabels, setShowLabels]     = useState(false);
-
+  const [showLabels, setShowLabels] = useState(false);
   const active = selected || hovered;
-
-  const flows = useMemo(() =>
-    ALL_FLOWS.filter(f => f.volume >= threshold),
-    [threshold]
-  );
-
-  const maxVol = useMemo(() =>
-    flows.reduce((m, f) => Math.max(m, f.volume), 1),
-    [flows]
-  );
+  const flows = useMemo(() => ALL_FLOWS.filter(f => f.volume >= threshold), [threshold]);
+  const maxVol = useMemo(() => flows.reduce((m, f) => Math.max(m, f.volume), 1), [flows]);
 
   // Total inbound volume per college (for node sizing)
   const volMap = useMemo(() => {
     const m = {};
     ALL_FLOWS.forEach(f => {
       m[f.from] = (m[f.from] || 0) + f.volume;
-      m[f.to]   = (m[f.to]   || 0) + f.volume;
+      m[f.to] = (m[f.to] || 0) + f.volume;
     });
     return m;
   }, []);
-
   const maxNodeVol = useMemo(() => Math.max(...Object.values(volMap)), [volMap]);
-
-  const nodeR = (name) => 0.25 + (volMap[name] || 0) / maxNodeVol * 0.8;
-
+  const nodeR = name => 0.25 + (volMap[name] || 0) / maxNodeVol * 0.8;
   const visibleFlows = useMemo(() => {
     if (!active && !regionFilter) return flows;
     return flows.filter(f => {
@@ -125,285 +112,547 @@ function FlowMap() {
       return true;
     });
   }, [flows, active, regionFilter]);
-
   const collegeById = useMemo(() => {
     const m = {};
     COLLEGES.forEach(c => m[c.id] = c);
     return m;
   }, []);
-
   const arcPath = (from, to) => {
-    const f = from, t = to;
+    const f = from,
+      t = to;
     const mx = (f.x + t.x) / 2;
     const my = (f.y + t.y) / 2;
-    const dx = t.x - f.x, dy = t.y - f.y;
-    const len = Math.sqrt(dx*dx + dy*dy) || 1;
-    const cx = mx - (dy/len) * len * 0.18;
-    const cy = my + (dx/len) * len * 0.18;
+    const dx = t.x - f.x,
+      dy = t.y - f.y;
+    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    const cx = mx - dy / len * len * 0.18;
+    const cy = my + dx / len * len * 0.18;
     return `M ${f.x} ${f.y} Q ${cx} ${cy} ${t.x} ${t.y}`;
   };
-
   const activeFlowData = useMemo(() => {
     if (!active) return null;
-    const out = flows.filter(f => f.from === active).sort((a,b) => b.volume - a.volume);
-    const inn = flows.filter(f => f.to   === active).sort((a,b) => b.volume - a.volume);
-    const c   = collegeById[active];
-    return { college: c, outgoing: out, incoming: inn,
-              totalOut: out.reduce((s,f)=>s+f.volume,0),
-              totalIn:  inn.reduce((s,f)=>s+f.volume,0) };
+    const out = flows.filter(f => f.from === active).sort((a, b) => b.volume - a.volume);
+    const inn = flows.filter(f => f.to === active).sort((a, b) => b.volume - a.volume);
+    const c = collegeById[active];
+    return {
+      college: c,
+      outgoing: out,
+      incoming: inn,
+      totalOut: out.reduce((s, f) => s + f.volume, 0),
+      totalIn: inn.reduce((s, f) => s + f.volume, 0)
+    };
   }, [active, flows, collegeById]);
-
-  return (
-    <div style={{ display:'flex', flexDirection:'column', height:'100vh' }}>
-
-      {/* Header */}
-      <div style={{ padding:'14px 20px 10px', borderBottom:'1px solid rgba(255,255,255,0.06)',
-                     display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:10 }}>
-        <div>
-          <div style={{ fontSize:9, letterSpacing:'0.2em', color:'#334155', textTransform:'uppercase', marginBottom:3 }}>
-            California Community Colleges · CVC Exchange · Spring 2026
-          </div>
-          <h1 style={{ fontSize:20, fontWeight:700, margin:0, letterSpacing:'-0.02em',
-                        background:'linear-gradient(90deg,#00d4ff,#f472b6)',
-                        WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-            Cross-Enrollment Flow Map
-          </h1>
-          <div style={{ fontSize:10, color:'#334155', marginTop:2 }}>
-            {TOTAL_APPS.toLocaleString()} total applications · {COLLEGES.length} colleges · showing flows ≥ {threshold}
-          </div>
-        </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:8, alignItems:'flex-end' }}>
-          {/* Threshold slider */}
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <span style={{ fontSize:10, color:'#475569', textTransform:'uppercase', letterSpacing:'0.1em' }}>Min flow</span>
-            <input type="range" min="5" max="100" step="5" value={threshold}
-              onChange={e => setThreshold(+e.target.value)}
-              style={{ width:100 }}/>
-            <span style={{ fontSize:12, color:'#00d4ff', minWidth:28, textAlign:'right' }}>{threshold}</span>
-          </div>
-          {/* Label toggle */}
-          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <span style={{ fontSize:10, color:'#475569', textTransform:'uppercase', letterSpacing:'0.1em' }}>Labels</span>
-            <div onClick={() => setShowLabels(l => !l)} style={{
-              width:32, height:16, borderRadius:8, cursor:'pointer', transition:'background 0.2s',
-              background: showLabels ? '#00d4ff' : 'rgba(255,255,255,0.1)',
-              position:'relative'
-            }}>
-              <div style={{ position:'absolute', top:2, left: showLabels ? 18 : 2,
-                             width:12, height:12, borderRadius:'50%', background:'#fff',
-                             transition:'left 0.2s' }}/>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ display:'flex', flex:1, minHeight:0 }}>
-
-        {/* Map */}
-        <div style={{ flex:1, position:'relative' }}>
-          <svg viewBox="20 15 40 82" style={{ width:'100%', height:'100%' }}
-            preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="0.25" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="nglow">
-                <feGaussianBlur stdDeviation="0.5" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-
-            {/* CA outline */}
-            <path d="M 28 16 L 38 15 L 65 20 L 68 35 L 60 55 L 58 70 L 52 82 L 46 93 L 42 93 L 35 88 L 28 78 L 22 60 L 21 40 Z"
-              fill="rgba(255,255,255,0.012)" stroke="rgba(255,255,255,0.05)" strokeWidth="0.25"/>
-
-            {/* Arcs */}
-            {visibleFlows.map((flow, i) => {
-              const fc = collegeById[flow.from];
-              const tc = collegeById[flow.to];
-              if (!fc || !tc) return null;
-              const path = arcPath(fc, tc);
-              const weight = flow.volume / maxVol;
-              const sw = 0.05 + weight * 0.3;
-              const isHL = active && (flow.from === active || flow.to === active);
-              const op = active ? (isHL ? 0.85 : 0.04)
-                       : regionFilter ? 0.5 : 0.28;
-              const color = fc.color;
-              return (
-                <g key={i}>
-                  <path d={path} fill="none" stroke={color}
-                    strokeWidth={sw * 2.5} opacity={op * 0.12} strokeLinecap="round"/>
-                  <path d={path} fill="none" stroke={color}
-                    strokeWidth={sw} opacity={op} strokeLinecap="round"
-                    filter={isHL ? 'url(#glow)' : 'none'}/>
-                  {isHL && (
-                    <circle r="0.2" fill={color} opacity="0.9">
-                      <animateMotion dur="1.2s" repeatCount="indefinite" path={path}/>
-                    </circle>
-                  )}
-                </g>
-              );
-            })}
-
-            {/* Nodes */}
-            {COLLEGES.map(col => {
-              const r = nodeR(col.id);
-              const isAct = active === col.id;
-              const dimmed = (active && !isAct && !visibleFlows.some(f => f.from===col.id||f.to===col.id))
-                           || (regionFilter && col.region !== regionFilter);
-              const op = dimmed ? 0.12 : 1;
-              const showLbl = showLabels || isAct;
-              return (
-                <g key={col.id} style={{ cursor:'pointer' }} opacity={op}
-                  onClick={() => setSelected(s => s===col.id ? null : col.id)}
-                  onMouseEnter={() => setHovered(col.id)}
-                  onMouseLeave={() => setHovered(null)}>
-                  {isAct && (
-                    <circle cx={col.x} cy={col.y} r={r+0.7}
-                      fill="none" stroke={col.color} strokeWidth="0.12" opacity="0.4">
-                      <animate attributeName="r" values={`${r+0.5};${r+1.2};${r+0.5}`} dur="2s" repeatCount="indefinite"/>
-                      <animate attributeName="opacity" values="0.4;0.08;0.4" dur="2s" repeatCount="indefinite"/>
-                    </circle>
-                  )}
-                  <circle cx={col.x} cy={col.y} r={r+0.15}
-                    fill={col.color} opacity={isAct ? 0.2 : 0.08}/>
-                  <circle cx={col.x} cy={col.y} r={r}
-                    fill={isAct ? col.color : 'rgba(3,7,18,0.85)'}
-                    stroke={col.color} strokeWidth={isAct ? 0 : 0.1}
-                    filter={isAct ? 'url(#nglow)' : 'none'}/>
-                  {showLbl && (
-                    <text x={col.x} y={col.y - r - 0.25}
-                      textAnchor="middle" fontSize="0.55"
-                      fill={col.color} opacity="0.9"
-                      style={{ pointerEvents:'none', fontFamily:"'DM Mono',monospace" }}>
-                      {shortLabel(col.name)}
-                    </text>
-                  )}
-                </g>
-              );
-            })}
-          </svg>
-
-          {!active && !regionFilter && (
-            <div style={{ position:'absolute', bottom:14, left:'50%', transform:'translateX(-50%)',
-                           fontSize:9, color:'#1e293b', letterSpacing:'0.15em', textTransform:'uppercase',
-                           whiteSpace:'nowrap' }}>
-              click a college · {visibleFlows.length} connections shown
-            </div>
-          )}
-        </div>
-
-        {/* Sidebar */}
-        <div style={{ width:230, borderLeft:'1px solid rgba(255,255,255,0.06)',
-                       display:'flex', flexDirection:'column', overflowY:'auto', fontSize:11 }}>
-          {activeFlowData ? (
-            <div style={{ padding:14, display:'flex', flexDirection:'column', gap:12 }}>
-              <div>
-                <div style={{ fontSize:8, letterSpacing:'0.15em', color:'#475569', textTransform:'uppercase', marginBottom:5 }}>Selected</div>
-                <div style={{ fontWeight:700, fontSize:12, color:activeFlowData.college?.color, lineHeight:1.3, marginBottom:2 }}>
-                  {activeFlowData.college?.name}
-                </div>
-                <div style={{ fontSize:10, color:'#475569' }}>{activeFlowData.college?.region}</div>
-              </div>
-
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:7 }}>
-                {[
-                  { label:'Sent Out',    val: activeFlowData.totalOut.toLocaleString() },
-                  { label:'Received',    val: activeFlowData.totalIn.toLocaleString() },
-                  { label:'Out Routes',  val: activeFlowData.outgoing.length },
-                  { label:'In Routes',   val: activeFlowData.incoming.length },
-                ].map(({label,val}) => (
-                  <div key={label} style={{ background:'rgba(255,255,255,0.03)',
-                    border:'1px solid rgba(255,255,255,0.06)', borderRadius:4, padding:'7px 9px' }}>
-                    <div style={{ fontSize:14, fontWeight:700, color:activeFlowData.college?.color }}>{val}</div>
-                    <div style={{ fontSize:8, color:'#475569', textTransform:'uppercase', letterSpacing:'0.08em' }}>{label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {activeFlowData.outgoing.length > 0 && (
-                <div>
-                  <div style={{ fontSize:8, color:'#00d4ff', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:7 }}>↗ Sending to</div>
-                  {activeFlowData.outgoing.slice(0,8).map(f => {
-                    const tc = collegeById[f.to];
-                    return (
-                      <div key={f.to} style={{ marginBottom:5 }}>
-                        <div style={{ display:'flex', justifyContent:'space-between', marginBottom:2, fontSize:10 }}>
-                          <span style={{ color:'#94a3b8', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:140 }}>{shortLabel(f.to)}</span>
-                          <span style={{ color: tc?.color || '#94a3b8', fontWeight:700 }}>{f.volume}</span>
-                        </div>
-                        <div style={{ height:2, background:'rgba(255,255,255,0.05)', borderRadius:1 }}>
-                          <div style={{ height:'100%', borderRadius:1,
-                            width:`${(f.volume/maxVol)*100}%`,
-                            background: tc?.color || '#94a3b8' }}/>
-                        </div>
-                      </div>
-                    );
-                  }})}
-                </div>
-              )}
-
-              {activeFlowData.incoming.length > 0 && (
-                <div>
-                  <div style={{ fontSize:8, color:'#f472b6', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:7 }}>↙ Receiving from</div>
-                  {activeFlowData.incoming.slice(0,8).map(f => {
-                    const hc = collegeById[f.from];
-                    return (
-                      <div key={f.from} style={{ marginBottom:5 }}>
-                        <div style={{ display:'flex', justifyContent:'space-between', marginBottom:2, fontSize:10 }}>
-                          <span style={{ color:'#94a3b8', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:140 }}>{shortLabel(f.from)}</span>
-                          <span style={{ color: hc?.color || '#94a3b8', fontWeight:700 }}>{f.volume}</span>
-                        </div>
-                        <div style={{ height:2, background:'rgba(255,255,255,0.05)', borderRadius:1 }}>
-                          <div style={{ height:'100%', borderRadius:1,
-                            width:`${(f.volume/maxVol)*100}%`,
-                            background: hc?.color || '#94a3b8' }}/>
-                        </div>
-                      </div>
-                    );
-                  }})}
-                </div>
-              )}
-
-              <button onClick={() => { setSelected(null); setHovered(null); }}
-                style={{ padding:'7px', fontSize:9, letterSpacing:'0.1em', textTransform:'uppercase',
-                           background:'transparent', border:'1px solid rgba(255,255,255,0.08)',
-                           color:'#475569', borderRadius:2, cursor:'pointer', marginTop:'auto' }}>
-                Clear
-              </button>
-            </div>
-          ) : (
-            <div style={{ padding:14 }}>
-              <div style={{ fontSize:8, letterSpacing:'0.15em', color:'#475569', textTransform:'uppercase', marginBottom:10 }}>Regions</div>
-              {Object.entries(REGIONS).map(([region, color]) => (
-                <div key={region}
-                  onClick={() => setRegionFilter(r => r===region ? null : region)}
-                  style={{ display:'flex', alignItems:'center', gap:7, marginBottom:7, cursor:'pointer',
-                             opacity: regionFilter && regionFilter !== region ? 0.3 : 1,
-                             transition:'opacity 0.2s' }}>
-                  <div style={{ width:7, height:7, borderRadius:'50%', background:color, flexShrink:0 }}/>
-                  <span style={{ fontSize:10, color: regionFilter===region ? color : '#64748b' }}>{region}</span>
-                </div>
-              ))}
-              {regionFilter && (
-                <button onClick={() => setRegionFilter(null)}
-                  style={{ marginTop:6, padding:'4px 10px', fontSize:9, textTransform:'uppercase',
-                             letterSpacing:'0.1em', background:'transparent', border:'1px solid rgba(255,255,255,0.08)',
-                             color:'#475569', borderRadius:2, cursor:'pointer' }}>
-                  Clear filter
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '14px 20px 10px',
+      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      letterSpacing: '0.2em',
+      color: '#334155',
+      textTransform: 'uppercase',
+      marginBottom: 3
+    }
+  }, "California Community Colleges \xB7 CVC Exchange \xB7 Spring 2026"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: 20,
+      fontWeight: 700,
+      margin: 0,
+      letterSpacing: '-0.02em',
+      background: 'linear-gradient(90deg,#00d4ff,#f472b6)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    }
+  }, "Cross-Enrollment Flow Map"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: '#334155',
+      marginTop: 2
+    }
+  }, TOTAL_APPS.toLocaleString(), " total applications \xB7 ", COLLEGES.length, " colleges \xB7 showing flows \u2265 ", threshold)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 8,
+      alignItems: 'flex-end'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: '#475569',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em'
+    }
+  }, "Min flow"), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    min: "5",
+    max: "100",
+    step: "5",
+    value: threshold,
+    onChange: e => setThreshold(+e.target.value),
+    style: {
+      width: 100
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: '#00d4ff',
+      minWidth: 28,
+      textAlign: 'right'
+    }
+  }, threshold)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: '#475569',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em'
+    }
+  }, "Labels"), /*#__PURE__*/React.createElement("div", {
+    onClick: () => setShowLabels(l => !l),
+    style: {
+      width: 32,
+      height: 16,
+      borderRadius: 8,
+      cursor: 'pointer',
+      transition: 'background 0.2s',
+      background: showLabels ? '#00d4ff' : 'rgba(255,255,255,0.1)',
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 2,
+      left: showLabels ? 18 : 2,
+      width: 12,
+      height: 12,
+      borderRadius: '50%',
+      background: '#fff',
+      transition: 'left 0.2s'
+    }
+  }))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flex: 1,
+      minHeight: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: "20 15 40 82",
+    style: {
+      width: '100%',
+      height: '100%'
+    },
+    preserveAspectRatio: "xMidYMid meet"
+  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("filter", {
+    id: "glow"
+  }, /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: "0.25",
+    result: "blur"
+  }), /*#__PURE__*/React.createElement("feMerge", null, /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "blur"
+  }), /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "SourceGraphic"
+  }))), /*#__PURE__*/React.createElement("filter", {
+    id: "nglow"
+  }, /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: "0.5",
+    result: "blur"
+  }), /*#__PURE__*/React.createElement("feMerge", null, /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "blur"
+  }), /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "SourceGraphic"
+  })))), /*#__PURE__*/React.createElement("path", {
+    d: "M 28 16 L 38 15 L 65 20 L 68 35 L 60 55 L 58 70 L 52 82 L 46 93 L 42 93 L 35 88 L 28 78 L 22 60 L 21 40 Z",
+    fill: "rgba(255,255,255,0.012)",
+    stroke: "rgba(255,255,255,0.05)",
+    strokeWidth: "0.25"
+  }), visibleFlows.map((flow, i) => {
+    const fc = collegeById[flow.from];
+    const tc = collegeById[flow.to];
+    if (!fc || !tc) return null;
+    const path = arcPath(fc, tc);
+    const weight = flow.volume / maxVol;
+    const sw = 0.05 + weight * 0.3;
+    const isHL = active && (flow.from === active || flow.to === active);
+    const op = active ? isHL ? 0.85 : 0.04 : regionFilter ? 0.5 : 0.28;
+    const color = fc.color;
+    return /*#__PURE__*/React.createElement("g", {
+      key: i
+    }, /*#__PURE__*/React.createElement("path", {
+      d: path,
+      fill: "none",
+      stroke: color,
+      strokeWidth: sw * 2.5,
+      opacity: op * 0.12,
+      strokeLinecap: "round"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: path,
+      fill: "none",
+      stroke: color,
+      strokeWidth: sw,
+      opacity: op,
+      strokeLinecap: "round",
+      filter: isHL ? 'url(#glow)' : 'none'
+    }), isHL && /*#__PURE__*/React.createElement("circle", {
+      r: "0.2",
+      fill: color,
+      opacity: "0.9"
+    }, /*#__PURE__*/React.createElement("animateMotion", {
+      dur: "1.2s",
+      repeatCount: "indefinite",
+      path: path
+    })));
+  }), COLLEGES.map(col => {
+    const r = nodeR(col.id);
+    const isAct = active === col.id;
+    const dimmed = active && !isAct && !visibleFlows.some(f => f.from === col.id || f.to === col.id) || regionFilter && col.region !== regionFilter;
+    const op = dimmed ? 0.12 : 1;
+    const showLbl = showLabels || isAct;
+    return /*#__PURE__*/React.createElement("g", {
+      key: col.id,
+      style: {
+        cursor: 'pointer'
+      },
+      opacity: op,
+      onClick: () => setSelected(s => s === col.id ? null : col.id),
+      onMouseEnter: () => setHovered(col.id),
+      onMouseLeave: () => setHovered(null)
+    }, isAct && /*#__PURE__*/React.createElement("circle", {
+      cx: col.x,
+      cy: col.y,
+      r: r + 0.7,
+      fill: "none",
+      stroke: col.color,
+      strokeWidth: "0.12",
+      opacity: "0.4"
+    }, /*#__PURE__*/React.createElement("animate", {
+      attributeName: "r",
+      values: `${r + 0.5};${r + 1.2};${r + 0.5}`,
+      dur: "2s",
+      repeatCount: "indefinite"
+    }), /*#__PURE__*/React.createElement("animate", {
+      attributeName: "opacity",
+      values: "0.4;0.08;0.4",
+      dur: "2s",
+      repeatCount: "indefinite"
+    })), /*#__PURE__*/React.createElement("circle", {
+      cx: col.x,
+      cy: col.y,
+      r: r + 0.15,
+      fill: col.color,
+      opacity: isAct ? 0.2 : 0.08
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: col.x,
+      cy: col.y,
+      r: r,
+      fill: isAct ? col.color : 'rgba(3,7,18,0.85)',
+      stroke: col.color,
+      strokeWidth: isAct ? 0 : 0.1,
+      filter: isAct ? 'url(#nglow)' : 'none'
+    }), showLbl && /*#__PURE__*/React.createElement("text", {
+      x: col.x,
+      y: col.y - r - 0.25,
+      textAnchor: "middle",
+      fontSize: "0.55",
+      fill: col.color,
+      opacity: "0.9",
+      style: {
+        pointerEvents: 'none',
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, shortLabel(col.name)));
+  })), !active && !regionFilter && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      bottom: 14,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      fontSize: 9,
+      color: '#1e293b',
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      whiteSpace: 'nowrap'
+    }
+  }, "click a college \xB7 ", visibleFlows.length, " connections shown")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 230,
+      borderLeft: '1px solid rgba(255,255,255,0.06)',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto',
+      fontSize: 11
+    }
+  }, activeFlowData ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 14,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      letterSpacing: '0.15em',
+      color: '#475569',
+      textTransform: 'uppercase',
+      marginBottom: 5
+    }
+  }, "Selected"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      fontSize: 12,
+      color: activeFlowData.college?.color,
+      lineHeight: 1.3,
+      marginBottom: 2
+    }
+  }, activeFlowData.college?.name), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: '#475569'
+    }
+  }, activeFlowData.college?.region)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 7
+    }
+  }, [{
+    label: 'Sent Out',
+    val: activeFlowData.totalOut.toLocaleString()
+  }, {
+    label: 'Received',
+    val: activeFlowData.totalIn.toLocaleString()
+  }, {
+    label: 'Out Routes',
+    val: activeFlowData.outgoing.length
+  }, {
+    label: 'In Routes',
+    val: activeFlowData.incoming.length
+  }].map(({
+    label,
+    val
+  }) => /*#__PURE__*/React.createElement("div", {
+    key: label,
+    style: {
+      background: 'rgba(255,255,255,0.03)',
+      border: '1px solid rgba(255,255,255,0.06)',
+      borderRadius: 4,
+      padding: '7px 9px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: activeFlowData.college?.color
+    }
+  }, val), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: '#475569',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em'
+    }
+  }, label)))), activeFlowData.outgoing.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: '#00d4ff',
+      textTransform: 'uppercase',
+      letterSpacing: '0.12em',
+      marginBottom: 7
+    }
+  }, "\u2197 Sending to"), activeFlowData.outgoing.slice(0, 8).map(f => {
+    const tc = collegeById[f.to];
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.to,
+      style: {
+        marginBottom: 5
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: 2,
+        fontSize: 10
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: '#94a3b8',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        maxWidth: 140
+      }
+    }, shortLabel(f.to)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: tc?.color || '#94a3b8',
+        fontWeight: 700
+      }
+    }, f.volume)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 2,
+        background: 'rgba(255,255,255,0.05)',
+        borderRadius: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: '100%',
+        borderRadius: 1,
+        width: `${f.volume / maxVol * 100}%`,
+        background: tc?.color || '#94a3b8'
+      }
+    })));
+  })), activeFlowData.incoming.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: '#f472b6',
+      textTransform: 'uppercase',
+      letterSpacing: '0.12em',
+      marginBottom: 7
+    }
+  }, "\u2199 Receiving from"), activeFlowData.incoming.slice(0, 8).map(f => {
+    const hc = collegeById[f.from];
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.from,
+      style: {
+        marginBottom: 5
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: 2,
+        fontSize: 10
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: '#94a3b8',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        maxWidth: 140
+      }
+    }, shortLabel(f.from)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: hc?.color || '#94a3b8',
+        fontWeight: 700
+      }
+    }, f.volume)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 2,
+        background: 'rgba(255,255,255,0.05)',
+        borderRadius: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: '100%',
+        borderRadius: 1,
+        width: `${f.volume / maxVol * 100}%`,
+        background: hc?.color || '#94a3b8'
+      }
+    })));
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setSelected(null);
+      setHovered(null);
+    },
+    style: {
+      padding: '7px',
+      fontSize: 9,
+      letterSpacing: '0.1em',
+      textTransform: 'uppercase',
+      background: 'transparent',
+      border: '1px solid rgba(255,255,255,0.08)',
+      color: '#475569',
+      borderRadius: 2,
+      cursor: 'pointer',
+      marginTop: 'auto'
+    }
+  }, "Clear")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      letterSpacing: '0.15em',
+      color: '#475569',
+      textTransform: 'uppercase',
+      marginBottom: 10
+    }
+  }, "Regions"), Object.entries(REGIONS).map(([region, color]) => /*#__PURE__*/React.createElement("div", {
+    key: region,
+    onClick: () => setRegionFilter(r => r === region ? null : region),
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 7,
+      marginBottom: 7,
+      cursor: 'pointer',
+      opacity: regionFilter && regionFilter !== region ? 0.3 : 1,
+      transition: 'opacity 0.2s'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: '50%',
+      background: color,
+      flexShrink: 0
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: regionFilter === region ? color : '#64748b'
+    }
+  }, region))), regionFilter && /*#__PURE__*/React.createElement("button", {
+    onClick: () => setRegionFilter(null),
+    style: {
+      marginTop: 6,
+      padding: '4px 10px',
+      fontSize: 9,
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      background: 'transparent',
+      border: '1px solid rgba(255,255,255,0.08)',
+      color: '#475569',
+      borderRadius: 2,
+      cursor: 'pointer'
+    }
+  }, "Clear filter")))));
 }
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<FlowMap />);
+root.render(/*#__PURE__*/React.createElement(FlowMap, null));
+
+
 </script>
 </body>
 </html>
