@@ -84,7 +84,13 @@
     60%  { r: 20; opacity: 0.3; }
     100% { r: 26; opacity: 0; }
   }
-  .pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
+  .pulse-ring  { animation: pulse-ring 1.4s ease-out infinite; }
+  .pulse-ring2 { animation: pulse-ring 1.4s ease-out infinite; animation-delay: 0.7s; opacity: 0; animation-fill-mode: both; }
+  @keyframes orbit {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .orbit-group { animation: orbit 4s linear infinite; transform-origin: 0px 0px; }
 </style>
 </head>
 <body>
@@ -146,6 +152,7 @@ const FlowMap = () => {
   const [showLabels, setShowLabels] = useState(false);
   const [showSelfEnroll, setShowSelfEnroll] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [arcTooltip, setArcTooltip] = useState(null);
   const tileLayerRef = useRef(null);
 
   // ── Map init ──────────────────────────────────────────────────────────────
@@ -176,6 +183,7 @@ const FlowMap = () => {
     };
     m.on('viewreset zoomend', resetSVG);
     m.on('moveend zoomend', () => setEdgeTick(t => t + 1));
+    m.on('click', () => setArcTooltip(null));
     setTimeout(resetSVG, 0);
     setLeafletMap(m);
     return () => m.remove();
@@ -304,6 +312,16 @@ const FlowMap = () => {
       const sw = Math.max(0.4, 0.3 + Math.log2(flow.volume) * 1.0);
       const color = hc.color;
       const markerId = 'arrow-' + color.replace('#', '');
+      const handleArcClick = e => {
+        e.stopPropagation();
+        setArcTooltip({
+          x: e.clientX,
+          y: e.clientY,
+          from: flow.homeId,
+          to: flow.to,
+          volume: flow.volume
+        });
+      };
       return /*#__PURE__*/React.createElement("g", {
         key: flow.homeId + '-' + flow.to + '-' + i
       }, /*#__PURE__*/React.createElement("path", {
@@ -321,6 +339,16 @@ const FlowMap = () => {
         opacity: 0.65,
         strokeLinecap: "round",
         markerEnd: 'url(#' + markerId + ')'
+      }), /*#__PURE__*/React.createElement("path", {
+        d: path,
+        fill: "none",
+        stroke: "transparent",
+        strokeWidth: Math.max(sw + 8, 12),
+        style: {
+          pointerEvents: 'stroke',
+          cursor: 'pointer'
+        },
+        onClick: handleArcClick
       }));
     });
 
@@ -335,6 +363,7 @@ const FlowMap = () => {
       const op = dimmed ? 0.08 : 1;
       const selfCount = SELF_ENROLL[col.id] || 0;
       const selfR = HOME_R + 6 + Math.sqrt(selfCount) * 2.2;
+      const orbitR = HOME_R + 10;
       return /*#__PURE__*/React.createElement("g", {
         key: col.id,
         opacity: op
@@ -348,7 +377,7 @@ const FlowMap = () => {
         strokeWidth: "1",
         strokeDasharray: "3,3",
         strokeOpacity: "0.5"
-      }), isHome && /*#__PURE__*/React.createElement("circle", {
+      }), isHome && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
         r: HOME_R + 5,
@@ -357,6 +386,25 @@ const FlowMap = () => {
         strokeWidth: "2",
         className: "pulse-ring"
       }), /*#__PURE__*/React.createElement("circle", {
+        cx: p.x,
+        cy: p.y,
+        r: HOME_R + 5,
+        fill: "none",
+        stroke: darkenHex(col.color, 0.62),
+        strokeWidth: "1.5",
+        className: "pulse-ring2"
+      }), /*#__PURE__*/React.createElement("g", {
+        style: {
+          transform: 'translate(' + p.x + 'px,' + p.y + 'px)'
+        },
+        className: "orbit-group"
+      }, /*#__PURE__*/React.createElement("circle", {
+        cx: orbitR,
+        cy: 0,
+        r: 2.5,
+        fill: col.color,
+        opacity: "0.9"
+      }))), /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
         r: r,
@@ -1138,8 +1186,85 @@ const FlowMap = () => {
     })));
   }));
 
+  // ── Arc tooltip ───────────────────────────────────────────────────────────
+  const arcTooltipEl = arcTooltip && (() => {
+    const hc = collegeById[arcTooltip.from];
+    const tc = collegeById[arcTooltip.to];
+    const color = hc ? hc.color : '#00d4ff';
+    return /*#__PURE__*/React.createElement("div", {
+      onClick: () => setArcTooltip(null),
+      style: {
+        position: 'fixed',
+        left: arcTooltip.x + 12,
+        top: arcTooltip.y - 10,
+        background: 'rgba(3,7,18,0.96)',
+        border: '1px solid ' + color,
+        borderRadius: 8,
+        padding: '10px 14px',
+        zIndex: 2000,
+        minWidth: 180,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+        cursor: 'pointer',
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        letterSpacing: '0.15em',
+        color: '#475569',
+        textTransform: 'uppercase',
+        marginBottom: 6
+      }
+    }, "Enrollment Flow"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: color,
+        fontWeight: 700,
+        marginBottom: 3
+      }
+    }, arcTooltip.from), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: '#475569',
+        marginBottom: 6
+      }
+    }, "\u2193 teaching at"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: tc ? tc.color : '#94a3b8',
+        fontWeight: 700,
+        marginBottom: 8
+      }
+    }, arcTooltip.to), /*#__PURE__*/React.createElement("div", {
+      style: {
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        paddingTop: 6,
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        color: '#e2e8f0'
+      }
+    }, arcTooltip.volume), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        color: '#475569'
+      }
+    }, "validated & registered")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: '#334155',
+        marginTop: 4
+      }
+    }, "click to dismiss"));
+  })();
+
   // ─────────────────────────────────────────────────────────────────────────
-  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(headerContent, document.getElementById('header')), ReactDOM.createPortal(menuContent, document.getElementById('college-menu')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), helpOverlay && ReactDOM.createPortal(helpOverlay, document.body), edgeLabels && ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(headerContent, document.getElementById('header')), ReactDOM.createPortal(menuContent, document.getElementById('college-menu')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), helpOverlay && ReactDOM.createPortal(helpOverlay, document.body), arcTooltipEl && ReactDOM.createPortal(arcTooltipEl, document.body), edgeLabels && ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
     style: {
       position: 'absolute',
       inset: 0,
