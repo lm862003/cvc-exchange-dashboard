@@ -1204,7 +1204,15 @@ const FlowMap = () => {
     const hc = collegeById[arcTooltip.from];
     const tc = collegeById[arcTooltip.to];
     const color = hc ? hc.color : '#00d4ff';
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      onClick: () => setArcTooltip(null),
+      style: {
+        position: 'fixed',
+        inset: 0,
+        zIndex: 1999,
+        cursor: 'default'
+      }
+    }), /*#__PURE__*/React.createElement("div", {
       onClick: () => setArcTooltip(null),
       style: {
         position: 'fixed',
@@ -1226,22 +1234,24 @@ const FlowMap = () => {
         letterSpacing: '0.15em',
         color: '#475569',
         textTransform: 'uppercase',
-        marginBottom: 6
+        marginBottom: 4
       }
-    }, "Enrollment Flow"), /*#__PURE__*/React.createElement("div", {
+    }, "Home College"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
         color: color,
         fontWeight: 700,
-        marginBottom: 3
+        marginBottom: 8
       }
     }, arcTooltip.from), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 9,
+        fontSize: 8,
+        letterSpacing: '0.15em',
         color: '#475569',
-        marginBottom: 6
+        textTransform: 'uppercase',
+        marginBottom: 4
       }
-    }, "\u2193 teaching at"), /*#__PURE__*/React.createElement("div", {
+    }, "Teaching College"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
         color: tc ? tc.color : '#94a3b8',
@@ -1267,13 +1277,7 @@ const FlowMap = () => {
         fontSize: 9,
         color: '#475569'
       }
-    }, "validated & registered")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 8,
-        color: '#334155',
-        marginTop: 4
-      }
-    }, "click to dismiss"));
+    }, "validated & registered"))));
   })();
 
   // ─────────────────────────────────────────────────────────────────────────
