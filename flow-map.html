@@ -202,6 +202,19 @@ const FlowMap = () => {
   }, [tileStyle]);
 
   // ── Coordinate projection ─────────────────────────────────────────────────
+  // ── Dismiss arc tooltip on any click outside ─────────────────────────────
+  useEffect(() => {
+    if (!arcTooltip) return;
+    const dismiss = () => setArcTooltip(null);
+    // Delay so the arc click that opened it doesn't immediately dismiss it
+    const timer = setTimeout(() => document.addEventListener('click', dismiss, {
+      once: true
+    }), 0);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', dismiss);
+    };
+  }, [arcTooltip]);
   const project = useCallback((lat, lon) => {
     if (!leafletMap) return null;
     return leafletMap.latLngToLayerPoint(L.latLng(lat, lon));
@@ -1204,15 +1217,7 @@ const FlowMap = () => {
     const hc = collegeById[arcTooltip.from];
     const tc = collegeById[arcTooltip.to];
     const color = hc ? hc.color : '#00d4ff';
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      onClick: () => setArcTooltip(null),
-      style: {
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1999,
-        cursor: 'default'
-      }
-    }), /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       onClick: () => setArcTooltip(null),
       style: {
         position: 'fixed',
@@ -1277,7 +1282,7 @@ const FlowMap = () => {
         fontSize: 9,
         color: '#475569'
       }
-    }, "validated & registered"))));
+    }, "validated & registered")));
   })();
 
   // ─────────────────────────────────────────────────────────────────────────
