@@ -80,10 +80,11 @@
     background: #00d4ff; border-radius: 50%; cursor: pointer;
   }
   @keyframes pulse-ring {
-    0%   { r: 6; opacity: 0.5; }
-    100% { r: 14; opacity: 0; }
+    0%   { r: 8;  opacity: 0.85; }
+    60%  { r: 20; opacity: 0.3; }
+    100% { r: 26; opacity: 0; }
   }
-  .pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+  .pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
 </style>
 </head>
 <body>
@@ -127,6 +128,13 @@ const TILE_LAYERS = {
 };
 function shortLabel(name) {
   return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 16);
+}
+function darkenHex(hex, f) {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const r = Math.round((n >> 16 & 0xff) * f);
+  const g = Math.round((n >> 8 & 0xff) * f);
+  const b = Math.round((n & 0xff) * f);
+  return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 const FlowMap = () => {
   const [leafletMap, setLeafletMap] = useState(null);
@@ -345,8 +353,8 @@ const FlowMap = () => {
         cy: p.y,
         r: HOME_R + 5,
         fill: "none",
-        stroke: col.color,
-        strokeWidth: "1.5",
+        stroke: darkenHex(col.color, 0.62),
+        strokeWidth: "2",
         className: "pulse-ring"
       }), /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
