@@ -46,7 +46,7 @@
   html, body, #root { height: 100%; margin: 0; }
   body { font-family: 'DM Mono', 'Courier New', monospace; color: #e2e8f0; overflow: hidden; }
   #map { position: absolute; inset: 0; }
-  #flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 450; }
+  #flow-svg { overflow: visible; pointer-events: none; position: absolute; }
   #college-menu {
     position: absolute; top: 0; left: 0; width: 240px; height: 100%;
     background: rgba(3,7,18,0.88); backdrop-filter: blur(10px);
@@ -150,7 +150,28 @@ const FlowMap = () => {
       attribution: cfg.attribution,
       maxZoom: cfg.maxZoom
     }).addTo(m);
-    m.on('zoomend moveend zoom move', () => setTick(t => t + 1));
+
+    // Move #flow-svg into a custom Leaflet pane so it gets the same
+    // CSS pan-transform as the tiles — zero JS during drag.
+    m.createPane('flowPane');
+    const pane = m.getPane('flowPane');
+    pane.style.zIndex = '450';
+    pane.style.pointerEvents = 'none';
+    const flowSvg = document.getElementById('flow-svg');
+    pane.appendChild(flowSvg);
+    const resetSVG = () => {
+      const size = m.getSize();
+      const pos = m._getMapPanePos().multiplyBy(-1);
+      flowSvg.style.width = size.x + 'px';
+      flowSvg.style.height = size.y + 'px';
+      flowSvg.style.left = pos.x + 'px';
+      flowSvg.style.top = pos.y + 'px';
+      setTick(t => t + 1);
+    };
+
+    // Only recalculate pixel coords on zoom — pan is handled by the pane transform.
+    m.on('viewreset zoomend', resetSVG);
+    setTimeout(resetSVG, 0);
     setLeafletMap(m);
     return () => m.remove();
   }, []);
@@ -1078,13 +1099,7 @@ const FlowMap = () => {
       cursor: 'pointer'
     }
   }, "Clear filter"));
-  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(headerContent, document.getElementById('header')), ReactDOM.createPortal(menuContent, document.getElementById('college-menu')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), helpOverlay && ReactDOM.createPortal(helpOverlay, document.body), ReactDOM.createPortal(/*#__PURE__*/React.createElement("svg", {
-    style: {
-      width: '100%',
-      height: '100%',
-      overflow: 'visible'
-    }
-  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("filter", {
+  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(headerContent, document.getElementById('header')), ReactDOM.createPortal(menuContent, document.getElementById('college-menu')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), helpOverlay && ReactDOM.createPortal(helpOverlay, document.body), ReactDOM.createPortal(/*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("filter", {
     id: "glow"
   }, /*#__PURE__*/React.createElement("feGaussianBlur", {
     stdDeviation: "2",
