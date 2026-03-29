@@ -258,27 +258,30 @@ const FlowMap = () => {
   // ── SVG content (inside Leaflet pane — stable during pan) ─────────────────
   const svgContent = useMemo(() => {
     if (!leafletMap) return null;
+    const HOME_R = 7; // home college dot radius
+    const TEACH_R = 4; // teaching college dot radius
+    const OTHER_R = 3; // inactive college dot radius
 
-    // Arrow marker defs per color
+    // ── Arrow marker defs per home-college color ──────────────────────────
     const usedColors = [...new Set(homeColleges.map(hid => collegeById[hid] && collegeById[hid].color).filter(Boolean))];
     const markerDefs = usedColors.map(color => {
       const id = 'arrow-' + color.replace('#', '');
       return /*#__PURE__*/React.createElement("marker", {
         key: id,
         id: id,
-        markerWidth: "6",
-        markerHeight: "6",
-        refX: "5",
-        refY: "3",
+        markerWidth: "5",
+        markerHeight: "5",
+        refX: "4",
+        refY: "2.5",
         orient: "auto"
       }, /*#__PURE__*/React.createElement("path", {
-        d: "M0,0 L0,6 L6,3 z",
+        d: "M0,0 L0,5 L5,2.5 z",
         fill: color,
-        opacity: "0.8"
+        opacity: "0.75"
       }));
     });
 
-    // Draw arcs
+    // ── Arcs: global log-scale width, not relative to selection max ───────
     const arcs = allArcs.map((flow, i) => {
       const hc = collegeById[flow.homeId];
       const tc = collegeById[flow.to];
@@ -287,8 +290,8 @@ const FlowMap = () => {
       const p2 = project(tc.lat, tc.lon);
       if (!p1 || !p2) return null;
       const path = arcPath(p1, p2);
-      const weight = flow.volume / maxVol;
-      const sw = 0.8 + weight * 6;
+      // Global absolute scale: log2 of volume, same formula regardless of selection
+      const sw = Math.max(0.4, 0.3 + Math.log2(flow.volume) * 1.0);
       const color = hc.color;
       const markerId = 'arrow-' + color.replace('#', '');
       return /*#__PURE__*/React.createElement("g", {
@@ -297,43 +300,36 @@ const FlowMap = () => {
         d: path,
         fill: "none",
         stroke: color,
-        strokeWidth: sw * 2.5,
-        opacity: 0.06,
+        strokeWidth: sw * 3,
+        opacity: 0.05,
         strokeLinecap: "round"
       }), /*#__PURE__*/React.createElement("path", {
         d: path,
         fill: "none",
         stroke: color,
         strokeWidth: sw,
-        opacity: 0.7,
+        opacity: 0.65,
         strokeLinecap: "round",
         markerEnd: 'url(#' + markerId + ')'
       }));
     });
 
-    // Draw all college dots
+    // ── Dots: uniform sizes, no onClick ───────────────────────────────────
     const nodes = COLLEGES.map(col => {
       const p = project(col.lat, col.lon);
       if (!p) return null;
-      const r = nodeR(col.id);
       const isHome = homeSet.has(col.id);
       const isTeach = teachingSet.has(col.id);
-      const isActive = isHome || isTeach;
-      const dimmed = homeColleges.length > 0 && !isActive;
-      const op = dimmed ? 0.1 : 1;
-      const showLbl = showLabels || isHome;
+      const dimmed = homeColleges.length > 0 && !isHome && !isTeach;
+      const r = isHome ? HOME_R : isTeach ? TEACH_R : OTHER_R;
+      const op = dimmed ? 0.08 : 1;
       return /*#__PURE__*/React.createElement("g", {
         key: col.id,
-        opacity: op,
-        style: {
-          cursor: 'pointer',
-          pointerEvents: 'all'
-        },
-        onClick: () => toggleHome(col.id)
+        opacity: op
       }, isHome && /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
-        r: r + 5,
+        r: HOME_R + 5,
         fill: "none",
         stroke: col.color,
         strokeWidth: "1.5",
@@ -341,22 +337,186 @@ const FlowMap = () => {
       }), /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
-        r: isHome ? r + 2 : r,
-        fill: isHome ? col.color : isTeach ? 'rgba(255,255,255,0.9)' : '#ffffff',
+        r: r,
+        fill: isHome ? col.color : '#ffffff',
         stroke: col.color,
-        strokeWidth: isHome ? 0 : 1.5
-      }), showLbl && /*#__PURE__*/React.createElement("text", {
-        x: p.x,
-        y: p.y - (isHome ? r + 7 : r + 5),
+        strokeWidth: isHome ? 0 : 1.2
+      }));
+    });
+
+    // ── Collision-detected labels with leader lines ────────────────────────
+    // Only label home colleges + their teaching colleges when selection active.
+    // When showLabels is on, also label all other colleges.
+    const LBL_PAD_X = 4;
+    const LBL_H = 13;
+    const labelItems = [];
+    if (homeColleges.length > 0 || showLabels) {
+      const CHAR_W = 5.4; // approx px per char at 9px monospace
+      const LBL_PAD_Y = 2;
+      const GAP = 2; // min gap between label rects
+
+      const occupied = [];
+      function overlaps(a, b) {
+        return a.x < b.x2 + GAP && a.x2 > b.x - GAP && a.y < b.y2 + GAP && a.y2 > b.y - GAP;
+      }
+      function placeLabel(px, py, dotR) {
+        const dirs = [[0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1]];
+        return function (w) {
+          const hw = w / 2,
+            hh = LBL_H / 2;
+          for (let dist = dotR + 8; dist <= 90; dist += 5) {
+            for (let di = 0; di < dirs.length; di++) {
+              const dx = dirs[di][0],
+                dy = dirs[di][1];
+              const lx = px + dx * dist;
+              const ly = py + dy * dist;
+              const rect = {
+                x: lx - hw - LBL_PAD_X,
+                y: ly - hh - LBL_PAD_Y,
+                x2: lx + hw + LBL_PAD_X,
+                y2: ly + hh + LBL_PAD_Y
+              };
+              if (!occupied.some(o => overlaps(o, rect))) {
+                occupied.push(rect);
+                return {
+                  lx,
+                  ly
+                };
+              }
+            }
+          }
+          // fallback: right side
+          const lx = px + dotR + 60,
+            ly = py;
+          occupied.push({
+            x: lx - hw,
+            y: ly - hh,
+            x2: lx + hw,
+            y2: ly + hh
+          });
+          return {
+            lx,
+            ly
+          };
+        };
+      }
+
+      // Reserve dot footprints first so labels don't overlap dots
+      COLLEGES.forEach(col => {
+        const p = project(col.lat, col.lon);
+        if (!p) return;
+        const r = homeSet.has(col.id) ? HOME_R : teachingSet.has(col.id) ? TEACH_R : OTHER_R;
+        occupied.push({
+          x: p.x - r - 2,
+          y: p.y - r - 2,
+          x2: p.x + r + 2,
+          y2: p.y + r + 2
+        });
+      });
+
+      // Priority: home colleges first, then teaching sorted by volume desc
+      const teachSorted = [...teachingSet].filter(tid => !homeSet.has(tid)).map(tid => ({
+        col: collegeById[tid],
+        vol: allArcs.filter(a => a.to === tid).reduce((s, a) => s + a.volume, 0)
+      })).filter(x => x.col).sort((a, b) => b.vol - a.vol);
+      const toLabel = [...homeColleges.map(hid => ({
+        col: collegeById[hid],
+        isHome: true,
+        vol: 999999
+      })).filter(x => x.col), ...teachSorted.map(x => ({
+        col: x.col,
+        isHome: false,
+        vol: x.vol
+      }))];
+      if (showLabels) {
+        COLLEGES.forEach(col => {
+          if (!homeSet.has(col.id) && !teachingSet.has(col.id)) {
+            toLabel.push({
+              col,
+              isHome: false,
+              vol: 0
+            });
+          }
+        });
+      }
+      toLabel.forEach(({
+        col,
+        isHome,
+        vol
+      }) => {
+        const p = project(col.lat, col.lon);
+        if (!p) return;
+        const dotR = isHome ? HOME_R : teachingSet.has(col.id) ? TEACH_R : OTHER_R;
+        const text = shortLabel(col.name);
+        const w = text.length * CHAR_W;
+        const place = placeLabel(p.x, p.y, dotR);
+        const {
+          lx,
+          ly
+        } = place(w);
+        const dist = Math.hypot(lx - p.x, ly - p.y);
+        const needsLine = dist > dotR + 10;
+        labelItems.push({
+          col,
+          isHome,
+          text,
+          lx,
+          ly,
+          w,
+          p,
+          dist,
+          needsLine
+        });
+      });
+    }
+    const labelEls = labelItems.map(({
+      col,
+      isHome,
+      text,
+      lx,
+      ly,
+      w,
+      p,
+      needsLine
+    }) => {
+      const hw = w / 2 + LBL_PAD_X;
+      const hh = LBL_H / 2;
+      const color = col.color;
+      return /*#__PURE__*/React.createElement("g", {
+        key: col.id + '-lbl',
+        style: {
+          pointerEvents: 'none'
+        }
+      }, needsLine && /*#__PURE__*/React.createElement("line", {
+        x1: p.x,
+        y1: p.y,
+        x2: lx,
+        y2: ly,
+        stroke: color,
+        strokeWidth: "0.5",
+        opacity: "0.45",
+        strokeDasharray: "2,3"
+      }), /*#__PURE__*/React.createElement("rect", {
+        x: lx - hw,
+        y: ly - hh,
+        width: hw * 2,
+        height: LBL_H,
+        rx: "3",
+        fill: "rgba(248,250,252,0.92)",
+        stroke: color,
+        strokeWidth: isHome ? 1.2 : 0.6,
+        opacity: "0.95"
+      }), /*#__PURE__*/React.createElement("text", {
+        x: lx,
+        y: ly + 4,
         textAnchor: "middle",
-        fontSize: "10",
-        fill: col.color,
+        fontSize: "9",
+        fill: color,
         fontWeight: isHome ? '700' : '400',
         style: {
-          pointerEvents: 'none',
           fontFamily: "'DM Mono',monospace"
         }
-      }, shortLabel(col.name)));
+      }, text));
     });
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("filter", {
       id: "glow"
@@ -367,8 +527,8 @@ const FlowMap = () => {
       in: "blur"
     }), /*#__PURE__*/React.createElement("feMergeNode", {
       in: "SourceGraphic"
-    }))), markerDefs), arcs, nodes);
-  }, [leafletMap, tick, allArcs, homeColleges, teachingSet, homeSet, showLabels, maxVol]);
+    }))), markerDefs), arcs, nodes, labelEls);
+  }, [leafletMap, tick, allArcs, homeColleges, teachingSet, homeSet, showLabels]);
 
   // ── Edge labels (fixed to viewport, updates on moveend/zoomend) ───────────
   const edgeLabels = useMemo(() => {
