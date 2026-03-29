@@ -91,10 +91,6 @@
     to   { transform: rotate(360deg); }
   }
   .orbit-group { animation: orbit 4s linear infinite; transform-origin: 0px 0px; }
-  @keyframes flow-dash {
-    from { stroke-dashoffset: 24; }
-    to   { stroke-dashoffset: 0; }
-  }
 </style>
 </head>
 <body>
@@ -327,9 +323,13 @@ const FlowMap = () => {
           volume: flow.volume
         });
       };
+      const arcId = 'arc-path-' + i;
+      const dotR = Math.max(1.5, sw * 0.65);
+      const dur = Math.max(0.8, 2.8 - Math.log2(flow.volume) * 0.3);
       return /*#__PURE__*/React.createElement("g", {
         key: flow.homeId + '-' + flow.to + '-' + i
       }, /*#__PURE__*/React.createElement("path", {
+        id: arcId,
         d: path,
         fill: "none",
         stroke: color,
@@ -344,18 +344,16 @@ const FlowMap = () => {
         opacity: 0.85,
         strokeLinecap: "round",
         markerEnd: 'url(#' + markerId + ')'
-      }), /*#__PURE__*/React.createElement("path", {
-        d: path,
-        fill: "none",
-        stroke: color,
-        strokeWidth: sw + 0.5,
-        opacity: 0.6,
-        strokeLinecap: "round",
-        strokeDasharray: "4 20",
-        style: {
-          animation: 'flow-dash ' + Math.max(0.6, 2.4 - Math.log2(flow.volume) * 0.28) + 's linear infinite'
-        }
-      }), /*#__PURE__*/React.createElement("path", {
+      }), /*#__PURE__*/React.createElement("circle", {
+        r: dotR,
+        fill: color,
+        opacity: 0.9
+      }, /*#__PURE__*/React.createElement("animateMotion", {
+        repeatCount: "indefinite",
+        dur: dur + 's'
+      }, /*#__PURE__*/React.createElement("mpath", {
+        href: '#' + arcId
+      }))), /*#__PURE__*/React.createElement("path", {
         d: path,
         fill: "none",
         stroke: "transparent",
