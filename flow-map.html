@@ -288,8 +288,8 @@ const FlowMap = () => {
     const dx = p2.x - p1.x,
       dy = p2.y - p1.y;
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
-    const cx = mx - dy / len * len * 0.22;
-    const cy = my + dx / len * len * 0.22;
+    const cx = mx - dy / len * len * 0.13;
+    const cy = my + dx / len * len * 0.13;
     return 'M ' + p1.x + ' ' + p1.y + ' Q ' + cx + ' ' + cy + ' ' + p2.x + ' ' + p2.y;
   };
   const zoom = leafletMap ? leafletMap.getZoom() : 6;
