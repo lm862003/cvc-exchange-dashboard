@@ -153,6 +153,7 @@ const FlowMap = () => {
   const [showSelfEnroll, setShowSelfEnroll] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [arcTooltip, setArcTooltip] = useState(null);
+  const [collapsedHomes, setCollapsedHomes] = useState({});
   const tileLayerRef = useRef(null);
 
   // ── Map init ──────────────────────────────────────────────────────────────
@@ -1104,6 +1105,11 @@ const FlowMap = () => {
     const flows = homeFlowMap[hid] || [];
     const total = flows.reduce((s, f) => s + f.volume, 0);
     const topMax = flows.length > 0 ? flows[0].volume : 1;
+    const isCollapsed = !!collapsedHomes[hid];
+    const toggleCollapse = () => setCollapsedHomes(prev => ({
+      ...prev,
+      [hid]: !prev[hid]
+    }));
     return /*#__PURE__*/React.createElement("div", {
       key: hid,
       style: {
@@ -1114,16 +1120,34 @@ const FlowMap = () => {
         padding: '6px 14px 6px',
         borderLeft: '3px solid ' + hc.color,
         marginLeft: 10,
-        marginBottom: 8
+        marginBottom: 8,
+        cursor: 'pointer'
+      },
+      onClick: toggleCollapse
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start'
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 14,
         fontWeight: 700,
         color: hc.color,
-        lineHeight: 1.3
+        lineHeight: 1.3,
+        flex: 1
       }
     }, hc.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 700,
+        color: hc.color,
+        lineHeight: 1,
+        marginLeft: 6,
+        flexShrink: 0
+      }
+    }, isCollapsed ? '+' : '−')), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 9,
         color: '#475569',
@@ -1135,7 +1159,7 @@ const FlowMap = () => {
         color: '#f472b6',
         marginTop: 3
       }
-    }, "\u21BA ", SELF_ENROLL[hid], " self-enrolled (home = teaching)")), /*#__PURE__*/React.createElement("div", {
+    }, "\u21BA ", SELF_ENROLL[hid], " self-enrolled (home = teaching)")), !isCollapsed && /*#__PURE__*/React.createElement("div", {
       style: {
         padding: '0 14px'
       }
