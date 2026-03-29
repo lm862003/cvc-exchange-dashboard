@@ -1029,7 +1029,7 @@ const FlowMap = () => {
       style: {
         padding: '0 14px'
       }
-    }, flows.slice(0, 12).map(f => {
+    }, flows.map(f => {
       const tc = collegeById[f.to];
       const barW = Math.round(f.volume / topMax * 100);
       return /*#__PURE__*/React.createElement("div", {
@@ -1073,14 +1073,7 @@ const FlowMap = () => {
           background: tc ? tc.color : hc.color
         }
       })));
-    }), flows.length > 12 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: '#334155',
-        marginTop: 4,
-        textAlign: 'center'
-      }
-    }, "+", flows.length - 12, " more teaching colleges")));
+    })));
   }));
 
   // ─────────────────────────────────────────────────────────────────────────
