@@ -45,6 +45,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body, #root { height: 100%; margin: 0; }
   body { font-family: 'DM Mono', 'Courier New', monospace; color: #e2e8f0; overflow: hidden; }
+  #flow-svg *:focus { outline: none; }
+  #flow-svg { user-select: none; }
   #map { position: absolute; inset: 0; }
   #flow-svg { overflow: visible; pointer-events: none; position: absolute; }
   #college-menu {
@@ -288,8 +290,8 @@ const FlowMap = () => {
     const dx = p2.x - p1.x,
       dy = p2.y - p1.y;
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
-    const cx = mx - dy / len * len * 0.13;
-    const cy = my + dx / len * len * 0.13;
+    const cx = mx - dy / len * len * 0.07;
+    const cy = my + dx / len * len * 0.07;
     return 'M ' + p1.x + ' ' + p1.y + ' Q ' + cx + ' ' + cy + ' ' + p2.x + ' ' + p2.y;
   };
   const zoom = leafletMap ? leafletMap.getZoom() : 6;
@@ -367,7 +369,8 @@ const FlowMap = () => {
         strokeWidth: Math.max(sw + 8, 12),
         style: {
           pointerEvents: 'stroke',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          outline: 'none'
         },
         onClick: handleArcClick
       }));
