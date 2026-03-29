@@ -47,6 +47,12 @@
   body { font-family: 'DM Mono', 'Courier New', monospace; color: #e2e8f0; overflow: hidden; }
   #map { position: absolute; inset: 0; }
   #flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #college-menu {
+    position: absolute; top: 0; left: 0; width: 240px; height: 100%;
+    background: rgba(3,7,18,0.88); backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    z-index: 1000; display: flex; flex-direction: column;
+  }
   #sidebar {
     position: absolute; top: 0; right: 0; width: 230px; height: 100%;
     background: rgba(3,7,18,0.85); backdrop-filter: blur(8px);
@@ -54,13 +60,14 @@
     overflow-y: auto; z-index: 1000; font-size: 11px;
   }
   #header {
-    position: absolute; top: 0; left: 0; right: 230px; z-index: 1000;
+    position: absolute; top: 0; left: 240px; right: 230px; z-index: 1000;
     background: rgba(3,7,18,0.85); backdrop-filter: blur(8px);
     padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex; align-items: flex-start; justify-content: space-between;
     flex-wrap: wrap; gap: 10px;
   }
   .leaflet-container { background: #030712; }
+  .leaflet-control-zoom { display: none; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
@@ -82,6 +89,7 @@
 <body>
 <div id="map"></div>
 <svg id="flow-svg"></svg>
+<div id="college-menu"></div>
 <div id="header"></div>
 <div id="sidebar"></div>
 <div id="root"></div>
@@ -99,9 +107,6 @@ const {
   useMemo,
   useCallback
 } = React;
-function shortLabel(name) {
-  return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 18);
-}
 const TILE_LAYERS = {
   minimal: {
     url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
@@ -119,21 +124,26 @@ const TILE_LAYERS = {
     maxZoom: 19
   }
 };
+function shortLabel(name) {
+  return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 18);
+}
 const FlowMap = () => {
   const [leafletMap, setLeafletMap] = useState(null);
   const [tick, setTick] = useState(0);
   const [threshold, setThreshold] = useState(20);
   const [hovered, setHovered] = useState(null);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState([]);
   const [regionFilter, setRegionFilter] = useState(null);
   const [showLabels, setShowLabels] = useState(false);
   const [tileStyle, setTileStyle] = useState('minimal');
+  const [search, setSearch] = useState('');
+  const [showHelp, setShowHelp] = useState(false);
   const tileLayerRef = useRef(null);
   useEffect(() => {
     const m = L.map('map', {
       center: [37.3, -119.5],
       zoom: 6,
-      zoomControl: true
+      zoomControl: false
     });
     const cfg = TILE_LAYERS.minimal;
     tileLayerRef.current = L.tileLayer(cfg.url, {
@@ -157,7 +167,9 @@ const FlowMap = () => {
     if (!leafletMap) return null;
     return leafletMap.latLngToLayerPoint(L.latLng(lat, lon));
   }, [leafletMap, tick]);
-  const active = selected || hovered;
+  const toggleCollege = useCallback(id => {
+    setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  }, []);
   const flows = useMemo(() => ALL_FLOWS.filter(f => f.volume >= threshold), [threshold]);
   const maxVol = useMemo(() => flows.reduce((m, f) => Math.max(m, f.volume), 1), [flows]);
   const volMap = useMemo(() => {
@@ -170,62 +182,58 @@ const FlowMap = () => {
   }, []);
   const maxNodeVol = useMemo(() => Math.max(...Object.values(volMap)), [volMap]);
   const nodeR = name => 4 + (volMap[name] || 0) / maxNodeVol * 8;
-  const visibleFlows = useMemo(() => {
-    if (!active && !regionFilter) return flows;
-    return flows.filter(f => {
-      if (active) return f.from === active || f.to === active;
-      if (regionFilter) {
-        const fc = COLLEGES.find(c => c.id === f.from);
-        const tc = COLLEGES.find(c => c.id === f.to);
-        return fc && fc.region === regionFilter || tc && tc.region === regionFilter;
-      }
-      return true;
-    });
-  }, [flows, active, regionFilter]);
   const collegeById = useMemo(() => {
     const m = {};
     COLLEGES.forEach(c => m[c.id] = c);
     return m;
   }, []);
+  const visibleFlows = useMemo(() => {
+    if (selected.length >= 2) {
+      const sel = new Set(selected);
+      return flows.filter(f => sel.has(f.from) && sel.has(f.to));
+    }
+    if (selected.length === 1) {
+      return flows.filter(f => f.from === selected[0] || f.to === selected[0]);
+    }
+    if (hovered) {
+      return flows.filter(f => f.from === hovered || f.to === hovered);
+    }
+    if (regionFilter) {
+      return flows.filter(f => {
+        const fc = collegeById[f.from];
+        const tc = collegeById[f.to];
+        return fc && fc.region === regionFilter || tc && tc.region === regionFilter;
+      });
+    }
+    return flows;
+  }, [flows, selected, hovered, regionFilter, collegeById]);
   const arcPath = (p1, p2) => {
-    const mx = (p1.x + p2.x) / 2;
-    const my = (p1.y + p2.y) / 2;
-    const dx = p2.x - p1.x;
-    const dy = p2.y - p1.y;
+    const mx = (p1.x + p2.x) / 2,
+      my = (p1.y + p2.y) / 2;
+    const dx = p2.x - p1.x,
+      dy = p2.y - p1.y;
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
     const cx = mx - dy / len * len * 0.2;
     const cy = my + dx / len * len * 0.2;
     return "M " + p1.x + " " + p1.y + " Q " + cx + " " + cy + " " + p2.x + " " + p2.y;
   };
-  const activeFlowData = useMemo(() => {
-    if (!active) return null;
-    const out = flows.filter(f => f.from === active).sort((a, b) => b.volume - a.volume);
-    const inn = flows.filter(f => f.to === active).sort((a, b) => b.volume - a.volume);
-    const col = collegeById[active];
-    return {
-      college: col,
-      outgoing: out,
-      incoming: inn,
-      totalOut: out.reduce((s, f) => s + f.volume, 0),
-      totalIn: inn.reduce((s, f) => s + f.volume, 0)
-    };
-  }, [active, flows, collegeById]);
   const zoom = leafletMap ? leafletMap.getZoom() : 6;
   const strokeScale = Math.pow(2, zoom - 6);
   const svgContent = useMemo(() => {
     if (!leafletMap) return null;
+    const selSet = new Set(selected);
+    const anyActive = selected.length > 0 || !!hovered;
     const arcs = visibleFlows.map((flow, i) => {
-      const fc = collegeById[flow.from];
-      const tc = collegeById[flow.to];
+      const fc = collegeById[flow.from],
+        tc = collegeById[flow.to];
       if (!fc || !tc) return null;
-      const p1 = project(fc.lat, fc.lon);
-      const p2 = project(tc.lat, tc.lon);
+      const p1 = project(fc.lat, fc.lon),
+        p2 = project(tc.lat, tc.lon);
       if (!p1 || !p2) return null;
       const path = arcPath(p1, p2);
       const weight = flow.volume / maxVol;
       const sw = Math.max(0.5, Math.min(3, (0.3 + weight * 2) * strokeScale));
-      const isHL = active && (flow.from === active || flow.to === active);
-      const op = active ? isHL ? 0.85 : 0.04 : regionFilter ? 0.5 : 0.28;
+      const op = 0.75;
       const color = fc.color;
       return /*#__PURE__*/React.createElement("g", {
         key: i
@@ -234,7 +242,7 @@ const FlowMap = () => {
         fill: "none",
         stroke: color,
         strokeWidth: sw * 2.5,
-        opacity: op * 0.12,
+        opacity: op * 0.15,
         strokeLinecap: "round"
       }), /*#__PURE__*/React.createElement("path", {
         d: path,
@@ -249,10 +257,11 @@ const FlowMap = () => {
       const p = project(col.lat, col.lon);
       if (!p) return null;
       const r = nodeR(col.id);
-      const isAct = active === col.id;
-      const dimmed = active && !isAct && !visibleFlows.some(f => f.from === col.id || f.to === col.id) || regionFilter && col.region !== regionFilter;
+      const isSel = selSet.has(col.id);
+      const isHov = hovered === col.id;
+      const dimmed = anyActive && !isSel && !isHov && !visibleFlows.some(f => f.from === col.id || f.to === col.id);
       const op = dimmed ? 0.12 : 1;
-      const showLbl = showLabels || isAct;
+      const showLbl = showLabels || isSel || isHov;
       return /*#__PURE__*/React.createElement("g", {
         key: col.id,
         opacity: op,
@@ -260,10 +269,10 @@ const FlowMap = () => {
           cursor: 'pointer',
           pointerEvents: 'all'
         },
-        onClick: () => setSelected(s => s === col.id ? null : col.id),
+        onClick: () => toggleCollege(col.id),
         onMouseEnter: () => setHovered(col.id),
         onMouseLeave: () => setHovered(null)
-      }, isAct && /*#__PURE__*/React.createElement("circle", {
+      }, (isSel || isHov) && /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
         r: r + 4,
@@ -276,21 +285,20 @@ const FlowMap = () => {
         cy: p.y,
         r: r + 2,
         fill: col.color,
-        opacity: isAct ? 0.2 : 0.08
+        opacity: isSel ? 0.25 : 0.1
       }), /*#__PURE__*/React.createElement("circle", {
         cx: p.x,
         cy: p.y,
         r: r,
-        fill: isAct ? col.color : 'rgba(3,7,18,0.85)',
+        fill: isSel ? col.color : '#ffffff',
         stroke: col.color,
-        strokeWidth: isAct ? 0 : 1
+        strokeWidth: isSel ? 0 : 1.5
       }), showLbl && /*#__PURE__*/React.createElement("text", {
         x: p.x,
-        y: p.y - r - 4,
+        y: p.y - r - 5,
         textAnchor: "middle",
         fontSize: "10",
         fill: col.color,
-        opacity: "0.9",
         style: {
           pointerEvents: 'none',
           fontFamily: "'DM Mono',monospace"
@@ -301,37 +309,40 @@ const FlowMap = () => {
       arcs,
       nodes
     };
-  }, [leafletMap, tick, visibleFlows, active, regionFilter, showLabels, maxVol, strokeScale]);
-  const headerContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      letterSpacing: '0.2em',
-      color: '#334155',
-      textTransform: 'uppercase',
-      marginBottom: 3
-    }
-  }, "California Community Colleges \xB7 CVC Exchange \xB7 Spring 2026"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      fontSize: 20,
-      fontWeight: 700,
-      margin: 0,
-      letterSpacing: '-0.02em',
-      background: 'linear-gradient(90deg,#00d4ff,#f472b6)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent'
-    }
-  }, "Cross-Enrollment Flow Map"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: '#334155',
-      marginTop: 2
-    }
-  }, TOTAL_APPS.toLocaleString(), " total applications \xB7 ", COLLEGES.length, " colleges \xB7 showing flows ", "≥", " ", threshold));
+  }, [leafletMap, tick, visibleFlows, selected, hovered, showLabels, maxVol, strokeScale]);
+  const filteredColleges = useMemo(() => {
+    const q = search.toLowerCase();
+    const list = q ? COLLEGES.filter(c => c.name.toLowerCase().includes(q)) : COLLEGES.slice();
+    return list.sort((a, b) => a.name.localeCompare(b.name));
+  }, [search]);
+  const singleFlowData = useMemo(() => {
+    if (selected.length !== 1) return null;
+    const id = selected[0];
+    const col = collegeById[id];
+    const out = flows.filter(f => f.from === id).sort((a, b) => b.volume - a.volume);
+    const inn = flows.filter(f => f.to === id).sort((a, b) => b.volume - a.volume);
+    return {
+      college: col,
+      outgoing: out,
+      incoming: inn,
+      totalOut: out.reduce((s, f) => s + f.volume, 0),
+      totalIn: inn.reduce((s, f) => s + f.volume, 0)
+    };
+  }, [selected, flows, collegeById]);
+  const multiSummary = useMemo(() => {
+    if (selected.length < 2) return null;
+    const sel = new Set(selected);
+    const between = flows.filter(f => sel.has(f.from) && sel.has(f.to));
+    return {
+      count: between.length,
+      total: between.reduce((s, f) => s + f.volume, 0)
+    };
+  }, [selected, flows]);
   const tileBtn = (id, label) => /*#__PURE__*/React.createElement("button", {
     key: id,
     onClick: () => setTileStyle(id),
     style: {
-      padding: '3px 9px',
+      padding: '3px 8px',
       fontSize: 9,
       textTransform: 'uppercase',
       letterSpacing: '0.08em',
@@ -343,11 +354,43 @@ const FlowMap = () => {
       color: tileStyle === id ? '#00d4ff' : '#64748b'
     }
   }, label);
-  const controlsContent = /*#__PURE__*/React.createElement("div", {
+  const headerContent = /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      letterSpacing: '0.2em',
+      color: '#334155',
+      textTransform: 'uppercase',
+      marginBottom: 2
+    }
+  }, "California Community Colleges \xB7 CVC Exchange \xB7 Spring 2026"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      margin: 0,
+      letterSpacing: '-0.02em',
+      background: 'linear-gradient(90deg,#00d4ff,#f472b6)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    }
+  }, "Cross-Enrollment Flow Map"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#475569',
+      marginTop: 1
+    }
+  }, TOTAL_APPS.toLocaleString(), " apps \xB7 ", COLLEGES.length, " colleges \xB7 ", visibleFlows.length, " connections shown")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 8,
+      gap: 6,
       alignItems: 'flex-end'
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -355,15 +398,75 @@ const FlowMap = () => {
       display: 'flex',
       gap: 4
     }
-  }, tileBtn('minimal', 'Minimal'), tileBtn('topo', 'Topo'), tileBtn('street', 'Street')), /*#__PURE__*/React.createElement("div", {
+  }, tileBtn('minimal', 'Minimal'), tileBtn('topo', 'Topo'), tileBtn('street', 'Street'), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowHelp(h => !h),
+    style: {
+      padding: '3px 8px',
+      fontSize: 9,
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      cursor: 'pointer',
+      borderRadius: 3,
+      background: showHelp ? 'rgba(244,114,182,0.18)' : 'transparent',
+      border: showHelp ? '1px solid #f472b6' : '1px solid rgba(255,255,255,0.1)',
+      color: showHelp ? '#f472b6' : '#64748b'
+    }
+  }, "? Help")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
-      gap: 10
+      gap: 8
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      display: 'flex',
+      gap: 3
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => leafletMap && leafletMap.zoomIn(),
+    style: {
+      width: 22,
+      height: 22,
+      fontSize: 14,
+      fontWeight: 700,
+      lineHeight: '20px',
+      textAlign: 'center',
+      background: 'rgba(255,255,255,0.07)',
+      border: '1px solid rgba(255,255,255,0.12)',
+      color: '#94a3b8',
+      borderRadius: 3,
+      cursor: 'pointer',
+      padding: 0
+    }
+  }, "+"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => leafletMap && leafletMap.zoomOut(),
+    style: {
+      width: 22,
+      height: 22,
+      fontSize: 14,
+      fontWeight: 700,
+      lineHeight: '20px',
+      textAlign: 'center',
+      background: 'rgba(255,255,255,0.07)',
+      border: '1px solid rgba(255,255,255,0.12)',
+      color: '#94a3b8',
+      borderRadius: 3,
+      cursor: 'pointer',
+      padding: 0
+    }
+  }, "\u2212")), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      color: '#475569'
+    }
+  }, "Zoom ", zoom), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'rgba(255,255,255,0.15)',
+      margin: '0 2px'
+    }
+  }, "|"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
       color: '#475569',
       textTransform: 'uppercase',
       letterSpacing: '0.1em'
@@ -376,52 +479,282 @@ const FlowMap = () => {
     value: threshold,
     onChange: e => setThreshold(+e.target.value),
     style: {
-      width: 100
+      width: 80
     }
   }), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 12,
+      fontSize: 11,
       color: '#00d4ff',
-      minWidth: 28,
-      textAlign: 'right'
+      minWidth: 24
     }
-  }, threshold)), /*#__PURE__*/React.createElement("div", {
+  }, threshold), /*#__PURE__*/React.createElement("span", {
     style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 8
+      color: 'rgba(255,255,255,0.15)',
+      margin: '0 2px'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, "|"), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 10,
+      fontSize: 9,
       color: '#475569',
       textTransform: 'uppercase',
-      letterSpacing: '0.1em'
+      letterSpacing: '0.08em'
     }
   }, "Labels"), /*#__PURE__*/React.createElement("div", {
     onClick: () => setShowLabels(l => !l),
     style: {
-      width: 32,
-      height: 16,
-      borderRadius: 8,
+      width: 28,
+      height: 14,
+      borderRadius: 7,
       cursor: 'pointer',
       transition: 'background 0.2s',
       background: showLabels ? '#00d4ff' : 'rgba(255,255,255,0.1)',
-      position: 'relative'
+      position: 'relative',
+      flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'absolute',
       top: 2,
-      left: showLabels ? 18 : 2,
-      width: 12,
-      height: 12,
+      left: showLabels ? 16 : 2,
+      width: 10,
+      height: 10,
       borderRadius: '50%',
       background: '#fff',
       transition: 'left 0.2s'
     }
-  }))));
-  const sidebarContent = activeFlowData ? /*#__PURE__*/React.createElement("div", {
+  })))));
+  const helpOverlay = showHelp && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'fixed',
+      top: 0,
+      left: 240,
+      right: 230,
+      zIndex: 1002,
+      background: 'rgba(15,23,42,0.97)',
+      borderBottom: '1px solid rgba(244,114,182,0.3)',
+      padding: '14px 20px',
+      fontSize: 11,
+      lineHeight: 1.8,
+      color: '#94a3b8'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      color: '#f472b6',
+      fontSize: 12
+    }
+  }, "How to use this map"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowHelp(false),
+    style: {
+      background: 'transparent',
+      border: 'none',
+      color: '#475569',
+      fontSize: 14,
+      cursor: 'pointer',
+      padding: '0 4px'
+    }
+  }, "\xD7")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '2px 24px',
+      fontSize: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Select colleges"), " \u2014 click dots on the map or the list on the left"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Multi-select"), " \u2014 pick 2+ colleges to see flows between them only"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Zoom"), " \u2014 scroll/pinch on map, or use +/\u2212 buttons above"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Pan"), " \u2014 click and drag the map"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Search"), " \u2014 type in the left panel to filter colleges quickly"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#00d4ff'
+    }
+  }, "Min flow slider"), " \u2014 hide low-volume connections")));
+  const menuContent = /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 12px 8px',
+      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      color: '#475569'
+    }
+  }, "Colleges"), selected.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: '#00d4ff',
+      fontWeight: 700
+    }
+  }, selected.length, " selected"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setSelected([]),
+    style: {
+      fontSize: 8,
+      padding: '2px 6px',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      background: 'transparent',
+      border: '1px solid rgba(255,255,255,0.1)',
+      color: '#64748b',
+      borderRadius: 2,
+      cursor: 'pointer'
+    }
+  }, "Clear"))), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    placeholder: "Search colleges\u2026",
+    value: search,
+    onChange: e => setSearch(e.target.value),
+    style: {
+      width: '100%',
+      background: 'rgba(255,255,255,0.05)',
+      border: '1px solid rgba(255,255,255,0.1)',
+      borderRadius: 5,
+      padding: '6px 10px',
+      color: '#e2e8f0',
+      fontSize: 10,
+      outline: 'none'
+    }
+  })), selected.length >= 2 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '7px 12px',
+      background: 'rgba(0,212,255,0.07)',
+      borderBottom: '1px solid rgba(0,212,255,0.15)',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#00d4ff',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      marginBottom: 2
+    }
+  }, "Multi-select active"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: '#94a3b8'
+    }
+  }, multiSummary && multiSummary.count > 0 ? multiSummary.count + ' connections · ' + multiSummary.total.toLocaleString() + ' students' : 'No direct connections between these')), selected.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '7px 12px',
+      borderBottom: '1px solid rgba(255,255,255,0.04)',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#334155',
+      lineHeight: 1.6
+    }
+  }, "Click dots on the map or items below. Select 2+ colleges to compare connections.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: '4px 0'
+    }
+  }, filteredColleges.map(function (col) {
+    const isSel = selected.includes(col.id);
+    return /*#__PURE__*/React.createElement("div", {
+      key: col.id,
+      onClick: () => toggleCollege(col.id),
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '5px 12px',
+        cursor: 'pointer',
+        transition: 'background 0.1s',
+        background: isSel ? 'rgba(0,212,255,0.08)' : 'transparent',
+        borderLeft: isSel ? '2px solid ' + col.color : '2px solid transparent'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 7,
+        height: 7,
+        borderRadius: '50%',
+        background: col.color,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: isSel ? '#e2e8f0' : '#64748b',
+        flex: 1,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+      }
+    }, col.name), isSel && /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 14,
+        height: 14,
+        borderRadius: '50%',
+        background: col.color,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        color: '#fff',
+        lineHeight: 1
+      }
+    }, "\u2713")));
+  }), filteredColleges.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '16px 12px',
+      fontSize: 10,
+      color: '#334155',
+      textAlign: 'center'
+    }
+  }, "No colleges match")));
+  const sidebarContent = singleFlowData ? /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 14,
       display: 'flex',
@@ -440,16 +773,16 @@ const FlowMap = () => {
     style: {
       fontWeight: 700,
       fontSize: 12,
-      color: activeFlowData.college && activeFlowData.college.color,
+      color: singleFlowData.college && singleFlowData.college.color,
       lineHeight: 1.3,
       marginBottom: 2
     }
-  }, activeFlowData.college && activeFlowData.college.name), /*#__PURE__*/React.createElement("div", {
+  }, singleFlowData.college && singleFlowData.college.name), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       color: '#475569'
     }
-  }, activeFlowData.college && activeFlowData.college.region)), /*#__PURE__*/React.createElement("div", {
+  }, singleFlowData.college && singleFlowData.college.region)), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -457,16 +790,16 @@ const FlowMap = () => {
     }
   }, [{
     label: 'Sent Out',
-    val: activeFlowData.totalOut.toLocaleString()
+    val: singleFlowData.totalOut.toLocaleString()
   }, {
     label: 'Received',
-    val: activeFlowData.totalIn.toLocaleString()
+    val: singleFlowData.totalIn.toLocaleString()
   }, {
     label: 'Out Routes',
-    val: activeFlowData.outgoing.length
+    val: singleFlowData.outgoing.length
   }, {
     label: 'In Routes',
-    val: activeFlowData.incoming.length
+    val: singleFlowData.incoming.length
   }].map(function (item) {
     return /*#__PURE__*/React.createElement("div", {
       key: item.label,
@@ -480,7 +813,7 @@ const FlowMap = () => {
       style: {
         fontSize: 14,
         fontWeight: 700,
-        color: activeFlowData.college && activeFlowData.college.color
+        color: singleFlowData.college && singleFlowData.college.color
       }
     }, item.val), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -490,7 +823,7 @@ const FlowMap = () => {
         letterSpacing: '0.08em'
       }
     }, item.label));
-  })), activeFlowData.outgoing.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  })), singleFlowData.outgoing.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 8,
       color: '#00d4ff',
@@ -498,7 +831,7 @@ const FlowMap = () => {
       letterSpacing: '0.12em',
       marginBottom: 7
     }
-  }, "↗", " Sending to"), activeFlowData.outgoing.slice(0, 8).map(f => {
+  }, "↗", " Sending to"), singleFlowData.outgoing.slice(0, 8).map(f => {
     const tc = collegeById[f.to];
     return /*#__PURE__*/React.createElement("div", {
       key: f.to,
@@ -539,7 +872,7 @@ const FlowMap = () => {
         background: tc ? tc.color : '#94a3b8'
       }
     })));
-  })), activeFlowData.incoming.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  })), singleFlowData.incoming.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 8,
       color: '#f472b6',
@@ -547,7 +880,7 @@ const FlowMap = () => {
       letterSpacing: '0.12em',
       marginBottom: 7
     }
-  }, "↙", " Receiving from"), activeFlowData.incoming.slice(0, 8).map(f => {
+  }, "↙", " Receiving from"), singleFlowData.incoming.slice(0, 8).map(f => {
     const hc = collegeById[f.from];
     return /*#__PURE__*/React.createElement("div", {
       key: f.from,
@@ -588,24 +921,108 @@ const FlowMap = () => {
         background: hc ? hc.color : '#94a3b8'
       }
     })));
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setSelected(null);
-      setHovered(null);
-    },
+  }))) : selected.length >= 2 ? /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: '7px',
-      fontSize: 9,
-      letterSpacing: '0.1em',
-      textTransform: 'uppercase',
-      background: 'transparent',
-      border: '1px solid rgba(255,255,255,0.08)',
-      color: '#475569',
-      borderRadius: 2,
-      cursor: 'pointer',
-      marginTop: 'auto'
+      padding: 14
     }
-  }, "Clear")) : /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      letterSpacing: '0.15em',
+      color: '#475569',
+      textTransform: 'uppercase',
+      marginBottom: 10
+    }
+  }, "Multi-select"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: '#94a3b8',
+      marginBottom: 12,
+      lineHeight: 1.6
+    }
+  }, "Connections between ", selected.length, " selected colleges"), selected.map(id => {
+    const col = collegeById[id];
+    if (!col) return null;
+    return /*#__PURE__*/React.createElement("div", {
+      key: id,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 6,
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 7,
+        height: 7,
+        borderRadius: '50%',
+        background: col.color,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: '#94a3b8',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        maxWidth: 130
+      }
+    }, shortLabel(id))), /*#__PURE__*/React.createElement("button", {
+      onClick: () => toggleCollege(id),
+      style: {
+        fontSize: 9,
+        padding: '1px 6px',
+        background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.08)',
+        color: '#475569',
+        borderRadius: 2,
+        cursor: 'pointer'
+      }
+    }, "×"));
+  }), multiSummary && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      padding: 10,
+      background: 'rgba(0,212,255,0.06)',
+      border: '1px solid rgba(0,212,255,0.15)',
+      borderRadius: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      color: '#00d4ff'
+    }
+  }, multiSummary.count), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: '#475569',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em'
+    }
+  }, "connections"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      color: '#f472b6',
+      marginTop: 6
+    }
+  }, multiSummary.total.toLocaleString()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: '#475569',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em'
+    }
+  }, "students"))) : /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 14
     }
@@ -661,15 +1078,7 @@ const FlowMap = () => {
       cursor: 'pointer'
     }
   }, "Clear filter"));
-  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      gap: 10
-    }
-  }, headerContent, controlsContent), document.getElementById('header')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), ReactDOM.createPortal(/*#__PURE__*/React.createElement("svg", {
+  return /*#__PURE__*/React.createElement("div", null, ReactDOM.createPortal(headerContent, document.getElementById('header')), ReactDOM.createPortal(menuContent, document.getElementById('college-menu')), ReactDOM.createPortal(sidebarContent, document.getElementById('sidebar')), helpOverlay && ReactDOM.createPortal(helpOverlay, document.body), ReactDOM.createPortal(/*#__PURE__*/React.createElement("svg", {
     style: {
       width: '100%',
       height: '100%',
@@ -684,21 +1093,7 @@ const FlowMap = () => {
     in: "blur"
   }), /*#__PURE__*/React.createElement("feMergeNode", {
     in: "SourceGraphic"
-  })))), svgContent && svgContent.arcs, svgContent && svgContent.nodes), document.getElementById('flow-svg')), !active && !regionFilter && ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      bottom: 14,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      fontSize: 9,
-      color: '#1e293b',
-      letterSpacing: '0.15em',
-      textTransform: 'uppercase',
-      whiteSpace: 'nowrap',
-      zIndex: 1000,
-      pointerEvents: 'none'
-    }
-  }, "click a college \xB7 ", visibleFlows.length, " connections shown"), document.getElementById('map')));
+  })))), svgContent && svgContent.arcs, svgContent && svgContent.nodes), document.getElementById('flow-svg')));
 };
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(FlowMap, null));
