@@ -15,11 +15,11 @@
     document.addEventListener('DOMContentLoaded', function() {
       var overlay = document.createElement('div');
       overlay.id = 'auth-overlay';
-      overlay.style.cssText = 'position:fixed;inset:0;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:9999;';
-      overlay.innerHTML = '<div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:40px;width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.8)">' +
+      overlay.style.cssText = 'position:fixed;inset:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = '<div style="background:#ffffff;border:1px solid rgba(0,0,0,0.1);border-radius:12px;padding:40px;width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.12)">' +
         '<div style="font-size:18px;font-weight:700;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">CVC Exchange Dashboard</div>' +
         '<div style="font-size:13px;color:#475569;margin-bottom:24px">Enter password to continue</div>' +
-        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;margin-bottom:12px;outline:none" />' +
+        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;color:#1e293b;font-size:14px;margin-bottom:12px;outline:none" />' +
         '<button id="pw-btn" style="width:100%;padding:10px;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
         '<div id="pw-err" style="color:#f87171;font-size:12px;margin-top:10px;display:none">Incorrect password</div>' +
         '</div>';
@@ -44,38 +44,38 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body, #root { height: 100%; margin: 0; }
-  body { font-family: 'DM Mono', 'Courier New', monospace; color: #cbd5e1; overflow: hidden; }
+  body { font-family: 'DM Mono', 'Courier New', monospace; color: #1e293b; overflow: hidden; }
   #flow-svg *:focus { outline: none; }
   #flow-svg { user-select: none; }
   #map { position: absolute; inset: 0; }
   #flow-svg { overflow: visible; pointer-events: none; position: absolute; }
   #college-menu {
     position: absolute; top: 0; left: 0; width: 240px; height: 100%;
-    background: rgba(30,41,59,0.92); backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255,255,255,0.08);
+    background: rgba(248,250,252,0.94); backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0,0,0,0.08);
     z-index: 1000; display: flex; flex-direction: column;
   }
   #sidebar {
     position: absolute; top: 0; right: 0; width: 230px; height: 100%;
-    background: rgba(30,41,59,0.92); backdrop-filter: blur(8px);
-    border-left: 1px solid rgba(255,255,255,0.08);
+    background: rgba(248,250,252,0.94); backdrop-filter: blur(8px);
+    border-left: 1px solid rgba(0,0,0,0.08);
     overflow-y: auto; z-index: 1000; font-size: 11px;
   }
   #header {
     position: absolute; top: 0; left: 240px; right: 230px; z-index: 1000;
-    background: rgba(30,41,59,0.92); backdrop-filter: blur(8px);
-    padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(248,250,252,0.94); backdrop-filter: blur(8px);
+    padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.08);
     display: flex; align-items: flex-start; justify-content: space-between;
     flex-wrap: wrap; gap: 10px;
   }
-  .leaflet-container { background: #1e293b; }
+  .leaflet-container { background: #f8fafc; }
   .leaflet-control-zoom { display: none; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
   input[type=range] {
     -webkit-appearance: none; width: 100%; height: 3px;
-    background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
+    background: rgba(0,0,0,0.12); border-radius: 2px; outline: none;
   }
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none; width: 12px; height: 12px;
@@ -575,7 +575,7 @@ const FlowMap = () => {
         width: hw * 2,
         height: LBL_H,
         rx: "3",
-        fill: "rgba(30,41,59,0.95)",
+        fill: "rgba(248,250,252,0.92)",
         stroke: color,
         strokeWidth: isHome ? 1.2 : 0.6,
         opacity: "0.95"
@@ -660,7 +660,7 @@ const FlowMap = () => {
         left: ex,
         top: ey,
         transform: 'translate(-50%,-50%)',
-        background: 'rgba(30,41,59,0.95)',
+        background: 'rgba(248,250,252,0.97)',
         border: '1px solid ' + color,
         borderRadius: 10,
         padding: '2px 7px',
@@ -778,8 +778,8 @@ const FlowMap = () => {
       fontWeight: 700,
       lineHeight: '20px',
       textAlign: 'center',
-      background: 'rgba(255,255,255,0.07)',
-      border: '1px solid rgba(255,255,255,0.12)',
+      background: 'rgba(0,0,0,0.04)',
+      border: '1px solid rgba(0,0,0,0.1)',
       color: '#94a3b8',
       borderRadius: 3,
       cursor: 'pointer',
@@ -794,8 +794,8 @@ const FlowMap = () => {
       fontWeight: 700,
       lineHeight: '20px',
       textAlign: 'center',
-      background: 'rgba(255,255,255,0.07)',
-      border: '1px solid rgba(255,255,255,0.12)',
+      background: 'rgba(0,0,0,0.04)',
+      border: '1px solid rgba(0,0,0,0.1)',
       color: '#94a3b8',
       borderRadius: 3,
       cursor: 'pointer',
@@ -808,7 +808,7 @@ const FlowMap = () => {
     }
   }, "Zoom ", zoom), /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'rgba(255,255,255,0.15)'
+      color: 'rgba(0,0,0,0.12)'
     }
   }, "|"), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -842,7 +842,7 @@ const FlowMap = () => {
     }
   })), /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'rgba(255,255,255,0.15)'
+      color: 'rgba(0,0,0,0.12)'
     }
   }, "|"), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -884,7 +884,7 @@ const FlowMap = () => {
       left: 240,
       right: 230,
       zIndex: 1002,
-      background: 'rgba(15,23,42,0.97)',
+      background: 'rgba(248,250,252,0.98)',
       borderBottom: '1px solid rgba(244,114,182,0.3)',
       padding: '14px 20px',
       fontSize: 11,
@@ -957,7 +957,7 @@ const FlowMap = () => {
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '12px 12px 8px',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid rgba(0,0,0,0.08)',
       flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1006,11 +1006,11 @@ const FlowMap = () => {
     onChange: e => setSearch(e.target.value),
     style: {
       width: '100%',
-      background: 'rgba(255,255,255,0.05)',
+      background: 'rgba(0,0,0,0.04)',
       border: '1px solid rgba(255,255,255,0.1)',
       borderRadius: 5,
       padding: '6px 10px',
-      color: '#e2e8f0',
+      color: '#1e293b',
       fontSize: 10,
       outline: 'none'
     }
@@ -1058,7 +1058,7 @@ const FlowMap = () => {
     }), /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 10,
-        color: isSel ? '#e2e8f0' : '#64748b',
+        color: isSel ? '#0f172a' : '#64748b',
         flex: 1,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
@@ -1198,7 +1198,7 @@ const FlowMap = () => {
       }, f.volume)), /*#__PURE__*/React.createElement("div", {
         style: {
           height: 2,
-          background: 'rgba(255,255,255,0.05)',
+          background: 'rgba(0,0,0,0.04)',
           borderRadius: 1
         }
       }, /*#__PURE__*/React.createElement("div", {
@@ -1223,7 +1223,7 @@ const FlowMap = () => {
         position: 'fixed',
         left: arcTooltip.x + 12,
         top: arcTooltip.y - 10,
-        background: 'rgba(30,41,59,0.95)',
+        background: 'rgba(248,250,252,0.97)',
         border: '1px solid ' + color,
         borderRadius: 8,
         padding: '10px 14px',
@@ -1265,7 +1265,7 @@ const FlowMap = () => {
       }
     }, arcTooltip.to), /*#__PURE__*/React.createElement("div", {
       style: {
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid rgba(0,0,0,0.08)',
         paddingTop: 6,
         display: 'flex',
         alignItems: 'baseline',
@@ -1275,7 +1275,7 @@ const FlowMap = () => {
       style: {
         fontSize: 20,
         fontWeight: 700,
-        color: '#e2e8f0'
+        color: '#1e293b'
       }
     }, arcTooltip.volume), /*#__PURE__*/React.createElement("span", {
       style: {
