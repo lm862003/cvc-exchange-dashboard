@@ -283,8 +283,8 @@ const FlowMap = () => {
     const dx = p2.x - p1.x,
       dy = p2.y - p1.y;
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
-    const cx = mx - dy / len * len * 0.07;
-    const cy = my + dx / len * len * 0.07;
+    const cx = mx - dy / len * len * 0.18;
+    const cy = my + dx / len * len * 0.18;
     return 'M ' + p1.x + ' ' + p1.y + ' Q ' + cx + ' ' + cy + ' ' + p2.x + ' ' + p2.y;
   };
   const zoom = leafletMap ? leafletMap.getZoom() : 6;
@@ -926,7 +926,7 @@ const FlowMap = () => {
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '12px 12px 8px',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid rgba(0,0,0,0.08)',
       flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -938,10 +938,10 @@ const FlowMap = () => {
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 13,
       letterSpacing: '0.15em',
       textTransform: 'uppercase',
-      color: '#475569'
+      color: '#444444'
     }
   }, "Home Colleges"), homeColleges.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -951,20 +951,20 @@ const FlowMap = () => {
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 10,
-      color: '#00d4ff',
+      fontSize: 13,
+      color: '#1a6fa8',
       fontWeight: 700
     }
   }, homeColleges.length, " selected"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setHomeColleges([]),
     style: {
-      fontSize: 8,
+      fontSize: 11,
       padding: '2px 6px',
       textTransform: 'uppercase',
       letterSpacing: '0.08em',
       background: 'transparent',
-      border: '1px solid rgba(255,255,255,0.1)',
-      color: '#64748b',
+      border: '1px solid rgba(0,0,0,0.2)',
+      color: '#555555',
       borderRadius: 2,
       cursor: 'pointer'
     }
@@ -975,24 +975,24 @@ const FlowMap = () => {
     onChange: e => setSearch(e.target.value),
     style: {
       width: '100%',
-      background: 'rgba(255,255,255,0.05)',
-      border: '1px solid rgba(255,255,255,0.1)',
+      background: 'rgba(0,0,0,0.05)',
+      border: '1px solid rgba(0,0,0,0.15)',
       borderRadius: 5,
       padding: '6px 10px',
-      color: '#e2e8f0',
-      fontSize: 10,
+      color: '#111111',
+      fontSize: 14,
       outline: 'none'
     }
   })), homeColleges.length === 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '8px 12px',
-      borderBottom: '1px solid rgba(255,255,255,0.04)',
+      borderBottom: '1px solid rgba(0,0,0,0.06)',
       flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
-      color: '#334155',
+      fontSize: 13,
+      color: '#555555',
       lineHeight: 1.6
     }
   }, "Select one or more home colleges. Arcs will radiate to all associated teaching colleges.")), /*#__PURE__*/React.createElement("div", {
@@ -1010,33 +1010,34 @@ const FlowMap = () => {
         display: 'flex',
         alignItems: 'center',
         gap: 8,
-        padding: '5px 12px',
+        padding: '6px 12px',
         cursor: 'pointer',
         transition: 'background 0.1s',
-        background: isSel ? 'rgba(0,212,255,0.08)' : 'transparent',
-        borderLeft: isSel ? '2px solid ' + col.color : '2px solid transparent'
+        background: isSel ? 'rgba(0,100,200,0.08)' : 'transparent',
+        borderLeft: isSel ? '3px solid ' + col.color : '3px solid transparent'
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: 7,
-        height: 7,
+        width: 9,
+        height: 9,
         borderRadius: '50%',
         background: col.color,
         flexShrink: 0
       }
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 10,
-        color: isSel ? '#e2e8f0' : '#64748b',
+        fontSize: 14,
+        color: isSel ? '#111111' : '#333333',
         flex: 1,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        fontWeight: isSel ? 600 : 400
       }
     }, col.name), isSel && /*#__PURE__*/React.createElement("div", {
       style: {
-        width: 14,
-        height: 14,
+        width: 16,
+        height: 16,
         borderRadius: '50%',
         background: col.color,
         display: 'flex',
@@ -1046,7 +1047,7 @@ const FlowMap = () => {
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 9,
+        fontSize: 11,
         color: '#fff',
         lineHeight: 1
       }
@@ -1061,8 +1062,8 @@ const FlowMap = () => {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
-      color: '#334155',
+      fontSize: 13,
+      color: '#555555',
       lineHeight: 1.8,
       letterSpacing: '0.05em'
     }
@@ -1103,31 +1104,31 @@ const FlowMap = () => {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 700,
-        color: hc.color,
+        color: '#111111',
         lineHeight: 1.3,
         flex: 1
       }
     }, hc.name), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 700,
-        color: hc.color,
+        color: '#444444',
         lineHeight: 1,
         marginLeft: 6,
         flexShrink: 0
       }
     }, isCollapsed ? '+' : '−')), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 9,
-        color: '#475569',
-        marginTop: 1
+        fontSize: 12,
+        color: '#555555',
+        marginTop: 2
       }
     }, hc.region, " \xB7 ", flows.length, " teaching colleges \xB7 ", total.toLocaleString(), " students"), SELF_ENROLL[hid] > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 9,
-        color: '#f472b6',
+        fontSize: 12,
+        color: '#c026d3',
         marginTop: 3
       }
     }, "\u21BA ", SELF_ENROLL[hid], " self-enrolled (home = teaching)")), !isCollapsed && /*#__PURE__*/React.createElement("div", {
@@ -1137,45 +1138,46 @@ const FlowMap = () => {
     }, flows.map(f => {
       const tc = collegeById[f.to];
       const barW = Math.round(f.volume / topMax * 100);
+      const arcColor = COLLEGE_ARC_COLORS[hid] || hc.color;
       return /*#__PURE__*/React.createElement("div", {
         key: f.to,
         style: {
-          marginBottom: 6
+          marginBottom: 7
         }
       }, /*#__PURE__*/React.createElement("div", {
         style: {
           display: 'flex',
           justifyContent: 'space-between',
           marginBottom: 2,
-          fontSize: 10
+          fontSize: 13
         }
       }, /*#__PURE__*/React.createElement("span", {
         style: {
-          color: '#94a3b8',
+          color: '#333333',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          maxWidth: 150
+          maxWidth: 155
         }
       }, shortLabel(f.to)), /*#__PURE__*/React.createElement("span", {
         style: {
-          color: tc ? tc.color : hc.color,
+          color: arcColor,
           fontWeight: 700,
           flexShrink: 0,
           marginLeft: 6
         }
       }, f.volume)), /*#__PURE__*/React.createElement("div", {
         style: {
-          height: 2,
-          background: 'rgba(255,255,255,0.05)',
-          borderRadius: 1
+          height: 3,
+          background: 'rgba(0,0,0,0.08)',
+          borderRadius: 2
         }
       }, /*#__PURE__*/React.createElement("div", {
         style: {
           height: '100%',
-          borderRadius: 1,
+          borderRadius: 2,
           width: barW + '%',
-          background: tc ? tc.color : hc.color
+          background: arcColor
         }
       })));
     })));
