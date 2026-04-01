@@ -52,14 +52,14 @@
   #college-menu {
     position: absolute; top: 0; left: 0; width: 240px; height: 100%;
     background: rgba(245,242,235,0.97); backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(0,0,0,0.08); color: #222222;
+    border-right: 1px solid rgba(0,0,0,0.08); color: #222222; font-size: 16.5px;
     z-index: 1000; display: flex; flex-direction: column;
   }
   #sidebar {
     position: absolute; top: 0; right: 0; width: 230px; height: 100%;
     background: rgba(245,242,235,0.97); backdrop-filter: blur(8px);
     border-left: 1px solid rgba(0,0,0,0.08); color: #222222;
-    overflow-y: auto; z-index: 1000; font-size: 11px;
+    overflow-y: auto; z-index: 1000; font-size: 16.5px;
   }
   #header {
     position: absolute; top: 0; left: 240px; right: 230px; z-index: 1000;
@@ -124,6 +124,10 @@ const TILE_LAYERS = {
     maxZoom: 19
   }
 };
+// Unique arc color per college — golden-ratio hue spacing for max visual separation
+const COLLEGE_ARC_COLORS = Object.fromEntries(
+  COLLEGES.map((c, i) => [c.id, `hsl(${Math.round((i * 137.508) % 360)}, 62%, 48%)`])
+);
 function shortLabel(name) {
   return name.replace(/Community College/g, 'CC').replace(/Junior College/, 'JC').replace(/College of the /, '').replace(/ College$/, '').replace(/Los Angeles /, 'LA ').replace(/ Community$/, '').trim().slice(0, 16);
 }
@@ -323,7 +327,7 @@ const FlowMap = () => {
       const path = arcPath(p1, p2);
       // Global absolute scale: log2 of volume, same formula regardless of selection
       const sw = Math.max(0.4, 0.3 + Math.log2(flow.volume) * 1.0);
-      const color = hc.color;
+      const color = COLLEGE_ARC_COLORS[hc.id] || hc.color;
       const markerId = 'arrow-' + color.replace('#', '');
       const handleArcClick = e => {
         e.stopPropagation();
@@ -840,41 +844,11 @@ const FlowMap = () => {
       background: '#fff',
       transition: 'left 0.2s'
     }
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: 'rgba(0,0,0,0.12)'
-    }
-  }, "|"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 9,
-      color: '#475569',
-      textTransform: 'uppercase',
-      letterSpacing: '0.08em'
-    }
-  }, "Self-Enroll"), /*#__PURE__*/React.createElement("div", {
-    onClick: () => setShowSelfEnroll(s => !s),
-    style: {
-      width: 28,
-      height: 14,
-      borderRadius: 7,
-      cursor: 'pointer',
-      transition: 'background 0.2s',
-      background: showSelfEnroll ? '#f472b6' : 'rgba(255,255,255,0.1)',
-      position: 'relative',
-      flexShrink: 0
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      top: 2,
-      left: showSelfEnroll ? 16 : 2,
-      width: 10,
-      height: 10,
-      borderRadius: '50%',
-      background: '#fff',
-      transition: 'left 0.2s'
-    }
   })))));
+  // SELF-ENROLL HIDDEN
+  // , "|" divider
+  // , "Self-Enroll" label
+  // , Self-Enroll toggle
 
   // ── Help overlay ──────────────────────────────────────────────────────────
   const helpOverlay = showHelp && /*#__PURE__*/React.createElement("div", {
