@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVC Exchange — Enrollment Flow Map</title>
+<script>
+(function() {
+  var k = 'cvc-oei-auth';
+  if (sessionStorage.getItem(k) !== '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      var overlay = document.createElement('div');
+      overlay.id = 'auth-overlay';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#030712;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = '<div style="background:#0f172a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:40px;width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.8)">' +
+        '<div style="font-size:18px;font-weight:700;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">CVC Exchange Dashboard</div>' +
+        '<div style="font-size:13px;color:#475569;margin-bottom:24px">Enter password to continue</div>' +
+        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;margin-bottom:12px;outline:none" />' +
+        '<button id="pw-btn" style="width:100%;padding:10px;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
+        '<div id="pw-err" style="color:#f87171;font-size:12px;margin-top:10px;display:none">Incorrect password</div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+      function attempt() {
+        if (document.getElementById('pw-input').value === 'cvc-oei') {
+          sessionStorage.setItem(k, '1');
+          overlay.remove();
+        } else {
+          document.getElementById('pw-err').style.display = 'block';
+          document.getElementById('pw-input').value = '';
+          document.getElementById('pw-input').focus();
+        }
+      }
+      document.getElementById('pw-btn').addEventListener('click', attempt);
+      document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') attempt(); });
+      document.getElementById('pw-input').focus();
+    });
+  }
+})();
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    background: #030712; color: #e2e8f0; font-size: 13px;
+    display: flex; flex-direction: column;
+  }
+
+  /* Nav */
+  nav {
+    background: #1a1a2e; display: flex; align-items: center;
+    padding: 0 24px; height: 48px; flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  nav .brand {
+    font-size: 14px; font-weight: 700; margin-right: 32px;
+    background: linear-gradient(90deg, #00d4ff, #f472b6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  nav a {
+    color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+    font-weight: 500; padding: 12px 16px; position: relative;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+  nav a.active {
+    color: #fff;
+  }
+  nav a.active::after {
+    content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+    height: 2px; background: #3a7bd5; border-radius: 1px;
+  }
+
+  /* Controls bar */
+  .controls {
+    display: flex; align-items: center; gap: 16px; padding: 12px 24px;
+    background: #0a0f1e; border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0; flex-wrap: wrap;
+  }
+  .controls-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #64748b; font-weight: 600;
+  }
+  .term-pill {
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; border: 1.5px solid #3a7bd5;
+    background: transparent; color: #3a7bd5; font-family: inherit;
+  }
+  .term-pill.active {
+    background: #3a7bd5; color: #fff;
+  }
+  .term-pill:hover { opacity: 0.85; }
+  .term-pill .pill-count {
+    font-size: 10px; opacity: 0.8; margin-left: 6px;
+  }
+  .controls-separator {
+    width: 1px; height: 24px; background: rgba(255,255,255,0.08);
+  }
+  .slider-group {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .slider-group input[type=range] {
+    -webkit-appearance: none; width: 120px; height: 3px;
+    background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
+  }
+  .slider-group input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 14px; height: 14px;
+    background: #3a7bd5; border-radius: 50%; cursor: pointer;
+  }
+  .slider-value {
+    font-size: 12px; color: #94a3b8; min-width: 20px;
+  }
+  .flow-count-badge {
+    font-size: 11px; color: #64748b; margin-left: 4px;
+  }
+  .btn-download {
+    margin-left: auto; padding: 6px 14px; border-radius: 6px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8; font-size: 12px; font-family: inherit; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-download:hover {
+    background: rgba(255,255,255,0.1); color: #e2e8f0;
+  }
+
+  /* Main content */
+  .main {
+    flex: 1; display: flex; overflow: hidden; position: relative;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px; background: #0a0f1e; border-left: 1px solid rgba(255,255,255,0.06);
+    overflow-y: auto; flex-shrink: 0; display: none; flex-direction: column;
+  }
+  .sidebar.open { display: flex; }
+  .sidebar-header {
+    padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .sidebar-header h3 {
+    font-size: 14px; font-weight: 700; color: #e2e8f0; margin-bottom: 4px;
+  }
+  .sidebar-close {
+    float: right; background: none; border: none; color: #64748b;
+    cursor: pointer; font-size: 18px; line-height: 1;
+  }
+  .sidebar-close:hover { color: #e2e8f0; }
+  .sidebar-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .sidebar-stat {
+    background: rgba(255,255,255,0.03); border-radius: 6px; padding: 10px 12px;
+  }
+  .sidebar-stat .label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #64748b; margin-bottom: 4px;
+  }
+  .sidebar-stat .value {
+    font-size: 18px; font-weight: 700;
+  }
+  .sidebar-stat .value.out { color: #f59e0b; }
+  .sidebar-stat .value.in { color: #22d3ee; }
+  .sidebar-connections {
+    padding: 12px 20px; flex: 1; overflow-y: auto;
+  }
+  .sidebar-connections h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #64748b; margin-bottom: 10px;
+  }
+  .conn-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px;
+  }
+  .conn-item:last-child { border-bottom: none; }
+  .conn-dir {
+    font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 600;
+  }
+  .conn-dir.out { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  .conn-dir.in { background: rgba(34,211,238,0.15); color: #22d3ee; }
+  .conn-name { flex: 1; margin: 0 8px; color: #cbd5e1; }
+  .conn-count { font-weight: 700; color: #e2e8f0; }
+
+  /* Map area */
+  .map-wrap {
+    flex: 1; position: relative; overflow: hidden;
+  }
+  .map-wrap svg { width: 100%; height: 100%; }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 100;
+    background: #1e293b; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 8px 12px; font-size: 12px;
+    color: #e2e8f0; white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    display: none;
+  }
+
+  /* Footer */
+  footer {
+    padding: 8px 24px; text-align: center; font-size: 11px;
+    color: #475569; background: #0a0f1e;
+    border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  /* Legend */
+  .legend {
+    position: absolute; bottom: 16px; left: 16px; z-index: 10;
+    background: rgba(10,15,30,0.9); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 12px 16px; font-size: 11px;
+  }
+  .legend-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #64748b; margin-bottom: 8px; font-weight: 600;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">CVC Exchange</span>
+  <a href="index.html">Home</a>
+  <a href="map.html" class="active">Flow Map</a>
+  <a href="stats.html">Statistics</a>
+</nav>
+
+<div class="controls" id="controls">
+  <span class="controls-label">Terms</span>
+  <div id="term-pills"></div>
+  <div class="controls-separator"></div>
+  <div class="slider-group">
+    <span class="controls-label">Min Flows</span>
+    <input type="range" id="threshold-slider" min="1" max="50" value="5">
+    <span class="slider-value" id="threshold-val">5</span>
+  </div>
+  <span class="flow-count-badge" id="flow-count-badge"></span>
+  <button class="btn-download" id="btn-csv" title="Download visible flows as CSV">CSV</button>
+</div>
+
+<div class="main">
+  <div class="map-wrap" id="map-wrap">
+    <svg id="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="tooltip" id="tooltip"></div>
+    <div class="legend">
+      <div class="legend-title">Regions</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Northern California</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4ade80"></span> Central Valley / Coast</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> Southern California</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#c084fc"></span> San Diego / Imperial</div>
+    </div>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button class="sidebar-close" id="sidebar-close">&times;</button>
+      <h3 id="sidebar-name"></h3>
+    </div>
+    <div class="sidebar-stats">
+      <div class="sidebar-stat">
+        <div class="label">Outgoing</div>
+        <div class="value out" id="sidebar-out">0</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="label">Incoming</div>
+        <div class="value in" id="sidebar-in">0</div>
+      </div>
+    </div>
+    <div class="sidebar-connections">
+      <h4>Top Connections</h4>
+      <div id="sidebar-list"></div>
+    </div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // --- Projection ---
+  function project(lat, lon) {
+    var x = (lon - (-124.5)) / ((-114.0) - (-124.5)) * 400;
+    var y = (42.0 - lat) / (42.0 - 32.5) * 500;
+    return [x, y];
+  }
+
+  // --- Region classification ---
+  function getRegion(lat, lon) {
+    if (lat < 33.2 && lon > -117.5) return 'sd';
+    if (lat < 34.5) return 'socal';
+    if (lat < 37.0) return 'central';
+    return 'norcal';
+  }
+  var regionColors = {
+    norcal: '#60a5fa',
+    central: '#4ade80',
+    socal: '#fb923c',
+    sd: '#c084fc'
+  };
+
+  // --- California outline (simplified) ---
+  var caOutline = [
+    [42.0, -124.2], [41.99, -120.0], [39.0, -120.0], [38.5, -119.9],
+    [37.5, -118.5], [36.5, -117.8], [35.8, -117.6], [35.5, -117.7],
+    [35.0, -117.6], [34.8, -117.0], [34.5, -116.1], [34.0, -115.6],
+    [33.5, -115.4], [33.0, -115.5], [32.7, -114.7], [32.5, -114.6],
+    [32.55, -117.1], [32.8, -117.3], [33.2, -117.5], [33.4, -117.9],
+    [33.7, -118.1], [33.8, -118.4], [34.0, -118.6], [34.0, -119.2],
+    [34.4, -119.7], [34.45, -120.5], [34.9, -120.6], [35.4, -120.9],
+    [35.8, -121.3], [36.3, -121.9], [36.6, -121.9], [36.9, -122.0],
+    [37.1, -122.4], [37.5, -122.5], [37.8, -122.5], [37.85, -122.7],
+    [38.0, -122.9], [38.3, -123.1], [38.9, -123.6], [39.4, -123.8],
+    [40.0, -124.1], [40.4, -124.4], [41.0, -124.1], [41.75, -124.2],
+    [42.0, -124.2]
+  ];
+
+  // --- State ---
+  var data = null;
+  var activeTerms = new Set();
+  var threshold = 5;
+  var selectedCollege = null;
+  var collegeMap = {};
+  var svgNS = 'http://www.w3.org/2000/svg';
+
+  // --- DOM ---
+  var svg = document.getElementById('map-svg');
+  var tooltip = document.getElementById('tooltip');
+  var sidebar = document.getElementById('sidebar');
+  var mapWrap = document.getElementById('map-wrap');
+
+  // --- SVG Setup ---
+  svg.setAttribute('viewBox', '0 0 400 500');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+  // Background
+  var bgRect = document.createElementNS(svgNS, 'rect');
+  bgRect.setAttribute('width', '400');
+  bgRect.setAttribute('height', '500');
+  bgRect.setAttribute('fill', '#030712');
+  svg.appendChild(bgRect);
+
+  // California outline group
+  var caGroup = document.createElementNS(svgNS, 'g');
+  svg.appendChild(caGroup);
+
+  // Flow arcs group
+  var flowGroup = document.createElementNS(svgNS, 'g');
+  svg.appendChild(flowGroup);
+
+  // Colleges group
+  var collegeGroup = document.createElementNS(svgNS, 'g');
+  svg.appendChild(collegeGroup);
+
+  // Draw CA outline
+  function drawOutline() {
+    var pts = caOutline.map(function(p) { return project(p[0], p[1]); });
+    var d = 'M' + pts.map(function(p) { return p[0] + ',' + p[1]; }).join('L') + 'Z';
+    var path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'rgba(255,255,255,0.02)');
+    path.setAttribute('stroke', 'rgba(255,255,255,0.08)');
+    path.setAttribute('stroke-width', '0.5');
+    caGroup.appendChild(path);
+  }
+
+  // --- Load data ---
+  fetch('data/enrollment_flows.json')
+    .then(function(r) { return r.json(); })
+    .then(function(json) {
+      data = json;
+      // Build college lookup
+      data.colleges.forEach(function(c) {
+        var pos = project(c.lat, c.lon);
+        collegeMap[c.name] = { lat: c.lat, lon: c.lon, x: pos[0], y: pos[1] };
+      });
+      init();
+    })
+    .catch(function(err) {
+      document.getElementById('map-wrap').innerHTML =
+        '<div style="padding:40px;color:#f87171;">Failed to load data: ' + err.message + '</div>';
+    });
+
+  function init() {
+    drawOutline();
+    buildTermPills();
+    setupControls();
+    render();
+    document.getElementById('footer').textContent =
+      'Generated ' + data.generated + ' \u00b7 Validated enrollments only \u00b7 CVC Exchange';
+  }
+
+  // --- Term pills ---
+  function buildTermPills() {
+    var container = document.getElementById('term-pills');
+    container.style.display = 'flex';
+    container.style.gap = '8px';
+    var terms = Object.keys(data.terms);
+    terms.forEach(function(term, idx) {
+      var btn = document.createElement('button');
+      btn.className = 'term-pill' + (idx === 0 ? ' active' : '');
+      btn.dataset.term = term;
+      var total = data.terms[term].total;
+      btn.innerHTML = term + '<span class="pill-count">(' + total.toLocaleString() + ')</span>';
+      btn.addEventListener('click', function() {
+        btn.classList.toggle('active');
+        if (btn.classList.contains('active')) {
+          activeTerms.add(term);
+        } else {
+          activeTerms.delete(term);
+        }
+        render();
+      });
+      container.appendChild(btn);
+      if (idx === 0) activeTerms.add(term);
+    });
+  }
+
+  // --- Controls ---
+  function setupControls() {
+    var slider = document.getElementById('threshold-slider');
+    var val = document.getElementById('threshold-val');
+    slider.addEventListener('input', function() {
+      threshold = parseInt(slider.value);
+      val.textContent = threshold;
+      render();
+    });
+
+    document.getElementById('btn-csv').addEventListener('click', downloadCSV);
+
+    document.getElementById('sidebar-close').addEventListener('click', function() {
+      selectedCollege = null;
+      sidebar.classList.remove('open');
+      render();
+    });
+
+    // Tooltip tracking
+    mapWrap.addEventListener('mousemove', function(e) {
+      if (tooltip.style.display === 'block') {
+        var rect = mapWrap.getBoundingClientRect();
+        var tx = e.clientX - rect.left + 12;
+        var ty = e.clientY - rect.top - 8;
+        if (tx + 200 > rect.width) tx = e.clientX - rect.left - 160;
+        tooltip.style.left = tx + 'px';
+        tooltip.style.top = ty + 'px';
+      }
+    });
+  }
+
+  // --- Aggregate flows across active terms ---
+  function getAggregatedFlows() {
+    var flowMap = {};
+    activeTerms.forEach(function(term) {
+      var td = data.terms[term];
+      if (!td || !td.flows) return;
+      td.flows.forEach(function(f) {
+        var key = f.from + '|||' + f.to;
+        if (!flowMap[key]) {
+          flowMap[key] = { from: f.from, to: f.to, count: 0, terms: {} };
+        }
+        flowMap[key].count += f.count;
+        flowMap[key].terms[term] = f.count;
+      });
+    });
+    return Object.values(flowMap);
+  }
+
+  // --- Compute college volumes ---
+  function getCollegeVolumes(flows) {
+    var vols = {};
+    flows.forEach(function(f) {
+      if (!vols[f.from]) vols[f.from] = { out: 0, in: 0 };
+      if (!vols[f.to]) vols[f.to] = { out: 0, in: 0 };
+      vols[f.from].out += f.count;
+      vols[f.to].in += f.count;
+    });
+    return vols;
+  }
+
+  // --- Render ---
+  function render() {
+    var allFlows = getAggregatedFlows();
+    var volumes = getCollegeVolumes(allFlows);
+
+    // Filter flows by threshold and selected college
+    var visibleFlows = allFlows.filter(function(f) {
+      if (f.count < threshold) return false;
+      if (selectedCollege) {
+        return f.from === selectedCollege || f.to === selectedCollege;
+      }
+      return true;
+    });
+
+    // Update flow count badge
+    document.getElementById('flow-count-badge').textContent =
+      visibleFlows.length + ' flow' + (visibleFlows.length !== 1 ? 's' : '') + ' shown';
+
+    // --- Draw flows ---
+    while (flowGroup.firstChild) flowGroup.removeChild(flowGroup.firstChild);
+
+    var maxFlow = 1;
+    visibleFlows.forEach(function(f) { if (f.count > maxFlow) maxFlow = f.count; });
+
+    visibleFlows.forEach(function(f) {
+      var fromC = collegeMap[f.from];
+      var toC = collegeMap[f.to];
+      if (!fromC || !toC) return;
+
+      var x1 = fromC.x, y1 = fromC.y, x2 = toC.x, y2 = toC.y;
+      var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      var dx = x2 - x1, dy = y2 - y1;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      var offset = Math.min(dist * 0.2, 30);
+      // Perpendicular offset
+      var nx = -dy / (dist || 1) * offset;
+      var ny = dx / (dist || 1) * offset;
+      var cx = mx + nx, cy = my + ny;
+
+      var path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
+      path.setAttribute('fill', 'none');
+
+      var thick = 0.5 + (f.count / maxFlow) * 3;
+      var opacity = 0.15 + (f.count / maxFlow) * 0.55;
+      if (selectedCollege) {
+        opacity = 0.3 + (f.count / maxFlow) * 0.6;
+      }
+      path.setAttribute('stroke', '#00d4ff');
+      path.setAttribute('stroke-width', thick.toFixed(2));
+      path.setAttribute('stroke-opacity', opacity.toFixed(2));
+      path.setAttribute('stroke-linecap', 'round');
+      flowGroup.appendChild(path);
+    });
+
+    // --- Draw colleges ---
+    while (collegeGroup.firstChild) collegeGroup.removeChild(collegeGroup.firstChild);
+
+    var maxVol = 1;
+    Object.values(volumes).forEach(function(v) {
+      var total = v.out + v.in;
+      if (total > maxVol) maxVol = total;
+    });
+
+    data.colleges.forEach(function(c) {
+      var pos = collegeMap[c.name];
+      if (!pos) return;
+      var vol = volumes[c.name] || { out: 0, in: 0 };
+      var total = vol.out + vol.in;
+      var region = getRegion(c.lat, c.lon);
+      var color = regionColors[region];
+      var r = 2 + (total / maxVol) * 6;
+
+      // Dim colleges not connected to selected
+      var dimmed = false;
+      if (selectedCollege && c.name !== selectedCollege) {
+        var connected = visibleFlows.some(function(f) {
+          return f.from === c.name || f.to === c.name;
+        });
+        if (!connected) dimmed = true;
+      }
+
+      var g = document.createElementNS(svgNS, 'g');
+      g.style.cursor = 'pointer';
+
+      // Glow for selected
+      if (c.name === selectedCollege) {
+        var glow = document.createElementNS(svgNS, 'circle');
+        glow.setAttribute('cx', pos.x);
+        glow.setAttribute('cy', pos.y);
+        glow.setAttribute('r', r + 4);
+        glow.setAttribute('fill', 'none');
+        glow.setAttribute('stroke', color);
+        glow.setAttribute('stroke-width', '1.5');
+        glow.setAttribute('stroke-opacity', '0.5');
+        g.appendChild(glow);
+      }
+
+      var circle = document.createElementNS(svgNS, 'circle');
+      circle.setAttribute('cx', pos.x);
+      circle.setAttribute('cy', pos.y);
+      circle.setAttribute('r', r);
+      circle.setAttribute('fill', color);
+      circle.setAttribute('fill-opacity', dimmed ? '0.15' : '0.85');
+      circle.setAttribute('stroke', dimmed ? 'none' : 'rgba(255,255,255,0.2)');
+      circle.setAttribute('stroke-width', '0.5');
+      g.appendChild(circle);
+
+      // Hover
+      g.addEventListener('mouseenter', function(e) {
+        tooltip.textContent = c.name +
+          (total > 0 ? '  |  Out: ' + vol.out.toLocaleString() + '  In: ' + vol.in.toLocaleString() : '');
+        tooltip.style.display = 'block';
+      });
+      g.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+
+      // Click
+      g.addEventListener('click', function() {
+        if (selectedCollege === c.name) {
+          selectedCollege = null;
+          sidebar.classList.remove('open');
+        } else {
+          selectedCollege = c.name;
+          sidebar.classList.add('open');
+          updateSidebar(c.name, volumes, allFlows);
+        }
+        render();
+      });
+
+      collegeGroup.appendChild(g);
+    });
+  }
+
+  // --- Sidebar ---
+  function updateSidebar(name, volumes, allFlows) {
+    document.getElementById('sidebar-name').textContent = name;
+    var vol = volumes[name] || { out: 0, in: 0 };
+    document.getElementById('sidebar-out').textContent = vol.out.toLocaleString();
+    document.getElementById('sidebar-in').textContent = vol.in.toLocaleString();
+
+    // Build connection list
+    var connections = [];
+    allFlows.forEach(function(f) {
+      if (f.from === name) {
+        connections.push({ name: f.to, count: f.count, dir: 'out' });
+      } else if (f.to === name) {
+        connections.push({ name: f.from, count: f.count, dir: 'in' });
+      }
+    });
+    connections.sort(function(a, b) { return b.count - a.count; });
+
+    var list = document.getElementById('sidebar-list');
+    list.innerHTML = '';
+    connections.slice(0, 30).forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'conn-item';
+      div.innerHTML =
+        '<span class="conn-dir ' + c.dir + '">' + (c.dir === 'out' ? 'TO' : 'FROM') + '</span>' +
+        '<span class="conn-name">' + c.name + '</span>' +
+        '<span class="conn-count">' + c.count.toLocaleString() + '</span>';
+      list.appendChild(div);
+    });
+  }
+
+  // --- CSV Download ---
+  function downloadCSV() {
+    var allFlows = getAggregatedFlows();
+    var visibleFlows = allFlows.filter(function(f) {
+      if (f.count < threshold) return false;
+      if (selectedCollege) {
+        return f.from === selectedCollege || f.to === selectedCollege;
+      }
+      return true;
+    });
+
+    var rows = ['Home College,Teaching College,Term,Count'];
+    visibleFlows.forEach(function(f) {
+      // Expand back to per-term rows
+      Object.keys(f.terms).forEach(function(term) {
+        rows.push(
+          '"' + f.from.replace(/"/g, '""') + '",' +
+          '"' + f.to.replace(/"/g, '""') + '",' +
+          '"' + term + '",' +
+          f.terms[term]
+        );
+      });
+    });
+
+    var blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'enrollment_flows_map.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+})();
+</script>
+</body>
+</html>

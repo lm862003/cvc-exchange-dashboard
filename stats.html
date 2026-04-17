@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVC Exchange — Enrollment Statistics</title>
+<script>
+(function() {
+  var k = 'cvc-oei-auth';
+  if (sessionStorage.getItem(k) !== '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      var overlay = document.createElement('div');
+      overlay.id = 'auth-overlay';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = '<div style="background:#fff;border-radius:12px;padding:40px;width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.4)">' +
+        '<div style="font-size:18px;font-weight:700;margin-bottom:8px;color:#1a1a2e">CVC Exchange Dashboard</div>' +
+        '<div style="font-size:13px;color:#666;margin-bottom:24px">Enter password to continue</div>' +
+        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:12px;outline:none" />' +
+        '<button id="pw-btn" style="width:100%;padding:10px;background:#3a7bd5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
+        '<div id="pw-err" style="color:#e05252;font-size:12px;margin-top:10px;display:none">Incorrect password</div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+      function attempt() {
+        if (document.getElementById('pw-input').value === 'cvc-oei') {
+          sessionStorage.setItem(k, '1');
+          overlay.remove();
+        } else {
+          document.getElementById('pw-err').style.display = 'block';
+          document.getElementById('pw-input').value = '';
+          document.getElementById('pw-input').focus();
+        }
+      }
+      document.getElementById('pw-btn').addEventListener('click', attempt);
+      document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') attempt(); });
+      document.getElementById('pw-input').focus();
+    });
+  }
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         background: #f4f6f9; color: #1a1a2e; font-size: 14px; }
+
+  /* Nav */
+  nav { background: #1a1a2e; display: flex; align-items: center; padding: 0 32px; height: 56px; }
+  nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 600;
+          padding: 16px 20px; border-bottom: 3px solid transparent; opacity: .7;
+          transition: opacity .15s, border-color .15s; }
+  nav a:hover { opacity: 1; }
+  nav a.active { opacity: 1; border-bottom-color: #3a7bd5; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px 48px; }
+
+  /* Term toggles */
+  .term-toggles { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .term-btn { padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+              cursor: pointer; transition: all .15s; border: 2px solid #bbb; background: #fff; color: #666; }
+  .term-btn.active { background: #3a7bd5; color: #fff; border-color: #3a7bd5; }
+  .term-btn:hover:not(.active) { border-color: #3a7bd5; color: #3a7bd5; }
+
+  /* Summary pills */
+  .summary-pills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .summary-pill { background: #fff; border-radius: 10px; padding: 18px 20px;
+                  box-shadow: 0 1px 4px rgba(0,0,0,.08); border-top: 3px solid #3a7bd5; }
+  .summary-pill .label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #666; }
+  .summary-pill .value { font-size: 26px; font-weight: 700; margin-top: 4px; color: #1a1a2e; }
+  .summary-pill .detail { font-size: 11px; color: #999; margin-top: 2px; }
+
+  /* Section headers */
+  .section-header { display: flex; align-items: center; justify-content: space-between;
+                    margin-bottom: 14px; margin-top: 8px; }
+  .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; }
+
+  /* Charts */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .chart-box { background: #fff; border-radius: 10px; padding: 20px;
+               box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .chart-box h2 { font-size: 14px; font-weight: 600; margin-bottom: 14px; color: #444; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; background: #fff;
+          border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  th { background: #1a1a2e; color: #fff; padding: 10px 14px; text-align: left;
+       font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  th.num, td.num { text-align: right; }
+  td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  tr:hover td { background: #eef3fb; }
+
+  /* CSV buttons */
+  .btn-csv { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+             background: #3a7bd5; color: #fff; border: none; border-radius: 6px;
+             font-size: 12px; font-weight: 600; cursor: pointer; transition: background .15s; }
+  .btn-csv:hover { background: #2d62b3; }
+
+  .btn-show-all { display: inline-block; margin-top: 12px; padding: 8px 20px; background: #fff;
+                  border: 2px solid #3a7bd5; color: #3a7bd5; border-radius: 6px; font-size: 13px;
+                  font-weight: 600; cursor: pointer; transition: all .15s; }
+  .btn-show-all:hover { background: #3a7bd5; color: #fff; }
+
+  /* Footer */
+  footer { text-align: center; padding: 24px; font-size: 12px; color: #999; border-top: 1px solid #e0e4ec; margin-top: 40px; }
+
+  /* Loading */
+  .loading { text-align: center; padding: 80px 0; color: #999; font-size: 16px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .summary-pills { grid-template-columns: repeat(2, 1fr); }
+    .chart-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 16px; }
+    .container { padding: 16px; }
+  }
+  @media (max-width: 500px) {
+    .summary-pills { grid-template-columns: 1fr; }
+    nav a { padding: 16px 12px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="map.html">Flow Map</a>
+  <a href="stats.html" class="active">Statistics</a>
+</nav>
+
+<div class="container">
+  <div id="loading" class="loading">Loading enrollment data...</div>
+  <div id="app" style="display:none">
+
+    <!-- Term Toggles -->
+    <div id="term-toggles" class="term-toggles"></div>
+
+    <!-- Summary Pills -->
+    <div class="summary-pills">
+      <div class="summary-pill">
+        <div class="label">Total Enrollments</div>
+        <div class="value" id="stat-total">0</div>
+      </div>
+      <div class="summary-pill">
+        <div class="label">Active Colleges</div>
+        <div class="value" id="stat-colleges">0</div>
+      </div>
+      <div class="summary-pill">
+        <div class="label">Total Flows</div>
+        <div class="value" id="stat-flows">0</div>
+      </div>
+      <div class="summary-pill">
+        <div class="label">Largest Flow</div>
+        <div class="value" id="stat-largest">—</div>
+        <div class="detail" id="stat-largest-detail"></div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h2>Top 15 Teaching Colleges (Incoming Enrollments)</h2>
+        <canvas id="chart-teaching"></canvas>
+      </div>
+      <div class="chart-box">
+        <h2>Top 15 Home Colleges (Outgoing Enrollments)</h2>
+        <canvas id="chart-home"></canvas>
+      </div>
+    </div>
+
+    <!-- Top Flows Table -->
+    <div class="section-header">
+      <span class="section-title">Top Enrollment Flows</span>
+      <button class="btn-csv" onclick="downloadFlowsCSV()">Download Flows CSV</button>
+    </div>
+    <table id="table-flows">
+      <thead>
+        <tr>
+          <th class="num" style="width:50px">Rank</th>
+          <th>Home College</th>
+          <th>Teaching College</th>
+          <th class="num">Count</th>
+          <th class="num" style="width:90px">% of Total</th>
+        </tr>
+      </thead>
+      <tbody id="flows-body"></tbody>
+    </table>
+
+    <!-- College Detail Table -->
+    <div class="section-header" style="margin-top:32px">
+      <span class="section-title">College Summary</span>
+      <button class="btn-csv" onclick="downloadCollegeCSV()">Download College Summary CSV</button>
+    </div>
+    <table id="table-colleges">
+      <thead>
+        <tr>
+          <th>College Name</th>
+          <th class="num">As Home</th>
+          <th class="num">As Teaching</th>
+          <th class="num">Net Flow</th>
+        </tr>
+      </thead>
+      <tbody id="colleges-body"></tbody>
+    </table>
+    <button class="btn-show-all" id="btn-show-all" onclick="showAllColleges()" style="display:none">Show All</button>
+
+  </div>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+(function() {
+  let DATA = null;
+  let activeTerms = new Set();
+  let chartTeaching = null;
+  let chartHome = null;
+  let showAllCollegesFlag = false;
+
+  // --- Fetch data ---
+  fetch('data/enrollment_flows.json')
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(json => {
+      DATA = json;
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('app').style.display = '';
+      document.getElementById('footer').textContent =
+        'Generated ' + json.generated + ' \u00b7 Validated enrollments only \u00b7 CVC Exchange';
+      initTerms();
+      update();
+    })
+    .catch(err => {
+      document.getElementById('loading').textContent = 'Failed to load data: ' + err.message;
+    });
+
+  // --- Term toggles ---
+  function initTerms() {
+    var box = document.getElementById('term-toggles');
+    var termNames = Object.keys(DATA.terms);
+    termNames.forEach(function(t, i) {
+      var btn = document.createElement('button');
+      btn.className = 'term-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = t;
+      btn.addEventListener('click', function() {
+        btn.classList.toggle('active');
+        if (btn.classList.contains('active')) {
+          activeTerms.add(t);
+        } else {
+          activeTerms.delete(t);
+        }
+        update();
+      });
+      box.appendChild(btn);
+      if (i === 0) activeTerms.add(t);
+    });
+  }
+
+  // --- Aggregate flows for active terms ---
+  function getAggregatedFlows() {
+    var map = {};
+    var termFlows = {}; // for CSV: keep per-term data
+    activeTerms.forEach(function(term) {
+      var td = DATA.terms[term];
+      if (!td || !td.flows) return;
+      td.flows.forEach(function(f) {
+        var key = f.from + '|||' + f.to;
+        if (!map[key]) map[key] = { from: f.from, to: f.to, count: 0 };
+        map[key].count += f.count;
+      });
+    });
+    return Object.values(map);
+  }
+
+  function getFlowsWithTerms() {
+    var rows = [];
+    activeTerms.forEach(function(term) {
+      var td = DATA.terms[term];
+      if (!td || !td.flows) return;
+      td.flows.forEach(function(f) {
+        rows.push({ from: f.from, to: f.to, term: term, count: f.count });
+      });
+    });
+    return rows;
+  }
+
+  // --- Update everything ---
+  function update() {
+    var flows = getAggregatedFlows();
+    flows.sort(function(a, b) { return b.count - a.count; });
+
+    var total = flows.reduce(function(s, f) { return s + f.count; }, 0);
+    var collegeSet = new Set();
+    flows.forEach(function(f) { collegeSet.add(f.from); collegeSet.add(f.to); });
+    var largest = flows.length > 0 ? flows[0] : null;
+
+    document.getElementById('stat-total').textContent = total.toLocaleString();
+    document.getElementById('stat-colleges').textContent = collegeSet.size.toLocaleString();
+    document.getElementById('stat-flows').textContent = flows.length.toLocaleString();
+    if (largest) {
+      document.getElementById('stat-largest').textContent = largest.count.toLocaleString();
+      document.getElementById('stat-largest-detail').textContent = largest.from + ' \u2192 ' + largest.to;
+    } else {
+      document.getElementById('stat-largest').textContent = '\u2014';
+      document.getElementById('stat-largest-detail').textContent = '';
+    }
+
+    updateCharts(flows);
+    updateFlowsTable(flows, total);
+    updateCollegesTable(flows);
+  }
+
+  // --- Charts ---
+  function blueGradient(count) {
+    var colors = [];
+    for (var i = 0; i < count; i++) {
+      var t = count <= 1 ? 0 : i / (count - 1);
+      var r = Math.round(58 + t * (96 - 58));
+      var g = Math.round(123 + t * (165 - 123));
+      var b = Math.round(213 + t * (250 - 213));
+      colors.push('rgb(' + r + ',' + g + ',' + b + ')');
+    }
+    return colors;
+  }
+
+  function updateCharts(flows) {
+    // Teaching (incoming)
+    var teachingMap = {};
+    flows.forEach(function(f) {
+      teachingMap[f.to] = (teachingMap[f.to] || 0) + f.count;
+    });
+    var teachingSorted = Object.entries(teachingMap).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 15);
+    var teachLabels = teachingSorted.map(function(e) { return e[0]; });
+    var teachValues = teachingSorted.map(function(e) { return e[1]; });
+
+    // Home (outgoing)
+    var homeMap = {};
+    flows.forEach(function(f) {
+      homeMap[f.from] = (homeMap[f.from] || 0) + f.count;
+    });
+    var homeSorted = Object.entries(homeMap).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 15);
+    var homeLabels = homeSorted.map(function(e) { return e[0]; });
+    var homeValues = homeSorted.map(function(e) { return e[1]; });
+
+    if (chartTeaching) chartTeaching.destroy();
+    if (chartHome) chartHome.destroy();
+
+    var chartOpts = {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ctx.parsed.x.toLocaleString() + ' enrollments'; }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { callback: function(v) { return v.toLocaleString(); } }, grid: { color: '#f0f0f0' } },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    };
+
+    var ctxT = document.getElementById('chart-teaching');
+    ctxT.parentElement.style.height = '420px';
+    ctxT.style.height = '400px';
+    chartTeaching = new Chart(ctxT, {
+      type: 'bar',
+      data: {
+        labels: teachLabels,
+        datasets: [{ data: teachValues, backgroundColor: blueGradient(teachLabels.length), borderRadius: 4 }]
+      },
+      options: chartOpts
+    });
+
+    var ctxH = document.getElementById('chart-home');
+    ctxH.parentElement.style.height = '420px';
+    ctxH.style.height = '400px';
+    chartHome = new Chart(ctxH, {
+      type: 'bar',
+      data: {
+        labels: homeLabels,
+        datasets: [{ data: homeValues, backgroundColor: blueGradient(homeLabels.length), borderRadius: 4 }]
+      },
+      options: chartOpts
+    });
+  }
+
+  // --- Flows table ---
+  function updateFlowsTable(flows, total) {
+    var tbody = document.getElementById('flows-body');
+    var top50 = flows.slice(0, 50);
+    var html = '';
+    top50.forEach(function(f, i) {
+      var pct = total > 0 ? (f.count / total * 100).toFixed(1) : '0.0';
+      html += '<tr><td class="num">' + (i + 1) + '</td><td>' + esc(f.from) +
+              '</td><td>' + esc(f.to) + '</td><td class="num">' +
+              f.count.toLocaleString() + '</td><td class="num">' + pct + '%</td></tr>';
+    });
+    tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#999;padding:20px">No flows for selected terms</td></tr>';
+  }
+
+  // --- College detail table ---
+  function updateCollegesTable(flows) {
+    var map = {};
+    flows.forEach(function(f) {
+      if (!map[f.from]) map[f.from] = { home: 0, teaching: 0 };
+      if (!map[f.to]) map[f.to] = { home: 0, teaching: 0 };
+      map[f.from].home += f.count;
+      map[f.to].teaching += f.count;
+    });
+    var rows = Object.entries(map).map(function(e) {
+      return { name: e[0], home: e[1].home, teaching: e[1].teaching, net: e[1].teaching - e[1].home };
+    });
+    rows.sort(function(a, b) { return (b.home + b.teaching) - (a.home + a.teaching); });
+
+    var limit = showAllCollegesFlag ? rows.length : 50;
+    var display = rows.slice(0, limit);
+
+    var tbody = document.getElementById('colleges-body');
+    var html = '';
+    display.forEach(function(r) {
+      var netClass = r.net > 0 ? 'color:#16a34a' : r.net < 0 ? 'color:#dc2626' : '';
+      var netPrefix = r.net > 0 ? '+' : '';
+      html += '<tr><td>' + esc(r.name) + '</td><td class="num">' +
+              r.home.toLocaleString() + '</td><td class="num">' +
+              r.teaching.toLocaleString() + '</td><td class="num" style="' + netClass + ';font-weight:600">' +
+              netPrefix + r.net.toLocaleString() + '</td></tr>';
+    });
+    tbody.innerHTML = html || '<tr><td colspan="4" style="text-align:center;color:#999;padding:20px">No data</td></tr>';
+
+    var btn = document.getElementById('btn-show-all');
+    if (rows.length > 50 && !showAllCollegesFlag) {
+      btn.style.display = '';
+      btn.textContent = 'Show All (' + rows.length + ' colleges)';
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  // --- Show all colleges ---
+  window.showAllColleges = function() {
+    showAllCollegesFlag = true;
+    update();
+  };
+
+  // --- CSV Downloads ---
+  window.downloadFlowsCSV = function() {
+    var rows = getFlowsWithTerms();
+    rows.sort(function(a, b) { return b.count - a.count; });
+    var csv = 'Home College,Teaching College,Term,Count\n';
+    rows.forEach(function(r) {
+      csv += csvCell(r.from) + ',' + csvCell(r.to) + ',' + csvCell(r.term) + ',' + r.count + '\n';
+    });
+    downloadCSV(csv, 'cvc_enrollment_flows.csv');
+  };
+
+  window.downloadCollegeCSV = function() {
+    var flows = getAggregatedFlows();
+    var map = {};
+    flows.forEach(function(f) {
+      if (!map[f.from]) map[f.from] = { home: 0, teaching: 0 };
+      if (!map[f.to]) map[f.to] = { home: 0, teaching: 0 };
+      map[f.from].home += f.count;
+      map[f.to].teaching += f.count;
+    });
+    var rows = Object.entries(map).map(function(e) {
+      return { name: e[0], home: e[1].home, teaching: e[1].teaching, net: e[1].teaching - e[1].home };
+    });
+    rows.sort(function(a, b) { return (b.home + b.teaching) - (a.home + a.teaching); });
+    var csv = 'College Name,As Home,As Teaching,Net Flow\n';
+    rows.forEach(function(r) {
+      csv += csvCell(r.name) + ',' + r.home + ',' + r.teaching + ',' + r.net + '\n';
+    });
+    downloadCSV(csv, 'cvc_college_summary.csv');
+  };
+
+  function csvCell(val) {
+    if (/[,"\n]/.test(val)) return '"' + val.replace(/"/g, '""') + '"';
+    return val;
+  }
+
+  function downloadCSV(content, filename) {
+    var blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  function esc(s) {
+    var d = document.createElement('span');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+})();
+</script>
+
+</body>
+</html>
