@@ -71,6 +71,15 @@
   .mode-btn.active { background: #1a1a2e; color: #fff; }
   .mode-btn:hover:not(.active) { background: #f0f0f0; }
   .ctrl-sep { width: 1px; height: 24px; background: #ddd; }
+  .mode-info { position: relative; display: inline-flex; align-items: center; }
+  .mode-info-icon { width: 18px; height: 18px; border-radius: 50%; background: #e8edf2; color: #555;
+                    font-size: 11px; font-weight: 700; display: flex; align-items: center;
+                    justify-content: center; cursor: help; margin-left: 6px; flex-shrink: 0; }
+  .mode-info-icon:hover + .mode-info-tip { display: block; }
+  .mode-info-tip { display: none; position: absolute; top: 28px; left: -120px; width: 300px;
+                   background: #1a1a2e; color: #fff; font-size: 11px; line-height: 1.5;
+                   padding: 10px 14px; border-radius: 8px; z-index: 999; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+  .mode-info-tip strong { color: #8cb4f0; }
   .csv-btn { margin-left: auto; padding: 5px 14px; border-radius: 6px; border: 1px solid #ccc;
              background: #fff; font-size: 12px; color: #333; cursor: pointer; font-weight: 600; }
   .csv-btn:hover { background: #f0f0f0; }
@@ -147,6 +156,15 @@
     <div class="mode-toggle">
       <button class="mode-btn active" id="mode-home">Home College</button>
       <button class="mode-btn" id="mode-teaching">Teaching College</button>
+    </div>
+    <div class="mode-info">
+      <span class="mode-info-icon">?</span>
+      <div class="mode-info-tip">
+        <strong>Home College</strong> — Shows where students from a selected college are enrolling.
+        Arcs flow outward to the teaching colleges where they are taking courses.<br><br>
+        <strong>Teaching College</strong> — Shows where a college's incoming students come from.
+        Arcs flow inward from the home colleges whose students are registering at the selected college.
+      </div>
     </div>
     <button class="csv-btn" id="csv-btn" title="Download visible flows as CSV">Download CSV</button>
   </div>
