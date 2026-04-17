@@ -4,26 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CVC Exchange — Enrollment Flow Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function() {
   var k = 'cvc-oei-auth';
   if (sessionStorage.getItem(k) !== '1') {
     document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('main-content').style.display = 'none';
       var overlay = document.createElement('div');
       overlay.id = 'auth-overlay';
-      overlay.style.cssText = 'position:fixed;inset:0;background:#030712;display:flex;align-items:center;justify-content:center;z-index:9999;';
-      overlay.innerHTML = '<div style="background:#0f172a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:40px;width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.8)">' +
-        '<div style="font-size:18px;font-weight:700;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">CVC Exchange Dashboard</div>' +
-        '<div style="font-size:13px;color:#475569;margin-bottom:24px">Enter password to continue</div>' +
-        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#e2e8f0;font-size:14px;margin-bottom:12px;outline:none" />' +
-        '<button id="pw-btn" style="width:100%;padding:10px;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
-        '<div id="pw-err" style="color:#f87171;font-size:12px;margin-top:10px;display:none">Incorrect password</div>' +
-        '</div>';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = '<div style="background:#fff;border-radius:12px;padding:40px;width:340px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.4)">' +
+        '<div style="font-size:20px;font-weight:700;margin-bottom:8px;color:#1a1a2e">CVC Exchange Dashboard</div>' +
+        '<div style="font-size:13px;color:#666;margin-bottom:24px">Enter password to continue</div>' +
+        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:12px;outline:none;box-sizing:border-box" />' +
+        '<button id="pw-btn" style="width:100%;padding:10px;background:#3a7bd5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
+        '<div id="pw-err" style="color:#e05252;font-size:12px;margin-top:10px;display:none">Incorrect password</div></div>';
       document.body.appendChild(overlay);
       function attempt() {
         if (document.getElementById('pw-input').value === 'cvc-oei') {
           sessionStorage.setItem(k, '1');
           overlay.remove();
+          document.getElementById('main-content').style.display = '';
+          initApp();
         } else {
           document.getElementById('pw-err').style.display = 'block';
           document.getElementById('pw-input').value = '';
@@ -34,801 +38,489 @@
       document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') attempt(); });
       document.getElementById('pw-input').focus();
     });
+  } else {
+    document.addEventListener('DOMContentLoaded', initApp);
   }
 })();
 </script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; overflow: hidden; }
-  body {
-    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    background: #030712; color: #e2e8f0; font-size: 13px;
-    display: flex; flex-direction: column;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         background: #f4f6f9; color: #111; font-size: 14px; display: flex; flex-direction: column; }
 
   /* Nav */
-  nav {
-    background: #1a1a2e; display: flex; align-items: center;
-    padding: 0 24px; height: 48px; flex-shrink: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  nav .brand {
-    font-size: 14px; font-weight: 700; margin-right: 32px;
-    background: linear-gradient(90deg, #00d4ff, #f472b6);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  nav a {
-    color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
-    font-weight: 500; padding: 12px 16px; position: relative;
-    transition: color 0.15s;
-  }
+  nav { background: #1a1a2e; color: #fff; display: flex; align-items: center;
+        padding: 0 32px; height: 56px; flex-shrink: 0; }
+  nav .brand { font-size: 16px; font-weight: 700; margin-right: 40px; letter-spacing: -0.02em; }
+  nav a { color: rgba(255,255,255,.6); text-decoration: none; font-size: 13px; font-weight: 600;
+          padding: 18px 16px; border-bottom: 3px solid transparent; transition: color .15s; }
   nav a:hover { color: #fff; }
-  nav a.active { color: #fff; }
-  nav a.active::after {
-    content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
-    height: 2px; background: #3a7bd5; border-radius: 1px;
-  }
+  nav a.active { color: #fff; border-bottom-color: #3a7bd5; }
 
   /* Controls bar */
-  .controls {
-    display: flex; align-items: center; gap: 16px; padding: 12px 24px;
-    background: #0a0f1e; border-bottom: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0; flex-wrap: wrap;
-  }
-  .controls-label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: #64748b; font-weight: 600;
-  }
-  .term-pill {
-    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
-    cursor: pointer; transition: all 0.15s; border: 1.5px solid #3a7bd5;
-    background: transparent; color: #3a7bd5; font-family: inherit;
-  }
-  .term-pill.active { background: #3a7bd5; color: #fff; }
-  .term-pill:hover { opacity: 0.85; }
-  .term-pill .pill-count { font-size: 10px; opacity: 0.8; margin-left: 6px; }
-  .controls-separator {
-    width: 1px; height: 24px; background: rgba(255,255,255,0.08);
-  }
-  .slider-group { display: flex; align-items: center; gap: 8px; }
-  .slider-group input[type=range] {
-    -webkit-appearance: none; width: 120px; height: 3px;
-    background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
-  }
-  .slider-group input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 14px; height: 14px;
-    background: #3a7bd5; border-radius: 50%; cursor: pointer;
-  }
-  .slider-value { font-size: 12px; color: #94a3b8; min-width: 20px; }
-  .flow-count-badge { font-size: 11px; color: #64748b; margin-left: 4px; }
-  .btn-action {
-    padding: 6px 14px; border-radius: 6px;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    color: #94a3b8; font-size: 12px; font-family: inherit; cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-action:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
-  .btn-right { margin-left: auto; display: flex; gap: 8px; }
+  .controls-bar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 8px 24px;
+                   display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .term-pill { padding: 5px 14px; border-radius: 20px; border: 1px solid #ccc; background: #fff;
+               font-size: 12px; font-weight: 600; color: #555; cursor: pointer; transition: all .15s; }
+  .term-pill.active { background: #3a7bd5; color: #fff; border-color: #3a7bd5; }
+  .term-pill:hover:not(.active) { border-color: #3a7bd5; color: #3a7bd5; }
+  .csv-btn { margin-left: auto; padding: 5px 14px; border-radius: 6px; border: 1px solid #ccc;
+             background: #fff; font-size: 12px; color: #333; cursor: pointer; font-weight: 600; }
+  .csv-btn:hover { background: #f0f0f0; }
 
-  /* Main content */
-  .main { flex: 1; display: flex; overflow: hidden; position: relative; }
+  /* Layout */
+  .app-layout { display: flex; flex: 1; overflow: hidden; }
 
-  /* Sidebar */
-  .sidebar {
-    width: 300px; background: #0a0f1e; border-left: 1px solid rgba(255,255,255,0.06);
-    overflow-y: auto; flex-shrink: 0; display: none; flex-direction: column;
-  }
-  .sidebar.open { display: flex; }
-  .sidebar-header {
-    padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .sidebar-header h3 {
-    font-size: 14px; font-weight: 700; color: #e2e8f0; margin-bottom: 4px;
-  }
-  .sidebar-close {
-    float: right; background: none; border: none; color: #64748b;
-    cursor: pointer; font-size: 18px; line-height: 1;
-  }
-  .sidebar-close:hover { color: #e2e8f0; }
-  .sidebar-stats {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-    padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .sidebar-stat {
-    background: rgba(255,255,255,0.03); border-radius: 6px; padding: 10px 12px;
-  }
-  .sidebar-stat .label {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: #64748b; margin-bottom: 4px;
-  }
-  .sidebar-stat .value { font-size: 18px; font-weight: 700; }
-  .sidebar-stat .value.out { color: #f59e0b; }
-  .sidebar-stat .value.in { color: #22d3ee; }
-  .sidebar-connections {
-    padding: 12px 20px; flex: 1; overflow-y: auto;
-  }
-  .sidebar-connections h4 {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: #64748b; margin-bottom: 10px;
-  }
-  .conn-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px;
-  }
-  .conn-item:last-child { border-bottom: none; }
-  .conn-dir {
-    font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 600;
-  }
-  .conn-dir.out { background: rgba(245,158,11,0.15); color: #f59e0b; }
-  .conn-dir.in { background: rgba(34,211,238,0.15); color: #22d3ee; }
-  .conn-name { flex: 1; margin: 0 8px; color: #cbd5e1; }
-  .conn-count { font-weight: 700; color: #e2e8f0; }
+  /* Left sidebar */
+  .sidebar-left { width: 240px; background: #f8f9fa; border-right: 1px solid #e0e0e0;
+                  display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-left .header { padding: 14px 14px 0; }
+  .sidebar-left .header h3 { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 8px;
+                              display: flex; justify-content: space-between; align-items: center; }
+  .sidebar-left .header .clear-btn { font-size: 11px; color: #3a7bd5; cursor: pointer;
+                                      background: none; border: none; font-weight: 600; }
+  .sidebar-left .header .clear-btn:hover { text-decoration: underline; }
+  .search-input { width: calc(100% - 28px); margin: 0 14px 10px; padding: 7px 10px;
+                  border: 1px solid #ddd; border-radius: 6px; font-size: 12px; outline: none; }
+  .search-input:focus { border-color: #3a7bd5; }
+  .college-list { flex: 1; overflow-y: auto; padding: 0 0 10px; }
+  .college-row { padding: 6px 14px; display: flex; align-items: center; gap: 8px;
+                 cursor: pointer; transition: background .1s; font-size: 12px; color: #333; }
+  .college-row:hover { background: #e8edf2; }
+  .college-row.selected { background: #e3ecf7; border-left: 3px solid; padding-left: 11px; }
+  .college-dot { width: 10px; height: 10px; border-radius: 50%; background: #bbb; flex-shrink: 0; }
+  .college-row.selected .college-dot { width: 12px; height: 12px; }
+  .college-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .college-check { font-size: 14px; color: #3a7bd5; display: none; }
+  .college-row.selected .college-check { display: block; }
 
-  /* Map area */
-  .map-wrap { flex: 1; position: relative; overflow: hidden; }
-  .map-wrap svg { width: 100%; height: 100%; }
+  /* Map */
+  .map-wrap { flex: 1; position: relative; }
+  #map { width: 100%; height: 100%; }
 
-  /* Tooltip */
-  .tooltip {
-    position: absolute; pointer-events: none; z-index: 100;
-    background: #1e293b; border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 6px; padding: 8px 12px; font-size: 12px;
-    color: #e2e8f0; white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.5); display: none;
-  }
+  /* Right sidebar */
+  .sidebar-right { width: 280px; background: #f8f9fa; border-left: 1px solid #e0e0e0;
+                   display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+  .sidebar-right .empty-msg { padding: 40px 20px; text-align: center; color: #888; font-size: 13px; line-height: 1.6; }
+  .stats-panel { padding: 16px; }
+  .stats-panel h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .stat-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-box { background: #fff; border-radius: 8px; padding: 12px; text-align: center;
+              border: 1px solid #e0e0e0; }
+  .stat-box .val { font-size: 22px; font-weight: 700; color: #3a7bd5; }
+  .stat-box .lbl { font-size: 10px; text-transform: uppercase; color: #888; letter-spacing: .04em; margin-top: 2px; }
+  .flow-section { margin-bottom: 16px; }
+  .flow-section h4 { font-size: 12px; font-weight: 700; color: #555; text-transform: uppercase;
+                     letter-spacing: .04em; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #e0e0e0; }
+  .flow-item { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; color: #333; }
+  .flow-item .cnt { font-weight: 700; color: #3a7bd5; }
 
   /* Footer */
-  footer {
-    padding: 8px 24px; text-align: center; font-size: 11px;
-    color: #475569; background: #0a0f1e;
-    border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
-  }
+  .footer { background: #fff; border-top: 1px solid #e0e0e0; padding: 8px 24px;
+            font-size: 11px; color: #888; text-align: center; flex-shrink: 0; }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-  /* Selected colleges legend */
-  .sel-legend {
-    position: absolute; bottom: 16px; left: 16px; z-index: 10;
-    background: rgba(10,15,30,0.92); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; padding: 12px 16px; font-size: 11px;
-    max-height: 260px; overflow-y: auto; min-width: 160px;
-  }
-  .sel-legend-title {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: #64748b; margin-bottom: 8px; font-weight: 600;
-  }
-  .sel-legend-item {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
-    cursor: pointer;
-  }
-  .sel-legend-item:hover { opacity: 0.8; }
-  .sel-legend-dot {
-    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-  }
-  .sel-legend-hint {
-    font-size: 10px; color: #475569; margin-top: 6px; font-style: italic;
-  }
+  /* Pulse animation for selected markers */
+  @keyframes pulse-ring { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(2.5); opacity: 0; } }
+  .pulse-marker { position: relative; }
 </style>
 </head>
 <body>
-
-<nav>
-  <span class="brand">CVC Exchange</span>
-  <a href="index.html">Home</a>
-  <a href="map.html" class="active">Flow Map</a>
-  <a href="stats.html">Statistics</a>
-</nav>
-
-<div class="controls" id="controls">
-  <span class="controls-label">Terms</span>
-  <div id="term-pills" style="display:flex;gap:8px"></div>
-  <div class="controls-separator"></div>
-  <div class="slider-group">
-    <span class="controls-label">Min Flows</span>
-    <input type="range" id="threshold-slider" min="1" max="50" value="5">
-    <span class="slider-value" id="threshold-val">5</span>
+<div id="main-content">
+  <nav>
+    <span class="brand">CVC Exchange</span>
+    <a href="index.html">Home</a>
+    <a href="map.html" class="active">Flow Map</a>
+    <a href="stats.html">Statistics</a>
+  </nav>
+  <div class="controls-bar" id="controls-bar">
+    <span style="font-size:12px;font-weight:600;color:#666;">Terms:</span>
+    <button class="csv-btn" id="csv-btn" title="Download visible flows as CSV">Download CSV</button>
   </div>
-  <span class="flow-count-badge" id="flow-count-badge"></span>
-  <div class="btn-right">
-    <button class="btn-action" id="btn-clear" title="Deselect all colleges">Clear</button>
-    <button class="btn-action" id="btn-csv" title="Download visible flows as CSV">CSV</button>
-  </div>
-</div>
-
-<div class="main">
-  <div class="map-wrap" id="map-wrap">
-    <svg id="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div class="tooltip" id="tooltip"></div>
-    <div class="sel-legend" id="sel-legend">
-      <div class="sel-legend-title">Selected Colleges</div>
-      <div id="sel-legend-items"></div>
-      <div class="sel-legend-hint">Click a college dot to select</div>
-    </div>
-  </div>
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <button class="sidebar-close" id="sidebar-close">&times;</button>
-      <h3 id="sidebar-name"></h3>
-    </div>
-    <div class="sidebar-stats">
-      <div class="sidebar-stat">
-        <div class="label">Outgoing</div>
-        <div class="value out" id="sidebar-out">0</div>
+  <div class="app-layout">
+    <div class="sidebar-left">
+      <div class="header">
+        <h3>Colleges <span id="sel-count" style="font-weight:400;color:#888;font-size:11px">(0 selected)</span>
+          <button class="clear-btn" id="clear-btn">Clear</button></h3>
       </div>
-      <div class="sidebar-stat">
-        <div class="label">Incoming</div>
-        <div class="value in" id="sidebar-in">0</div>
-      </div>
+      <input type="text" class="search-input" id="search-input" placeholder="Filter colleges..." />
+      <div class="college-list" id="college-list"></div>
     </div>
-    <div class="sidebar-connections">
-      <h4>Top Connections</h4>
-      <div id="sidebar-list"></div>
+    <div class="map-wrap">
+      <div id="map"></div>
+    </div>
+    <div class="sidebar-right" id="sidebar-right">
+      <div class="empty-msg">Select a college from the left panel to see enrollment flow details</div>
     </div>
   </div>
+  <div class="footer" id="footer"></div>
 </div>
-
-<footer id="footer"></footer>
 
 <script>
-(function() {
-  'use strict';
+var DATA = null;
+var map, svgOverlay, svgEl;
+var collegeMarkers = {};    // name -> L.circleMarker
+var pulseMarkers = {};      // name -> L.circleMarker (pulse ring)
+var selectedColleges = {};  // name -> true
+var colorAssignment = {};   // name -> color
+var colorIndex = 0;
+var lastClicked = null;
 
-  // --- High-contrast color palette (20 colors, maximally distinct) ---
-  var PALETTE = [
-    '#ff4444',  // red
-    '#00d4ff',  // cyan
-    '#ffbb00',  // amber
-    '#44ff44',  // green
-    '#ff66ff',  // magenta
-    '#ff8800',  // orange
-    '#00ffaa',  // mint
-    '#8866ff',  // purple
-    '#ffff44',  // yellow
-    '#ff6699',  // pink
-    '#44aaff',  // sky blue
-    '#88ff44',  // lime
-    '#ff4488',  // hot pink
-    '#44ffff',  // aqua
-    '#ddaa00',  // gold
-    '#aa66ff',  // violet
-    '#ff8866',  // salmon
-    '#00dd88',  // teal
-    '#ffaacc',  // light pink
-    '#66ddff',  // light blue
-  ];
+var COLORS = ['#e6194b','#3cb44b','#4363d8','#f58231','#911eb4','#42d4f4','#f032e6','#bfef45',
+  '#fabed4','#469990','#dcbeff','#9A6324','#800000','#aaffc3','#808000','#000075','#a9a9a9',
+  '#e6beff','#ffe119','#ffd8b1'];
 
-  // --- Projection ---
-  function project(lat, lon) {
-    var x = (lon - (-124.5)) / ((-114.0) - (-124.5)) * 400;
-    var y = (42.0 - lat) / (42.0 - 32.5) * 500;
-    return [x, y];
-  }
+var activeTerms = {};
 
-  // --- California outline (detailed) ---
-  var caOutline = [
-    [42.0, -124.2], [41.99, -120.0], [39.0, -120.0], [38.5, -119.9],
-    [37.5, -118.5], [36.5, -117.8], [35.8, -117.6], [35.5, -117.7],
-    [35.0, -117.6], [34.8, -117.0], [34.5, -116.1], [34.0, -115.6],
-    [33.5, -115.4], [33.0, -115.5], [32.7, -114.7], [32.5, -114.6],
-    [32.55, -117.1], [32.8, -117.3], [33.2, -117.5], [33.4, -117.9],
-    [33.7, -118.1], [33.8, -118.4], [34.0, -118.6], [34.0, -119.2],
-    [34.4, -119.7], [34.45, -120.5], [34.9, -120.6], [35.4, -120.9],
-    [35.8, -121.3], [36.3, -121.9], [36.6, -121.9], [36.9, -122.0],
-    [37.1, -122.4], [37.5, -122.5], [37.8, -122.5], [37.85, -122.7],
-    [38.0, -122.9], [38.3, -123.1], [38.9, -123.6], [39.4, -123.8],
-    [40.0, -124.1], [40.4, -124.4], [41.0, -124.1], [41.75, -124.2],
-    [42.0, -124.2]
-  ];
+function initApp() {
+  map = L.map('map', { zoomControl: true }).setView([37.2, -119.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 19
+  }).addTo(map);
 
-  // --- State ---
-  var data = null;
-  var activeTerms = new Set();
-  var threshold = 5;
-  var selectedColleges = new Set();      // currently selected (visible)
-  var colorAssignments = {};             // college name -> color (persists in session)
-  var colorIndex = 0;                    // next color to assign
-  var lastClickedCollege = null;         // for sidebar display
-  var collegeMap = {};
-  var svgNS = 'http://www.w3.org/2000/svg';
+  // SVG overlay pane for arcs
+  svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgEl.setAttribute('style', 'position:absolute;top:0;left:0;pointer-events:none;');
+  map.getPanes().overlayPane.appendChild(svgEl);
 
-  // --- DOM ---
-  var svg = document.getElementById('map-svg');
-  var tooltip = document.getElementById('tooltip');
-  var sidebar = document.getElementById('sidebar');
-  var mapWrap = document.getElementById('map-wrap');
+  map.on('moveend zoomend', function() { resizeSVG(); drawArcs(); });
 
-  // --- SVG Setup ---
-  svg.setAttribute('viewBox', '0 0 400 500');
-  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
-  // Background
-  var bgRect = document.createElementNS(svgNS, 'rect');
-  bgRect.setAttribute('width', '400');
-  bgRect.setAttribute('height', '500');
-  bgRect.setAttribute('fill', '#0a0f1e');
-  svg.appendChild(bgRect);
-
-  // California outline group
-  var caGroup = document.createElementNS(svgNS, 'g');
-  svg.appendChild(caGroup);
-
-  // Flow arcs group
-  var flowGroup = document.createElementNS(svgNS, 'g');
-  svg.appendChild(flowGroup);
-
-  // Colleges group
-  var collegeGroup = document.createElementNS(svgNS, 'g');
-  svg.appendChild(collegeGroup);
-
-  // Draw CA outline - VISIBLE
-  function drawOutline() {
-    var pts = caOutline.map(function(p) { return project(p[0], p[1]); });
-    var d = 'M' + pts.map(function(p) { return p[0] + ',' + p[1]; }).join('L') + 'Z';
-    // Filled shape
-    var fill = document.createElementNS(svgNS, 'path');
-    fill.setAttribute('d', d);
-    fill.setAttribute('fill', '#111827');
-    fill.setAttribute('stroke', 'none');
-    caGroup.appendChild(fill);
-    // Outline stroke
-    var stroke = document.createElementNS(svgNS, 'path');
-    stroke.setAttribute('d', d);
-    stroke.setAttribute('fill', 'none');
-    stroke.setAttribute('stroke', '#334155');
-    stroke.setAttribute('stroke-width', '1.2');
-    stroke.setAttribute('stroke-linejoin', 'round');
-    caGroup.appendChild(stroke);
-  }
-
-  // --- Assign color to a college ---
-  function assignColor(name) {
-    if (colorAssignments[name]) return colorAssignments[name];
-    var color = PALETTE[colorIndex % PALETTE.length];
-    colorIndex++;
-    colorAssignments[name] = color;
-    return color;
-  }
-
-  function getColor(name) {
-    return colorAssignments[name] || null;
-  }
-
-  // --- Load data ---
   fetch('data/enrollment_flows.json')
     .then(function(r) { return r.json(); })
-    .then(function(json) {
-      data = json;
-      data.colleges.forEach(function(c) {
-        var pos = project(c.lat, c.lon);
-        collegeMap[c.name] = { lat: c.lat, lon: c.lon, x: pos[0], y: pos[1] };
-      });
-      init();
+    .then(function(d) {
+      DATA = d;
+      buildTermPills();
+      buildCollegeList();
+      plotColleges();
+      resizeSVG();
+      document.getElementById('footer').textContent =
+        'Generated ' + d.generated + ' \u00b7 Validated enrollments only \u00b7 CVC Exchange';
     })
-    .catch(function(err) {
-      mapWrap.innerHTML =
-        '<div style="padding:40px;color:#f87171;">Failed to load data: ' + err.message + '</div>';
+    .catch(function() {
+      document.getElementById('footer').textContent = 'Failed to load data/enrollment_flows.json';
     });
 
-  function init() {
-    drawOutline();
-    buildTermPills();
-    setupControls();
-    render();
-    document.getElementById('footer').textContent =
-      'Generated ' + data.generated + ' \u00b7 Validated enrollments only \u00b7 CVC Exchange';
+  document.getElementById('search-input').addEventListener('input', filterCollegeList);
+  document.getElementById('clear-btn').addEventListener('click', clearAll);
+  document.getElementById('csv-btn').addEventListener('click', downloadCSV);
+}
+
+function buildTermPills() {
+  var bar = document.getElementById('controls-bar');
+  var csvBtn = document.getElementById('csv-btn');
+  var terms = Object.keys(DATA.terms);
+  terms.forEach(function(t, i) {
+    var btn = document.createElement('button');
+    btn.className = 'term-pill' + (i === 0 ? ' active' : '');
+    btn.textContent = t;
+    btn.dataset.term = t;
+    if (i === 0) activeTerms[t] = true;
+    btn.addEventListener('click', function() {
+      if (activeTerms[t]) { delete activeTerms[t]; btn.classList.remove('active'); }
+      else { activeTerms[t] = true; btn.classList.add('active'); }
+      drawArcs();
+      updateStats();
+    });
+    bar.insertBefore(btn, csvBtn);
+  });
+}
+
+function buildCollegeList() {
+  var list = document.getElementById('college-list');
+  var sorted = DATA.colleges.slice().sort(function(a, b) { return a.name.localeCompare(b.name); });
+  sorted.forEach(function(c) {
+    var row = document.createElement('div');
+    row.className = 'college-row';
+    row.dataset.name = c.name;
+    row.innerHTML = '<span class="college-dot"></span>' +
+      '<span class="college-name" title="' + escHtml(c.name) + '">' + escHtml(c.name) + '</span>' +
+      '<span class="college-check">\u2713</span>';
+    row.addEventListener('click', function() { toggleCollege(c.name); });
+    list.appendChild(row);
+  });
+}
+
+function filterCollegeList() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var rows = document.getElementById('college-list').children;
+  for (var i = 0; i < rows.length; i++) {
+    rows[i].style.display = rows[i].dataset.name.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
   }
+}
 
-  // --- Term pills ---
-  function buildTermPills() {
-    var container = document.getElementById('term-pills');
-    var terms = Object.keys(data.terms);
-    terms.forEach(function(term, idx) {
-      var btn = document.createElement('button');
-      btn.className = 'term-pill' + (idx === 0 ? ' active' : '');
-      btn.dataset.term = term;
-      var total = data.terms[term].total;
-      btn.innerHTML = term + '<span class="pill-count">(' + total.toLocaleString() + ')</span>';
-      btn.addEventListener('click', function() {
-        btn.classList.toggle('active');
-        if (btn.classList.contains('active')) {
-          activeTerms.add(term);
-        } else {
-          activeTerms.delete(term);
-        }
-        render();
-      });
-      container.appendChild(btn);
-      if (idx === 0) activeTerms.add(term);
-    });
+function getColor(name) {
+  if (colorAssignment[name] !== undefined) return COLORS[colorAssignment[name] % COLORS.length];
+  colorAssignment[name] = colorIndex++;
+  return COLORS[colorAssignment[name] % COLORS.length];
+}
+
+function toggleCollege(name) {
+  if (selectedColleges[name]) {
+    delete selectedColleges[name];
+  } else {
+    selectedColleges[name] = true;
+    getColor(name); // ensure color assigned
+    lastClicked = name;
   }
-
-  // --- Controls ---
-  function setupControls() {
-    var slider = document.getElementById('threshold-slider');
-    var val = document.getElementById('threshold-val');
-    slider.addEventListener('input', function() {
-      threshold = parseInt(slider.value);
-      val.textContent = threshold;
-      render();
-    });
-
-    document.getElementById('btn-csv').addEventListener('click', downloadCSV);
-
-    document.getElementById('btn-clear').addEventListener('click', function() {
-      selectedColleges.clear();
-      lastClickedCollege = null;
-      sidebar.classList.remove('open');
-      render();
-    });
-
-    document.getElementById('sidebar-close').addEventListener('click', function() {
-      sidebar.classList.remove('open');
-    });
-
-    mapWrap.addEventListener('mousemove', function(e) {
-      if (tooltip.style.display === 'block') {
-        var rect = mapWrap.getBoundingClientRect();
-        var tx = e.clientX - rect.left + 14;
-        var ty = e.clientY - rect.top - 10;
-        if (tx + 220 > rect.width) tx = e.clientX - rect.left - 180;
-        tooltip.style.left = tx + 'px';
-        tooltip.style.top = ty + 'px';
-      }
-    });
+  if (selectedColleges[name] === undefined && lastClicked === name) {
+    // pick new lastClicked
+    var keys = Object.keys(selectedColleges);
+    lastClicked = keys.length > 0 ? keys[keys.length - 1] : null;
   }
+  if (selectedColleges[name]) lastClicked = name;
+  updateUI();
+}
 
-  // --- Aggregate flows across active terms ---
-  function getAggregatedFlows() {
-    var flowMap = {};
-    activeTerms.forEach(function(term) {
-      var td = data.terms[term];
-      if (!td || !td.flows) return;
-      td.flows.forEach(function(f) {
-        var key = f.from + '|||' + f.to;
-        if (!flowMap[key]) {
-          flowMap[key] = { from: f.from, to: f.to, count: 0, terms: {} };
-        }
-        flowMap[key].count += f.count;
-        flowMap[key].terms[term] = f.count;
-      });
-    });
-    return Object.values(flowMap);
-  }
+function clearAll() {
+  selectedColleges = {};
+  lastClicked = null;
+  updateUI();
+}
 
-  // --- Compute college volumes ---
-  function getCollegeVolumes(flows) {
-    var vols = {};
-    flows.forEach(function(f) {
-      if (!vols[f.from]) vols[f.from] = { out: 0, in: 0 };
-      if (!vols[f.to]) vols[f.to] = { out: 0, in: 0 };
-      vols[f.from].out += f.count;
-      vols[f.to].in += f.count;
-    });
-    return vols;
-  }
+function updateUI() {
+  updateSidebarList();
+  updateMarkers();
+  drawArcs();
+  updateStats();
+  updateSelCount();
+}
 
-  // --- Update selected colleges legend ---
-  function updateLegend() {
-    var items = document.getElementById('sel-legend-items');
-    items.innerHTML = '';
-    var hint = document.querySelector('.sel-legend-hint');
-    if (selectedColleges.size === 0) {
-      hint.style.display = 'block';
-      return;
+function updateSelCount() {
+  var n = Object.keys(selectedColleges).length;
+  document.getElementById('sel-count').textContent = '(' + n + ' selected)';
+}
+
+function updateSidebarList() {
+  var rows = document.getElementById('college-list').children;
+  for (var i = 0; i < rows.length; i++) {
+    var name = rows[i].dataset.name;
+    var sel = !!selectedColleges[name];
+    rows[i].classList.toggle('selected', sel);
+    var dot = rows[i].querySelector('.college-dot');
+    if (sel) {
+      var c = getColor(name);
+      dot.style.background = c;
+      rows[i].style.borderLeftColor = c;
+    } else {
+      dot.style.background = '#bbb';
+      rows[i].style.borderLeftColor = '';
     }
-    hint.style.display = 'none';
-    selectedColleges.forEach(function(name) {
-      var color = getColor(name);
-      var div = document.createElement('div');
-      div.className = 'sel-legend-item';
-      div.innerHTML =
-        '<span class="sel-legend-dot" style="background:' + color + '"></span>' +
-        '<span style="color:' + color + '">' + name + '</span>';
-      div.addEventListener('click', function() {
-        selectedColleges.delete(name);
-        if (lastClickedCollege === name) {
-          lastClickedCollege = null;
-          sidebar.classList.remove('open');
-        }
-        render();
-      });
-      items.appendChild(div);
+  }
+}
+
+function plotColleges() {
+  DATA.colleges.forEach(function(c) {
+    var marker = L.circleMarker([c.lat, c.lon], {
+      radius: 5, fillColor: '#bbb', fillOpacity: 0.7, color: '#999', weight: 1
+    }).addTo(map);
+    marker.bindTooltip(c.name, { direction: 'top', offset: [0, -8] });
+    marker.on('click', function() { toggleCollege(c.name); });
+    collegeMarkers[c.name] = marker;
+  });
+}
+
+function updateMarkers() {
+  // Remove old pulse markers
+  Object.keys(pulseMarkers).forEach(function(n) {
+    map.removeLayer(pulseMarkers[n]);
+    delete pulseMarkers[n];
+  });
+
+  DATA.colleges.forEach(function(c) {
+    var m = collegeMarkers[c.name];
+    if (selectedColleges[c.name]) {
+      var col = getColor(c.name);
+      m.setStyle({ radius: 8, fillColor: col, fillOpacity: 1, color: col, weight: 2 });
+      // pulse ring
+      var pulse = L.circleMarker([c.lat, c.lon], {
+        radius: 8, fillColor: col, fillOpacity: 0, color: col, weight: 2,
+        className: 'pulse-marker'
+      }).addTo(map);
+      // Animate with CSS
+      var el = pulse.getElement();
+      if (el) {
+        el.style.transformOrigin = 'center';
+        el.style.animation = 'pulse-ring 1.5s ease-out infinite';
+      }
+      pulseMarkers[c.name] = pulse;
+    } else {
+      m.setStyle({ radius: 5, fillColor: '#bbb', fillOpacity: 0.7, color: '#999', weight: 1 });
+    }
+  });
+}
+
+function getAggregatedFlows() {
+  var flows = {}; // "from|to" -> count
+  Object.keys(activeTerms).forEach(function(term) {
+    var td = DATA.terms[term];
+    if (!td) return;
+    td.flows.forEach(function(f) {
+      var key = f.from + '|' + f.to;
+      flows[key] = (flows[key] || 0) + f.count;
     });
+  });
+  return flows;
+}
+
+function getCollegeLatLon(name) {
+  for (var i = 0; i < DATA.colleges.length; i++) {
+    if (DATA.colleges[i].name === name) return DATA.colleges[i];
+  }
+  return null;
+}
+
+function resizeSVG() {
+  var size = map.getSize();
+  var topLeft = map.containerPointToLayerPoint([0, 0]);
+  svgEl.setAttribute('width', size.x);
+  svgEl.setAttribute('height', size.y);
+  L.DomUtil.setPosition(svgEl, topLeft);
+}
+
+function drawArcs() {
+  // Clear existing arcs
+  while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+  if (!DATA) return;
+
+  var flows = getAggregatedFlows();
+  var selNames = Object.keys(selectedColleges);
+  if (selNames.length === 0) return;
+
+  // Collect visible flows: any flow where from or to is selected
+  var visible = [];
+  var maxCount = 1;
+  Object.keys(flows).forEach(function(key) {
+    var parts = key.split('|');
+    var from = parts[0], to = parts[1];
+    if (selectedColleges[from] || selectedColleges[to]) {
+      var count = flows[key];
+      visible.push({ from: from, to: to, count: count });
+      if (count > maxCount) maxCount = count;
+    }
+  });
+
+  var origin = map.containerPointToLayerPoint([0, 0]);
+
+  visible.forEach(function(f) {
+    var fromC = getCollegeLatLon(f.from);
+    var toC = getCollegeLatLon(f.to);
+    if (!fromC || !toC) return;
+
+    var p1 = map.latLngToLayerPoint([fromC.lat, fromC.lon]);
+    var p2 = map.latLngToLayerPoint([toC.lat, toC.lon]);
+
+    // Offset from overlay origin
+    var x1 = p1.x - origin.x, y1 = p1.y - origin.y;
+    var x2 = p2.x - origin.x, y2 = p2.y - origin.y;
+
+    // Control point: perpendicular offset
+    var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    var dx = x2 - x1, dy = y2 - y1;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 1) return;
+    var offset = Math.min(dist * 0.2, 50);
+    // perpendicular direction
+    var nx = -dy / dist, ny = dx / dist;
+    var cx = mx + nx * offset, cy = my + ny * offset;
+
+    var thickness = Math.max(1, Math.min(6, (f.count / maxCount) * 6));
+
+    // Color: from the "from" side if selected, else the "to" side
+    var color = selectedColleges[f.from] ? getColor(f.from) : getColor(f.to);
+
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', thickness);
+    path.setAttribute('stroke-opacity', '0.5');
+    path.setAttribute('stroke-linecap', 'round');
+    svgEl.appendChild(path);
+  });
+}
+
+function updateStats() {
+  var panel = document.getElementById('sidebar-right');
+  if (!lastClicked || !selectedColleges[lastClicked]) {
+    panel.innerHTML = '<div class="empty-msg">Select a college from the left panel to see enrollment flow details</div>';
+    return;
   }
 
-  // --- Render ---
-  function render() {
-    var allFlows = getAggregatedFlows();
-    var volumes = getCollegeVolumes(allFlows);
-    var hasSelection = selectedColleges.size > 0;
+  var name = lastClicked;
+  var color = getColor(name);
+  var flows = getAggregatedFlows();
 
-    // Filter flows
-    var visibleFlows = allFlows.filter(function(f) {
-      if (f.count < threshold) return false;
-      if (hasSelection) {
-        return selectedColleges.has(f.from) || selectedColleges.has(f.to);
-      }
-      return true;
+  var outgoing = [], incoming = [];
+  var outTotal = 0, inTotal = 0;
+
+  Object.keys(flows).forEach(function(key) {
+    var parts = key.split('|');
+    var from = parts[0], to = parts[1], count = flows[key];
+    if (from === name) { outgoing.push({ name: to, count: count }); outTotal += count; }
+    if (to === name) { incoming.push({ name: from, count: count }); inTotal += count; }
+  });
+
+  outgoing.sort(function(a, b) { return b.count - a.count; });
+  incoming.sort(function(a, b) { return b.count - a.count; });
+
+  var html = '<div class="stats-panel">';
+  html += '<h3 style="color:' + color + '">' + escHtml(name) + '</h3>';
+  html += '<div class="stat-boxes">';
+  html += '<div class="stat-box"><div class="val">' + outTotal.toLocaleString() + '</div><div class="lbl">As Home College</div></div>';
+  html += '<div class="stat-box"><div class="val">' + inTotal.toLocaleString() + '</div><div class="lbl">As Teaching College</div></div>';
+  html += '</div>';
+
+  if (outgoing.length > 0) {
+    html += '<div class="flow-section"><h4>Outgoing Flows (' + outgoing.length + ')</h4>';
+    outgoing.forEach(function(f) {
+      html += '<div class="flow-item"><span>' + escHtml(f.name) + '</span><span class="cnt">' + f.count.toLocaleString() + '</span></div>';
     });
-
-    // Update badge
-    document.getElementById('flow-count-badge').textContent =
-      visibleFlows.length + ' flow' + (visibleFlows.length !== 1 ? 's' : '') + ' shown';
-
-    // Update legend
-    updateLegend();
-
-    // --- Draw flows ---
-    while (flowGroup.firstChild) flowGroup.removeChild(flowGroup.firstChild);
-
-    var maxFlow = 1;
-    visibleFlows.forEach(function(f) { if (f.count > maxFlow) maxFlow = f.count; });
-
-    visibleFlows.forEach(function(f) {
-      var fromC = collegeMap[f.from];
-      var toC = collegeMap[f.to];
-      if (!fromC || !toC) return;
-
-      var x1 = fromC.x, y1 = fromC.y, x2 = toC.x, y2 = toC.y;
-      var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-      var dx = x2 - x1, dy = y2 - y1;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      var offset = Math.min(dist * 0.25, 35);
-      var nx = -dy / (dist || 1) * offset;
-      var ny = dx / (dist || 1) * offset;
-      var cx = mx + nx, cy = my + ny;
-
-      // Determine arc color: use the selected college's color
-      var arcColor;
-      if (hasSelection) {
-        // Prefer "from" college color if selected, else "to"
-        if (selectedColleges.has(f.from) && getColor(f.from)) {
-          arcColor = getColor(f.from);
-        } else if (selectedColleges.has(f.to) && getColor(f.to)) {
-          arcColor = getColor(f.to);
-        } else {
-          arcColor = '#475569';
-        }
-      } else {
-        arcColor = '#475569';
-      }
-
-      var thick = 0.5 + (f.count / maxFlow) * 3.5;
-      var opacity = hasSelection
-        ? 0.35 + (f.count / maxFlow) * 0.55
-        : 0.12 + (f.count / maxFlow) * 0.35;
-
-      // Glow layer
-      var glow = document.createElementNS(svgNS, 'path');
-      glow.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
-      glow.setAttribute('fill', 'none');
-      glow.setAttribute('stroke', arcColor);
-      glow.setAttribute('stroke-width', (thick * 2.5).toFixed(2));
-      glow.setAttribute('stroke-opacity', (opacity * 0.2).toFixed(3));
-      glow.setAttribute('stroke-linecap', 'round');
-      flowGroup.appendChild(glow);
-
-      // Main arc
-      var path = document.createElementNS(svgNS, 'path');
-      path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', arcColor);
-      path.setAttribute('stroke-width', thick.toFixed(2));
-      path.setAttribute('stroke-opacity', opacity.toFixed(3));
-      path.setAttribute('stroke-linecap', 'round');
-      flowGroup.appendChild(path);
-    });
-
-    // --- Draw colleges ---
-    while (collegeGroup.firstChild) collegeGroup.removeChild(collegeGroup.firstChild);
-
-    var maxVol = 1;
-    Object.values(volumes).forEach(function(v) {
-      var total = v.out + v.in;
-      if (total > maxVol) maxVol = total;
-    });
-
-    data.colleges.forEach(function(c) {
-      var pos = collegeMap[c.name];
-      if (!pos) return;
-      var vol = volumes[c.name] || { out: 0, in: 0 };
-      var total = vol.out + vol.in;
-      var isSelected = selectedColleges.has(c.name);
-      var assignedColor = getColor(c.name);
-      var r = 2.5 + (total / maxVol) * 6;
-
-      // Determine appearance
-      var dotColor, dotOpacity, strokeColor, strokeWidth;
-      if (isSelected) {
-        dotColor = assignedColor;
-        dotOpacity = 1;
-        strokeColor = '#fff';
-        strokeWidth = 1;
-      } else if (hasSelection) {
-        // Check if connected to any selected college
-        var connected = visibleFlows.some(function(f) {
-          return f.from === c.name || f.to === c.name;
-        });
-        dotColor = connected ? '#94a3b8' : '#334155';
-        dotOpacity = connected ? 0.6 : 0.25;
-        strokeColor = 'none';
-        strokeWidth = 0;
-      } else {
-        dotColor = '#94a3b8';
-        dotOpacity = 0.7;
-        strokeColor = 'rgba(255,255,255,0.15)';
-        strokeWidth = 0.4;
-      }
-
-      var g = document.createElementNS(svgNS, 'g');
-      g.style.cursor = 'pointer';
-
-      // Selection ring
-      if (isSelected) {
-        var ring = document.createElementNS(svgNS, 'circle');
-        ring.setAttribute('cx', pos.x);
-        ring.setAttribute('cy', pos.y);
-        ring.setAttribute('r', r + 5);
-        ring.setAttribute('fill', 'none');
-        ring.setAttribute('stroke', assignedColor);
-        ring.setAttribute('stroke-width', '1.5');
-        ring.setAttribute('stroke-opacity', '0.4');
-        ring.setAttribute('stroke-dasharray', '3,2');
-        g.appendChild(ring);
-
-        // Outer glow
-        var glowC = document.createElementNS(svgNS, 'circle');
-        glowC.setAttribute('cx', pos.x);
-        glowC.setAttribute('cy', pos.y);
-        glowC.setAttribute('r', r + 3);
-        glowC.setAttribute('fill', assignedColor);
-        glowC.setAttribute('fill-opacity', '0.15');
-        g.appendChild(glowC);
-      }
-
-      var circle = document.createElementNS(svgNS, 'circle');
-      circle.setAttribute('cx', pos.x);
-      circle.setAttribute('cy', pos.y);
-      circle.setAttribute('r', r);
-      circle.setAttribute('fill', dotColor);
-      circle.setAttribute('fill-opacity', dotOpacity);
-      if (strokeColor !== 'none') {
-        circle.setAttribute('stroke', strokeColor);
-        circle.setAttribute('stroke-width', strokeWidth);
-      }
-      g.appendChild(circle);
-
-      // Label for selected colleges
-      if (isSelected && r > 3) {
-        var label = document.createElementNS(svgNS, 'text');
-        label.setAttribute('x', pos.x);
-        label.setAttribute('y', pos.y - r - 4);
-        label.setAttribute('text-anchor', 'middle');
-        label.setAttribute('font-size', '5');
-        label.setAttribute('font-family', 'inherit');
-        label.setAttribute('fill', assignedColor);
-        label.setAttribute('font-weight', '600');
-        // Abbreviate: first word + first letter of second
-        var parts = c.name.split(' ');
-        var abbr = parts.length > 2 ? parts[0] + ' ' + parts[1].charAt(0) + '.' : c.name;
-        if (abbr.length > 16) abbr = abbr.substring(0, 14) + '..';
-        label.textContent = abbr;
-        g.appendChild(label);
-      }
-
-      // Hover
-      g.addEventListener('mouseenter', function() {
-        var html = '<strong>' + c.name + '</strong>';
-        if (total > 0) {
-          html += '<br>Out: ' + vol.out.toLocaleString() + ' &nbsp; In: ' + vol.in.toLocaleString();
-        }
-        if (isSelected) html += '<br><span style="color:#64748b">Click to deselect</span>';
-        else html += '<br><span style="color:#64748b">Click to select</span>';
-        tooltip.innerHTML = html;
-        tooltip.style.display = 'block';
-      });
-      g.addEventListener('mouseleave', function() {
-        tooltip.style.display = 'none';
-      });
-
-      // Click — toggle selection
-      g.addEventListener('click', function() {
-        if (selectedColleges.has(c.name)) {
-          selectedColleges.delete(c.name);
-          if (lastClickedCollege === c.name) {
-            // Show sidebar for next selected, or close
-            var remaining = Array.from(selectedColleges);
-            if (remaining.length > 0) {
-              lastClickedCollege = remaining[remaining.length - 1];
-              updateSidebar(lastClickedCollege, volumes, allFlows);
-            } else {
-              lastClickedCollege = null;
-              sidebar.classList.remove('open');
-            }
-          }
-        } else {
-          assignColor(c.name);
-          selectedColleges.add(c.name);
-          lastClickedCollege = c.name;
-          sidebar.classList.add('open');
-          updateSidebar(c.name, volumes, allFlows);
-        }
-        render();
-      });
-
-      collegeGroup.appendChild(g);
-    });
+    html += '</div>';
   }
 
-  // --- Sidebar ---
-  function updateSidebar(name, volumes, allFlows) {
-    var color = getColor(name) || '#e2e8f0';
-    document.getElementById('sidebar-name').textContent = name;
-    document.getElementById('sidebar-name').style.color = color;
-    var vol = volumes[name] || { out: 0, in: 0 };
-    document.getElementById('sidebar-out').textContent = vol.out.toLocaleString();
-    document.getElementById('sidebar-in').textContent = vol.in.toLocaleString();
-
-    var connections = [];
-    allFlows.forEach(function(f) {
-      if (f.from === name) {
-        connections.push({ name: f.to, count: f.count, dir: 'out' });
-      } else if (f.to === name) {
-        connections.push({ name: f.from, count: f.count, dir: 'in' });
-      }
+  if (incoming.length > 0) {
+    html += '<div class="flow-section"><h4>Incoming Flows (' + incoming.length + ')</h4>';
+    incoming.forEach(function(f) {
+      html += '<div class="flow-item"><span>' + escHtml(f.name) + '</span><span class="cnt">' + f.count.toLocaleString() + '</span></div>';
     });
-    connections.sort(function(a, b) { return b.count - a.count; });
-
-    var list = document.getElementById('sidebar-list');
-    list.innerHTML = '';
-    connections.slice(0, 40).forEach(function(c) {
-      var div = document.createElement('div');
-      div.className = 'conn-item';
-      div.innerHTML =
-        '<span class="conn-dir ' + c.dir + '">' + (c.dir === 'out' ? 'TO' : 'FROM') + '</span>' +
-        '<span class="conn-name">' + c.name + '</span>' +
-        '<span class="conn-count">' + c.count.toLocaleString() + '</span>';
-      list.appendChild(div);
-    });
+    html += '</div>';
   }
 
-  // --- CSV Download ---
-  function downloadCSV() {
-    var allFlows = getAggregatedFlows();
-    var hasSelection = selectedColleges.size > 0;
-    var visibleFlows = allFlows.filter(function(f) {
-      if (f.count < threshold) return false;
-      if (hasSelection) {
-        return selectedColleges.has(f.from) || selectedColleges.has(f.to);
-      }
-      return true;
-    });
-
-    var rows = ['Home College,Teaching College,Term,Count'];
-    visibleFlows.forEach(function(f) {
-      Object.keys(f.terms).forEach(function(term) {
-        rows.push(
-          '"' + f.from.replace(/"/g, '""') + '",' +
-          '"' + f.to.replace(/"/g, '""') + '",' +
-          '"' + term + '",' +
-          f.terms[term]
-        );
-      });
-    });
-
-    var blob = new Blob([rows.join('\n')], { type: 'text/csv' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'enrollment_flows_map.csv';
-    a.click();
-    URL.revokeObjectURL(url);
+  if (outgoing.length === 0 && incoming.length === 0) {
+    html += '<div style="color:#888;font-size:12px;margin-top:8px;">No flows for the selected terms.</div>';
   }
 
-})();
+  html += '</div>';
+  panel.innerHTML = html;
+}
+
+function downloadCSV() {
+  if (!DATA) return;
+  var flows = getAggregatedFlows();
+  var selNames = Object.keys(selectedColleges);
+  var lines = ['Home College,Teaching College,Enrollments'];
+
+  Object.keys(flows).forEach(function(key) {
+    var parts = key.split('|');
+    var from = parts[0], to = parts[1], count = flows[key];
+    if (selNames.length === 0 || selectedColleges[from] || selectedColleges[to]) {
+      lines.push('"' + from.replace(/"/g, '""') + '","' + to.replace(/"/g, '""') + '",' + count);
+    }
+  });
+
+  var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'cvc_enrollment_flows.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 </script>
 </body>
 </html>
