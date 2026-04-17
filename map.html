@@ -120,6 +120,9 @@
   .footer { background: #fff; border-top: 1px solid #e0e0e0; padding: 8px 24px;
             font-size: 11px; color: #888; text-align: center; flex-shrink: 0; }
 
+  /* Main content wrapper */
+  #main-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
   /* Pulse animation for selected markers */
   @keyframes pulse-ring { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(2.5); opacity: 0; } }
   .pulse-marker { position: relative; }
@@ -193,7 +196,7 @@ function initApp() {
       buildTermPills();
       buildCollegeList();
       plotColleges();
-      resizeSVG();
+      setTimeout(function() { map.invalidateSize(); resizeSVG(); }, 100);
       document.getElementById('footer').textContent =
         'Generated ' + d.generated + ' \u00b7 Validated enrollments only \u00b7 CVC Exchange';
     })
