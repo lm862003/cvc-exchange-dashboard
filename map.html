@@ -63,9 +63,7 @@
     transition: color 0.15s;
   }
   nav a:hover { color: #fff; }
-  nav a.active {
-    color: #fff;
-  }
+  nav a.active { color: #fff; }
   nav a.active::after {
     content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
     height: 2px; background: #3a7bd5; border-radius: 1px;
@@ -86,19 +84,13 @@
     cursor: pointer; transition: all 0.15s; border: 1.5px solid #3a7bd5;
     background: transparent; color: #3a7bd5; font-family: inherit;
   }
-  .term-pill.active {
-    background: #3a7bd5; color: #fff;
-  }
+  .term-pill.active { background: #3a7bd5; color: #fff; }
   .term-pill:hover { opacity: 0.85; }
-  .term-pill .pill-count {
-    font-size: 10px; opacity: 0.8; margin-left: 6px;
-  }
+  .term-pill .pill-count { font-size: 10px; opacity: 0.8; margin-left: 6px; }
   .controls-separator {
     width: 1px; height: 24px; background: rgba(255,255,255,0.08);
   }
-  .slider-group {
-    display: flex; align-items: center; gap: 8px;
-  }
+  .slider-group { display: flex; align-items: center; gap: 8px; }
   .slider-group input[type=range] {
     -webkit-appearance: none; width: 120px; height: 3px;
     background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
@@ -107,30 +99,23 @@
     -webkit-appearance: none; width: 14px; height: 14px;
     background: #3a7bd5; border-radius: 50%; cursor: pointer;
   }
-  .slider-value {
-    font-size: 12px; color: #94a3b8; min-width: 20px;
-  }
-  .flow-count-badge {
-    font-size: 11px; color: #64748b; margin-left: 4px;
-  }
-  .btn-download {
-    margin-left: auto; padding: 6px 14px; border-radius: 6px;
+  .slider-value { font-size: 12px; color: #94a3b8; min-width: 20px; }
+  .flow-count-badge { font-size: 11px; color: #64748b; margin-left: 4px; }
+  .btn-action {
+    padding: 6px 14px; border-radius: 6px;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
     color: #94a3b8; font-size: 12px; font-family: inherit; cursor: pointer;
     transition: all 0.15s;
   }
-  .btn-download:hover {
-    background: rgba(255,255,255,0.1); color: #e2e8f0;
-  }
+  .btn-action:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+  .btn-right { margin-left: auto; display: flex; gap: 8px; }
 
   /* Main content */
-  .main {
-    flex: 1; display: flex; overflow: hidden; position: relative;
-  }
+  .main { flex: 1; display: flex; overflow: hidden; position: relative; }
 
   /* Sidebar */
   .sidebar {
-    width: 280px; background: #0a0f1e; border-left: 1px solid rgba(255,255,255,0.06);
+    width: 300px; background: #0a0f1e; border-left: 1px solid rgba(255,255,255,0.06);
     overflow-y: auto; flex-shrink: 0; display: none; flex-direction: column;
   }
   .sidebar.open { display: flex; }
@@ -156,9 +141,7 @@
     font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
     color: #64748b; margin-bottom: 4px;
   }
-  .sidebar-stat .value {
-    font-size: 18px; font-weight: 700;
-  }
+  .sidebar-stat .value { font-size: 18px; font-weight: 700; }
   .sidebar-stat .value.out { color: #f59e0b; }
   .sidebar-stat .value.in { color: #22d3ee; }
   .sidebar-connections {
@@ -170,8 +153,7 @@
   }
   .conn-item {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    font-size: 12px;
+    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px;
   }
   .conn-item:last-child { border-bottom: none; }
   .conn-dir {
@@ -183,19 +165,16 @@
   .conn-count { font-weight: 700; color: #e2e8f0; }
 
   /* Map area */
-  .map-wrap {
-    flex: 1; position: relative; overflow: hidden;
-  }
+  .map-wrap { flex: 1; position: relative; overflow: hidden; }
   .map-wrap svg { width: 100%; height: 100%; }
 
   /* Tooltip */
   .tooltip {
     position: absolute; pointer-events: none; z-index: 100;
-    background: #1e293b; border: 1px solid rgba(255,255,255,0.1);
+    background: #1e293b; border: 1px solid rgba(255,255,255,0.15);
     border-radius: 6px; padding: 8px 12px; font-size: 12px;
     color: #e2e8f0; white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    display: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5); display: none;
   }
 
   /* Footer */
@@ -210,21 +189,27 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
-  /* Legend */
-  .legend {
+  /* Selected colleges legend */
+  .sel-legend {
     position: absolute; bottom: 16px; left: 16px; z-index: 10;
-    background: rgba(10,15,30,0.9); border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(10,15,30,0.92); border: 1px solid rgba(255,255,255,0.1);
     border-radius: 8px; padding: 12px 16px; font-size: 11px;
+    max-height: 260px; overflow-y: auto; min-width: 160px;
   }
-  .legend-title {
+  .sel-legend-title {
     font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
     color: #64748b; margin-bottom: 8px; font-weight: 600;
   }
-  .legend-item {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  .sel-legend-item {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+    cursor: pointer;
   }
-  .legend-dot {
-    width: 10px; height: 10px; border-radius: 50%;
+  .sel-legend-item:hover { opacity: 0.8; }
+  .sel-legend-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .sel-legend-hint {
+    font-size: 10px; color: #475569; margin-top: 6px; font-style: italic;
   }
 </style>
 </head>
@@ -239,7 +224,7 @@
 
 <div class="controls" id="controls">
   <span class="controls-label">Terms</span>
-  <div id="term-pills"></div>
+  <div id="term-pills" style="display:flex;gap:8px"></div>
   <div class="controls-separator"></div>
   <div class="slider-group">
     <span class="controls-label">Min Flows</span>
@@ -247,19 +232,20 @@
     <span class="slider-value" id="threshold-val">5</span>
   </div>
   <span class="flow-count-badge" id="flow-count-badge"></span>
-  <button class="btn-download" id="btn-csv" title="Download visible flows as CSV">CSV</button>
+  <div class="btn-right">
+    <button class="btn-action" id="btn-clear" title="Deselect all colleges">Clear</button>
+    <button class="btn-action" id="btn-csv" title="Download visible flows as CSV">CSV</button>
+  </div>
 </div>
 
 <div class="main">
   <div class="map-wrap" id="map-wrap">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
     <div class="tooltip" id="tooltip"></div>
-    <div class="legend">
-      <div class="legend-title">Regions</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Northern California</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#4ade80"></span> Central Valley / Coast</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> Southern California</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#c084fc"></span> San Diego / Imperial</div>
+    <div class="sel-legend" id="sel-legend">
+      <div class="sel-legend-title">Selected Colleges</div>
+      <div id="sel-legend-items"></div>
+      <div class="sel-legend-hint">Click a college dot to select</div>
     </div>
   </div>
   <div class="sidebar" id="sidebar">
@@ -290,6 +276,30 @@
 (function() {
   'use strict';
 
+  // --- High-contrast color palette (20 colors, maximally distinct) ---
+  var PALETTE = [
+    '#ff4444',  // red
+    '#00d4ff',  // cyan
+    '#ffbb00',  // amber
+    '#44ff44',  // green
+    '#ff66ff',  // magenta
+    '#ff8800',  // orange
+    '#00ffaa',  // mint
+    '#8866ff',  // purple
+    '#ffff44',  // yellow
+    '#ff6699',  // pink
+    '#44aaff',  // sky blue
+    '#88ff44',  // lime
+    '#ff4488',  // hot pink
+    '#44ffff',  // aqua
+    '#ddaa00',  // gold
+    '#aa66ff',  // violet
+    '#ff8866',  // salmon
+    '#00dd88',  // teal
+    '#ffaacc',  // light pink
+    '#66ddff',  // light blue
+  ];
+
   // --- Projection ---
   function project(lat, lon) {
     var x = (lon - (-124.5)) / ((-114.0) - (-124.5)) * 400;
@@ -297,21 +307,7 @@
     return [x, y];
   }
 
-  // --- Region classification ---
-  function getRegion(lat, lon) {
-    if (lat < 33.2 && lon > -117.5) return 'sd';
-    if (lat < 34.5) return 'socal';
-    if (lat < 37.0) return 'central';
-    return 'norcal';
-  }
-  var regionColors = {
-    norcal: '#60a5fa',
-    central: '#4ade80',
-    socal: '#fb923c',
-    sd: '#c084fc'
-  };
-
-  // --- California outline (simplified) ---
+  // --- California outline (detailed) ---
   var caOutline = [
     [42.0, -124.2], [41.99, -120.0], [39.0, -120.0], [38.5, -119.9],
     [37.5, -118.5], [36.5, -117.8], [35.8, -117.6], [35.5, -117.7],
@@ -331,7 +327,10 @@
   var data = null;
   var activeTerms = new Set();
   var threshold = 5;
-  var selectedCollege = null;
+  var selectedColleges = new Set();      // currently selected (visible)
+  var colorAssignments = {};             // college name -> color (persists in session)
+  var colorIndex = 0;                    // next color to assign
+  var lastClickedCollege = null;         // for sidebar display
   var collegeMap = {};
   var svgNS = 'http://www.w3.org/2000/svg';
 
@@ -349,7 +348,7 @@
   var bgRect = document.createElementNS(svgNS, 'rect');
   bgRect.setAttribute('width', '400');
   bgRect.setAttribute('height', '500');
-  bgRect.setAttribute('fill', '#030712');
+  bgRect.setAttribute('fill', '#0a0f1e');
   svg.appendChild(bgRect);
 
   // California outline group
@@ -364,16 +363,37 @@
   var collegeGroup = document.createElementNS(svgNS, 'g');
   svg.appendChild(collegeGroup);
 
-  // Draw CA outline
+  // Draw CA outline - VISIBLE
   function drawOutline() {
     var pts = caOutline.map(function(p) { return project(p[0], p[1]); });
     var d = 'M' + pts.map(function(p) { return p[0] + ',' + p[1]; }).join('L') + 'Z';
-    var path = document.createElementNS(svgNS, 'path');
-    path.setAttribute('d', d);
-    path.setAttribute('fill', 'rgba(255,255,255,0.02)');
-    path.setAttribute('stroke', 'rgba(255,255,255,0.08)');
-    path.setAttribute('stroke-width', '0.5');
-    caGroup.appendChild(path);
+    // Filled shape
+    var fill = document.createElementNS(svgNS, 'path');
+    fill.setAttribute('d', d);
+    fill.setAttribute('fill', '#111827');
+    fill.setAttribute('stroke', 'none');
+    caGroup.appendChild(fill);
+    // Outline stroke
+    var stroke = document.createElementNS(svgNS, 'path');
+    stroke.setAttribute('d', d);
+    stroke.setAttribute('fill', 'none');
+    stroke.setAttribute('stroke', '#334155');
+    stroke.setAttribute('stroke-width', '1.2');
+    stroke.setAttribute('stroke-linejoin', 'round');
+    caGroup.appendChild(stroke);
+  }
+
+  // --- Assign color to a college ---
+  function assignColor(name) {
+    if (colorAssignments[name]) return colorAssignments[name];
+    var color = PALETTE[colorIndex % PALETTE.length];
+    colorIndex++;
+    colorAssignments[name] = color;
+    return color;
+  }
+
+  function getColor(name) {
+    return colorAssignments[name] || null;
   }
 
   // --- Load data ---
@@ -381,7 +401,6 @@
     .then(function(r) { return r.json(); })
     .then(function(json) {
       data = json;
-      // Build college lookup
       data.colleges.forEach(function(c) {
         var pos = project(c.lat, c.lon);
         collegeMap[c.name] = { lat: c.lat, lon: c.lon, x: pos[0], y: pos[1] };
@@ -389,7 +408,7 @@
       init();
     })
     .catch(function(err) {
-      document.getElementById('map-wrap').innerHTML =
+      mapWrap.innerHTML =
         '<div style="padding:40px;color:#f87171;">Failed to load data: ' + err.message + '</div>';
     });
 
@@ -405,8 +424,6 @@
   // --- Term pills ---
   function buildTermPills() {
     var container = document.getElementById('term-pills');
-    container.style.display = 'flex';
-    container.style.gap = '8px';
     var terms = Object.keys(data.terms);
     terms.forEach(function(term, idx) {
       var btn = document.createElement('button');
@@ -440,19 +457,23 @@
 
     document.getElementById('btn-csv').addEventListener('click', downloadCSV);
 
-    document.getElementById('sidebar-close').addEventListener('click', function() {
-      selectedCollege = null;
+    document.getElementById('btn-clear').addEventListener('click', function() {
+      selectedColleges.clear();
+      lastClickedCollege = null;
       sidebar.classList.remove('open');
       render();
     });
 
-    // Tooltip tracking
+    document.getElementById('sidebar-close').addEventListener('click', function() {
+      sidebar.classList.remove('open');
+    });
+
     mapWrap.addEventListener('mousemove', function(e) {
       if (tooltip.style.display === 'block') {
         var rect = mapWrap.getBoundingClientRect();
-        var tx = e.clientX - rect.left + 12;
-        var ty = e.clientY - rect.top - 8;
-        if (tx + 200 > rect.width) tx = e.clientX - rect.left - 160;
+        var tx = e.clientX - rect.left + 14;
+        var ty = e.clientY - rect.top - 10;
+        if (tx + 220 > rect.width) tx = e.clientX - rect.left - 180;
         tooltip.style.left = tx + 'px';
         tooltip.style.top = ty + 'px';
       }
@@ -489,23 +510,56 @@
     return vols;
   }
 
+  // --- Update selected colleges legend ---
+  function updateLegend() {
+    var items = document.getElementById('sel-legend-items');
+    items.innerHTML = '';
+    var hint = document.querySelector('.sel-legend-hint');
+    if (selectedColleges.size === 0) {
+      hint.style.display = 'block';
+      return;
+    }
+    hint.style.display = 'none';
+    selectedColleges.forEach(function(name) {
+      var color = getColor(name);
+      var div = document.createElement('div');
+      div.className = 'sel-legend-item';
+      div.innerHTML =
+        '<span class="sel-legend-dot" style="background:' + color + '"></span>' +
+        '<span style="color:' + color + '">' + name + '</span>';
+      div.addEventListener('click', function() {
+        selectedColleges.delete(name);
+        if (lastClickedCollege === name) {
+          lastClickedCollege = null;
+          sidebar.classList.remove('open');
+        }
+        render();
+      });
+      items.appendChild(div);
+    });
+  }
+
   // --- Render ---
   function render() {
     var allFlows = getAggregatedFlows();
     var volumes = getCollegeVolumes(allFlows);
+    var hasSelection = selectedColleges.size > 0;
 
-    // Filter flows by threshold and selected college
+    // Filter flows
     var visibleFlows = allFlows.filter(function(f) {
       if (f.count < threshold) return false;
-      if (selectedCollege) {
-        return f.from === selectedCollege || f.to === selectedCollege;
+      if (hasSelection) {
+        return selectedColleges.has(f.from) || selectedColleges.has(f.to);
       }
       return true;
     });
 
-    // Update flow count badge
+    // Update badge
     document.getElementById('flow-count-badge').textContent =
       visibleFlows.length + ' flow' + (visibleFlows.length !== 1 ? 's' : '') + ' shown';
+
+    // Update legend
+    updateLegend();
 
     // --- Draw flows ---
     while (flowGroup.firstChild) flowGroup.removeChild(flowGroup.firstChild);
@@ -522,24 +576,48 @@
       var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
       var dx = x2 - x1, dy = y2 - y1;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      var offset = Math.min(dist * 0.2, 30);
-      // Perpendicular offset
+      var offset = Math.min(dist * 0.25, 35);
       var nx = -dy / (dist || 1) * offset;
       var ny = dx / (dist || 1) * offset;
       var cx = mx + nx, cy = my + ny;
 
+      // Determine arc color: use the selected college's color
+      var arcColor;
+      if (hasSelection) {
+        // Prefer "from" college color if selected, else "to"
+        if (selectedColleges.has(f.from) && getColor(f.from)) {
+          arcColor = getColor(f.from);
+        } else if (selectedColleges.has(f.to) && getColor(f.to)) {
+          arcColor = getColor(f.to);
+        } else {
+          arcColor = '#475569';
+        }
+      } else {
+        arcColor = '#475569';
+      }
+
+      var thick = 0.5 + (f.count / maxFlow) * 3.5;
+      var opacity = hasSelection
+        ? 0.35 + (f.count / maxFlow) * 0.55
+        : 0.12 + (f.count / maxFlow) * 0.35;
+
+      // Glow layer
+      var glow = document.createElementNS(svgNS, 'path');
+      glow.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
+      glow.setAttribute('fill', 'none');
+      glow.setAttribute('stroke', arcColor);
+      glow.setAttribute('stroke-width', (thick * 2.5).toFixed(2));
+      glow.setAttribute('stroke-opacity', (opacity * 0.2).toFixed(3));
+      glow.setAttribute('stroke-linecap', 'round');
+      flowGroup.appendChild(glow);
+
+      // Main arc
       var path = document.createElementNS(svgNS, 'path');
       path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + cx + ',' + cy + ' ' + x2 + ',' + y2);
       path.setAttribute('fill', 'none');
-
-      var thick = 0.5 + (f.count / maxFlow) * 3;
-      var opacity = 0.15 + (f.count / maxFlow) * 0.55;
-      if (selectedCollege) {
-        opacity = 0.3 + (f.count / maxFlow) * 0.6;
-      }
-      path.setAttribute('stroke', '#00d4ff');
+      path.setAttribute('stroke', arcColor);
       path.setAttribute('stroke-width', thick.toFixed(2));
-      path.setAttribute('stroke-opacity', opacity.toFixed(2));
+      path.setAttribute('stroke-opacity', opacity.toFixed(3));
       path.setAttribute('stroke-linecap', 'round');
       flowGroup.appendChild(path);
     });
@@ -558,62 +636,123 @@
       if (!pos) return;
       var vol = volumes[c.name] || { out: 0, in: 0 };
       var total = vol.out + vol.in;
-      var region = getRegion(c.lat, c.lon);
-      var color = regionColors[region];
-      var r = 2 + (total / maxVol) * 6;
+      var isSelected = selectedColleges.has(c.name);
+      var assignedColor = getColor(c.name);
+      var r = 2.5 + (total / maxVol) * 6;
 
-      // Dim colleges not connected to selected
-      var dimmed = false;
-      if (selectedCollege && c.name !== selectedCollege) {
+      // Determine appearance
+      var dotColor, dotOpacity, strokeColor, strokeWidth;
+      if (isSelected) {
+        dotColor = assignedColor;
+        dotOpacity = 1;
+        strokeColor = '#fff';
+        strokeWidth = 1;
+      } else if (hasSelection) {
+        // Check if connected to any selected college
         var connected = visibleFlows.some(function(f) {
           return f.from === c.name || f.to === c.name;
         });
-        if (!connected) dimmed = true;
+        dotColor = connected ? '#94a3b8' : '#334155';
+        dotOpacity = connected ? 0.6 : 0.25;
+        strokeColor = 'none';
+        strokeWidth = 0;
+      } else {
+        dotColor = '#94a3b8';
+        dotOpacity = 0.7;
+        strokeColor = 'rgba(255,255,255,0.15)';
+        strokeWidth = 0.4;
       }
 
       var g = document.createElementNS(svgNS, 'g');
       g.style.cursor = 'pointer';
 
-      // Glow for selected
-      if (c.name === selectedCollege) {
-        var glow = document.createElementNS(svgNS, 'circle');
-        glow.setAttribute('cx', pos.x);
-        glow.setAttribute('cy', pos.y);
-        glow.setAttribute('r', r + 4);
-        glow.setAttribute('fill', 'none');
-        glow.setAttribute('stroke', color);
-        glow.setAttribute('stroke-width', '1.5');
-        glow.setAttribute('stroke-opacity', '0.5');
-        g.appendChild(glow);
+      // Selection ring
+      if (isSelected) {
+        var ring = document.createElementNS(svgNS, 'circle');
+        ring.setAttribute('cx', pos.x);
+        ring.setAttribute('cy', pos.y);
+        ring.setAttribute('r', r + 5);
+        ring.setAttribute('fill', 'none');
+        ring.setAttribute('stroke', assignedColor);
+        ring.setAttribute('stroke-width', '1.5');
+        ring.setAttribute('stroke-opacity', '0.4');
+        ring.setAttribute('stroke-dasharray', '3,2');
+        g.appendChild(ring);
+
+        // Outer glow
+        var glowC = document.createElementNS(svgNS, 'circle');
+        glowC.setAttribute('cx', pos.x);
+        glowC.setAttribute('cy', pos.y);
+        glowC.setAttribute('r', r + 3);
+        glowC.setAttribute('fill', assignedColor);
+        glowC.setAttribute('fill-opacity', '0.15');
+        g.appendChild(glowC);
       }
 
       var circle = document.createElementNS(svgNS, 'circle');
       circle.setAttribute('cx', pos.x);
       circle.setAttribute('cy', pos.y);
       circle.setAttribute('r', r);
-      circle.setAttribute('fill', color);
-      circle.setAttribute('fill-opacity', dimmed ? '0.15' : '0.85');
-      circle.setAttribute('stroke', dimmed ? 'none' : 'rgba(255,255,255,0.2)');
-      circle.setAttribute('stroke-width', '0.5');
+      circle.setAttribute('fill', dotColor);
+      circle.setAttribute('fill-opacity', dotOpacity);
+      if (strokeColor !== 'none') {
+        circle.setAttribute('stroke', strokeColor);
+        circle.setAttribute('stroke-width', strokeWidth);
+      }
       g.appendChild(circle);
 
+      // Label for selected colleges
+      if (isSelected && r > 3) {
+        var label = document.createElementNS(svgNS, 'text');
+        label.setAttribute('x', pos.x);
+        label.setAttribute('y', pos.y - r - 4);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('font-size', '5');
+        label.setAttribute('font-family', 'inherit');
+        label.setAttribute('fill', assignedColor);
+        label.setAttribute('font-weight', '600');
+        // Abbreviate: first word + first letter of second
+        var parts = c.name.split(' ');
+        var abbr = parts.length > 2 ? parts[0] + ' ' + parts[1].charAt(0) + '.' : c.name;
+        if (abbr.length > 16) abbr = abbr.substring(0, 14) + '..';
+        label.textContent = abbr;
+        g.appendChild(label);
+      }
+
       // Hover
-      g.addEventListener('mouseenter', function(e) {
-        tooltip.textContent = c.name +
-          (total > 0 ? '  |  Out: ' + vol.out.toLocaleString() + '  In: ' + vol.in.toLocaleString() : '');
+      g.addEventListener('mouseenter', function() {
+        var html = '<strong>' + c.name + '</strong>';
+        if (total > 0) {
+          html += '<br>Out: ' + vol.out.toLocaleString() + ' &nbsp; In: ' + vol.in.toLocaleString();
+        }
+        if (isSelected) html += '<br><span style="color:#64748b">Click to deselect</span>';
+        else html += '<br><span style="color:#64748b">Click to select</span>';
+        tooltip.innerHTML = html;
         tooltip.style.display = 'block';
       });
       g.addEventListener('mouseleave', function() {
         tooltip.style.display = 'none';
       });
 
-      // Click
+      // Click — toggle selection
       g.addEventListener('click', function() {
-        if (selectedCollege === c.name) {
-          selectedCollege = null;
-          sidebar.classList.remove('open');
+        if (selectedColleges.has(c.name)) {
+          selectedColleges.delete(c.name);
+          if (lastClickedCollege === c.name) {
+            // Show sidebar for next selected, or close
+            var remaining = Array.from(selectedColleges);
+            if (remaining.length > 0) {
+              lastClickedCollege = remaining[remaining.length - 1];
+              updateSidebar(lastClickedCollege, volumes, allFlows);
+            } else {
+              lastClickedCollege = null;
+              sidebar.classList.remove('open');
+            }
+          }
         } else {
-          selectedCollege = c.name;
+          assignColor(c.name);
+          selectedColleges.add(c.name);
+          lastClickedCollege = c.name;
           sidebar.classList.add('open');
           updateSidebar(c.name, volumes, allFlows);
         }
@@ -626,12 +765,13 @@
 
   // --- Sidebar ---
   function updateSidebar(name, volumes, allFlows) {
+    var color = getColor(name) || '#e2e8f0';
     document.getElementById('sidebar-name').textContent = name;
+    document.getElementById('sidebar-name').style.color = color;
     var vol = volumes[name] || { out: 0, in: 0 };
     document.getElementById('sidebar-out').textContent = vol.out.toLocaleString();
     document.getElementById('sidebar-in').textContent = vol.in.toLocaleString();
 
-    // Build connection list
     var connections = [];
     allFlows.forEach(function(f) {
       if (f.from === name) {
@@ -644,7 +784,7 @@
 
     var list = document.getElementById('sidebar-list');
     list.innerHTML = '';
-    connections.slice(0, 30).forEach(function(c) {
+    connections.slice(0, 40).forEach(function(c) {
       var div = document.createElement('div');
       div.className = 'conn-item';
       div.innerHTML =
@@ -658,17 +798,17 @@
   // --- CSV Download ---
   function downloadCSV() {
     var allFlows = getAggregatedFlows();
+    var hasSelection = selectedColleges.size > 0;
     var visibleFlows = allFlows.filter(function(f) {
       if (f.count < threshold) return false;
-      if (selectedCollege) {
-        return f.from === selectedCollege || f.to === selectedCollege;
+      if (hasSelection) {
+        return selectedColleges.has(f.from) || selectedColleges.has(f.to);
       }
       return true;
     });
 
     var rows = ['Home College,Teaching College,Term,Count'];
     visibleFlows.forEach(function(f) {
-      // Expand back to per-term rows
       Object.keys(f.terms).forEach(function(term) {
         rows.push(
           '"' + f.from.replace(/"/g, '""') + '",' +
