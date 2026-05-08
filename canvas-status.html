@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas API Status Monitor</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1923; color: #c9d1d9; min-height: 100vh; }
+
+  .header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .header h1 { font-size: 20px; font-weight: 600; color: #e6edf3; }
+  .header-meta { font-size: 13px; color: #8b949e; }
+
+  .summary-bar { display: flex; gap: 16px; padding: 16px 32px; background: #161b22; border-bottom: 1px solid #30363d; flex-wrap: wrap; align-items: center; }
+  .summary-stat { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; }
+  .summary-stat .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-up { background: #3fb950; }
+  .dot-down { background: #f85149; }
+  .dot-auth { background: #d29922; }
+  .dot-avg { background: #58a6ff; }
+  .summary-stat .val { color: #e6edf3; }
+
+  .controls { display: flex; gap: 12px; padding: 12px 32px; align-items: center; flex-wrap: wrap; }
+  .search-box { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 12px; color: #c9d1d9; font-size: 14px; width: 260px; outline: none; }
+  .search-box:focus { border-color: #58a6ff; }
+  .filter-btn { background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 6px 14px; color: #c9d1d9; font-size: 13px; cursor: pointer; }
+  .filter-btn:hover { background: #30363d; }
+  .filter-btn.active { background: #388bfd26; border-color: #58a6ff; color: #58a6ff; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; padding: 16px 32px 32px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.15s; }
+  .card:hover { border-color: #484f58; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; }
+  .card-name { font-size: 14px; font-weight: 600; color: #e6edf3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; margin-left: 8px; }
+  .badge-up { background: #23883620; color: #3fb950; border: 1px solid #23883640; }
+  .badge-down { background: #f8514920; color: #f85149; border: 1px solid #f8514940; }
+  .badge-auth { background: #d2992220; color: #d29922; border: 1px solid #d2992240; }
+  .card-details { font-size: 12px; color: #8b949e; display: flex; gap: 16px; }
+  .card-details span { display: flex; align-items: center; gap: 4px; }
+  .card-error { font-size: 12px; color: #f85149; margin-top: 2px; }
+
+  .sparkline-row { display: flex; align-items: flex-end; gap: 1px; height: 20px; margin-top: 4px; }
+  .spark-bar { width: 3px; border-radius: 1px; min-height: 2px; }
+  .spark-up { background: #3fb95080; }
+  .spark-down { background: #f8514980; }
+  .spark-auth { background: #d2992280; }
+  .spark-none { background: #30363d40; }
+
+  .uptime-bar { height: 28px; display: flex; gap: 1px; border-radius: 4px; overflow: hidden; margin: 16px 32px 0; }
+  .uptime-segment { flex: 1; min-width: 2px; cursor: pointer; position: relative; }
+  .uptime-segment:hover { opacity: 0.8; }
+  .seg-up { background: #3fb950; }
+  .seg-down { background: #f85149; }
+  .seg-partial { background: #d29922; }
+  .seg-none { background: #21262d; }
+  .uptime-label { display: flex; justify-content: space-between; padding: 4px 32px 0; font-size: 11px; color: #484f58; }
+
+  .loading { text-align: center; padding: 80px; color: #8b949e; font-size: 16px; }
+  .error-msg { text-align: center; padding: 80px; color: #f85149; font-size: 16px; }
+
+  @media (max-width: 600px) {
+    .header, .summary-bar, .controls, .grid { padding-left: 16px; padding-right: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .search-box { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Canvas API Status Monitor</h1>
+  <div class="header-meta">
+    Last checked: <span id="last-updated">loading...</span>
+    &nbsp;|&nbsp; Auto-refresh: 60 min
+  </div>
+</div>
+
+<div class="summary-bar">
+  <div class="summary-stat"><div class="dot dot-up"></div> Up: <span class="val" id="sum-up">-</span></div>
+  <div class="summary-stat"><div class="dot dot-down"></div> Down: <span class="val" id="sum-down">-</span></div>
+  <div class="summary-stat"><div class="dot dot-auth"></div> Auth Error: <span class="val" id="sum-auth">-</span></div>
+  <div class="summary-stat"><div class="dot dot-avg"></div> Avg Response: <span class="val" id="sum-avg">-</span></div>
+</div>
+
+<div class="uptime-label" style="margin-top:12px"><span>72 hours ago</span><span>Overall Uptime</span><span>Now</span></div>
+<div class="uptime-bar" id="uptime-bar"></div>
+
+<div class="controls">
+  <input class="search-box" id="search" type="text" placeholder="Search colleges...">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="up">Up</button>
+  <button class="filter-btn" data-filter="down">Down</button>
+  <button class="filter-btn" data-filter="auth_error">Auth Error</button>
+</div>
+
+<div class="grid" id="grid">
+  <div class="loading">Loading status data...</div>
+</div>
+
+<script>
+let statusData = null;
+let historyData = null;
+let currentFilter = 'all';
+let searchText = '';
+
+async function loadData() {
+  try {
+    const [statusResp, histResp] = await Promise.all([
+      fetch('data/canvas_status.json?' + Date.now()),
+      fetch('data/canvas_status_history.json?' + Date.now()).catch(() => ({ ok: false })),
+    ]);
+    if (!statusResp.ok) throw new Error('Status data not found');
+    statusData = await statusResp.json();
+    if (histResp.ok) historyData = await histResp.json();
+  } catch (e) {
+    document.getElementById('grid').innerHTML = '<div class="error-msg">Could not load status data.<br>Run canvas_status_monitor.py to generate it.</div>';
+    return;
+  }
+  render();
+}
+
+function render() {
+  if (!statusData) return;
+
+  // Header
+  const dt = new Date(statusData.generated_at);
+  document.getElementById('last-updated').textContent = dt.toLocaleString();
+  document.getElementById('sum-up').textContent = statusData.up;
+  document.getElementById('sum-down').textContent = statusData.down;
+  document.getElementById('sum-auth').textContent = statusData.auth_errors;
+  document.getElementById('sum-avg').textContent = statusData.avg_response_ms + 'ms';
+
+  // Uptime bar
+  renderUptimeBar();
+
+  // Cards
+  renderCards();
+}
+
+function renderUptimeBar() {
+  const bar = document.getElementById('uptime-bar');
+  bar.innerHTML = '';
+  if (!historyData || historyData.length === 0) {
+    bar.innerHTML = '<div class="uptime-segment seg-none" style="flex:1" title="No history yet"></div>';
+    return;
+  }
+
+  // Group history into 1-hour buckets
+  const now = Date.now();
+  const buckets = [];
+  for (let h = 71; h >= 0; h--) {
+    const start = now - (h + 1) * 3600000;
+    const end   = now - h * 3600000;
+    // Find snapshots in this bucket
+    const snaps = historyData.filter(s => {
+      const t = new Date(s.timestamp).getTime();
+      return t >= start && t < end;
+    });
+    if (snaps.length === 0) {
+      buckets.push('none');
+    } else {
+      // Check if any college was down in this bucket
+      let anyDown = false;
+      let allUp = true;
+      for (const snap of snaps) {
+        for (const slug in snap.colleges) {
+          const st = snap.colleges[slug].status;
+          if (st === 'down') anyDown = true;
+          if (st !== 'up') allUp = false;
+        }
+      }
+      buckets.push(allUp ? 'up' : anyDown ? 'down' : 'partial');
+    }
+  }
+
+  for (const b of buckets) {
+    const seg = document.createElement('div');
+    seg.className = 'uptime-segment seg-' + b;
+    bar.appendChild(seg);
+  }
+}
+
+function getSparkline(slug) {
+  if (!historyData || historyData.length < 2) return '';
+  // Last 24 data points
+  const recent = historyData.slice(-24);
+  let html = '<div class="sparkline-row">';
+  for (const snap of recent) {
+    const c = snap.colleges[slug];
+    if (!c) {
+      html += '<div class="spark-bar spark-none" style="height:2px"></div>';
+      continue;
+    }
+    const cls = c.status === 'up' ? 'spark-up' : c.status === 'auth_error' ? 'spark-auth' : 'spark-down';
+    const h = c.status === 'up' ? Math.max(4, Math.min(20, Math.round((c.ms || 100) / 50))) : 20;
+    html += `<div class="spark-bar ${cls}" style="height:${h}px" title="${c.ms || '-'}ms"></div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  let colleges = statusData.colleges;
+
+  // Filter
+  if (currentFilter !== 'all') {
+    colleges = colleges.filter(c => c.status === currentFilter);
+  }
+  if (searchText) {
+    const q = searchText.toLowerCase();
+    colleges = colleges.filter(c => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q));
+  }
+
+  if (colleges.length === 0) {
+    grid.innerHTML = '<div class="loading">No colleges match your filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = colleges.map(c => {
+    const badgeCls = c.status === 'up' ? 'badge-up' : c.status === 'auth_error' ? 'badge-auth' : 'badge-down';
+    const label = c.status === 'auth_error' ? 'Auth Error' : c.status.toUpperCase();
+    const ms = c.response_ms != null ? c.response_ms + 'ms' : '-';
+    const count = c.result_count != null ? c.result_count + ' results' : '';
+    const errHtml = c.error ? `<div class="card-error">${escHtml(c.error)}</div>` : '';
+    const spark = getSparkline(c.slug);
+
+    return `<div class="card">
+      <div class="card-header">
+        <div class="card-name" title="${escHtml(c.name)}">${escHtml(c.name)}</div>
+        <span class="badge ${badgeCls}">${label}</span>
+      </div>
+      <div class="card-details">
+        <span>Response: ${ms}</span>
+        ${count ? `<span>${count}</span>` : ''}
+      </div>
+      ${errHtml}
+      ${spark}
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+// Search
+document.getElementById('search').addEventListener('input', e => {
+  searchText = e.target.value;
+  renderCards();
+});
+
+// Auth gate (reuse same password as main dashboard)
+(function() {
+  var k = 'cvc-oei-auth';
+  if (sessionStorage.getItem(k) !== '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('.header').style.display = 'none';
+      document.querySelector('.summary-bar').style.display = 'none';
+      document.querySelector('.controls').style.display = 'none';
+      document.getElementById('grid').style.display = 'none';
+      document.querySelector('.uptime-bar').style.display = 'none';
+      document.querySelectorAll('.uptime-label').forEach(el => el.style.display = 'none');
+
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:#0f1923;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = '<div style="background:#161b22;border:1px solid #30363d;border-radius:12px;padding:40px;width:340px;text-align:center">' +
+        '<div style="font-size:20px;font-weight:700;margin-bottom:8px;color:#e6edf3">Canvas Status Monitor</div>' +
+        '<div style="font-size:13px;color:#8b949e;margin-bottom:24px">Enter password to continue</div>' +
+        '<input id="pw-input" type="password" placeholder="Password" style="width:100%;padding:10px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;font-size:14px;color:#c9d1d9;margin-bottom:12px;outline:none;box-sizing:border-box" />' +
+        '<button id="pw-btn" style="width:100%;padding:10px;background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Enter</button>' +
+        '<div id="pw-err" style="color:#f85149;font-size:12px;margin-top:10px;display:none">Incorrect password</div></div>';
+      document.body.appendChild(overlay);
+
+      function attempt() {
+        if (document.getElementById('pw-input').value === 'cvc-oei') {
+          sessionStorage.setItem(k, '1');
+          overlay.remove();
+          document.querySelector('.header').style.display = '';
+          document.querySelector('.summary-bar').style.display = '';
+          document.querySelector('.controls').style.display = '';
+          document.getElementById('grid').style.display = '';
+          document.querySelector('.uptime-bar').style.display = '';
+          document.querySelectorAll('.uptime-label').forEach(el => el.style.display = '');
+          loadData();
+        } else {
+          document.getElementById('pw-err').style.display = 'block';
+          document.getElementById('pw-input').value = '';
+          document.getElementById('pw-input').focus();
+        }
+      }
+      document.getElementById('pw-btn').addEventListener('click', attempt);
+      document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') attempt(); });
+      setTimeout(function() { document.getElementById('pw-input').focus(); }, 100);
+    });
+  } else {
+    document.addEventListener('DOMContentLoaded', loadData);
+  }
+})();
+</script>
+</body>
+</html>
