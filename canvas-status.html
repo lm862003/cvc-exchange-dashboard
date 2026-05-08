@@ -57,8 +57,28 @@
   .seg-none { background: #21262d; }
   .uptime-label { display: flex; justify-content: space-between; padding: 4px 32px 0; font-size: 11px; color: #484f58; }
 
+  .card { cursor: pointer; }
+
   .loading { text-align: center; padding: 80px; color: #8b949e; font-size: 16px; }
   .error-msg { text-align: center; padding: 80px; color: #f85149; font-size: 16px; }
+
+  /* Detail panel */
+  .panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 998; display: none; }
+  .panel-overlay.open { display: block; }
+  .panel { position: fixed; top: 0; right: -460px; width: 440px; height: 100vh; background: #161b22; border-left: 1px solid #30363d; z-index: 999; transition: right 0.25s ease; overflow-y: auto; display: flex; flex-direction: column; }
+  .panel.open { right: 0; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #30363d; flex-shrink: 0; }
+  .panel-title { font-size: 16px; font-weight: 600; color: #e6edf3; }
+  .panel-close { background: none; border: none; color: #8b949e; font-size: 24px; cursor: pointer; padding: 0 4px; }
+  .panel-close:hover { color: #e6edf3; }
+  .panel-body { padding: 20px 24px; flex: 1; }
+
+  .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #21262d; }
+  .detail-label { font-size: 13px; color: #8b949e; }
+  .detail-value { font-size: 13px; color: #e6edf3; font-weight: 500; text-align: right; max-width: 260px; word-break: break-all; }
+  .detail-section { font-size: 12px; font-weight: 600; color: #58a6ff; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 20px; margin-bottom: 4px; }
+  .detail-sparkline { margin-top: 16px; }
+  .detail-sparkline-label { font-size: 11px; color: #484f58; margin-top: 4px; }
 
   @media (max-width: 600px) {
     .header, .summary-bar, .controls, .grid { padding-left: 16px; padding-right: 16px; }
@@ -100,6 +120,16 @@
 
 <div class="grid" id="grid">
   <div class="loading">Loading status data...</div>
+</div>
+
+<!-- Detail panel -->
+<div class="panel-overlay" id="panel-overlay"></div>
+<div class="panel" id="detail-panel">
+  <div class="panel-header">
+    <div class="panel-title" id="panel-title"></div>
+    <button class="panel-close" id="panel-close">&times;</button>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
 </div>
 
 <script>
@@ -230,7 +260,7 @@ function renderCards() {
     const spark = getSparkline(c.slug);
     const sparkLabel = spark ? '<div style="font-size:10px;color:#484f58;margin-top:2px;">Response time (24h)</div>' : '';
 
-    return `<div class="card">
+    return `<div class="card" onclick="openPanel('${c.slug}')">
       <div class="card-header">
         <div class="card-name" title="${escHtml(c.name)}">${escHtml(c.name)}</div>
         <span class="badge ${badgeCls}">${label}</span>
@@ -266,6 +296,88 @@ document.getElementById('search').addEventListener('input', e => {
   searchText = e.target.value;
   renderCards();
 });
+
+// Detail panel
+function openPanel(slug) {
+  const c = statusData.colleges.find(x => x.slug === slug);
+  if (!c) return;
+
+  document.getElementById('panel-title').textContent = c.name;
+
+  const badgeCls = c.status === 'up' ? 'badge-up' : c.status === 'auth_error' ? 'badge-auth' : 'badge-down';
+  const statusLabel = c.status === 'auth_error' ? 'Auth Error' : c.status.toUpperCase();
+
+  // Build uptime percentage from history
+  let uptimePct = '-';
+  if (historyData && historyData.length > 0) {
+    let total = 0, upCount = 0;
+    for (const snap of historyData) {
+      if (snap.colleges[slug]) {
+        total++;
+        if (snap.colleges[slug].status === 'up') upCount++;
+      }
+    }
+    if (total > 0) uptimePct = ((upCount / total) * 100).toFixed(1) + '%';
+  }
+
+  // Build larger sparkline for panel
+  let panelSpark = '';
+  if (historyData && historyData.length >= 2) {
+    const recent = historyData.slice(-48);
+    panelSpark = '<div class="sparkline-row" style="height:40px;gap:2px;">';
+    for (const snap of recent) {
+      const d = snap.colleges[slug];
+      if (!d) {
+        panelSpark += '<div class="spark-bar spark-none" style="height:2px;width:5px"></div>';
+        continue;
+      }
+      const cls = d.status === 'up' ? 'spark-up' : d.status === 'auth_error' ? 'spark-auth' : 'spark-down';
+      const h = d.status === 'up' ? Math.max(6, Math.min(40, Math.round((d.ms || 100) / 30))) : 40;
+      panelSpark += `<div class="spark-bar ${cls}" style="height:${h}px;width:5px" title="${snap.timestamp.slice(11,16)} — ${d.ms || '-'}ms"></div>`;
+    }
+    panelSpark += '</div>';
+  }
+
+  const body = document.getElementById('panel-body');
+  body.innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;">
+      <span class="badge ${badgeCls}" style="font-size:14px;padding:4px 16px;">${statusLabel}</span>
+    </div>
+
+    <div class="detail-section">API Call</div>
+    <div class="detail-row"><span class="detail-label">Endpoint</span><span class="detail-value">${escHtml(c.api_url || c.base_url + '/api/v1/accounts/...')}</span></div>
+    <div class="detail-row"><span class="detail-label">Method</span><span class="detail-value">GET</span></div>
+
+    <div class="detail-section">Response</div>
+    <div class="detail-row"><span class="detail-label">HTTP Status</span><span class="detail-value">${c.http_code || '-'}</span></div>
+    <div class="detail-row"><span class="detail-label">Response Time</span><span class="detail-value">${c.response_ms != null ? c.response_ms + 'ms' : '-'}</span></div>
+    <div class="detail-row"><span class="detail-label">Content-Type</span><span class="detail-value">${escHtml(c.content_type || '-')}</span></div>
+    <div class="detail-row"><span class="detail-label">Results Returned</span><span class="detail-value">${c.result_count != null ? c.result_count : '-'}</span></div>
+    <div class="detail-row"><span class="detail-label">Rate Limit Remaining</span><span class="detail-value">${c.rate_limit_remaining || '-'}</span></div>
+    ${c.error ? `<div class="detail-row"><span class="detail-label">Error</span><span class="detail-value" style="color:#f85149">${escHtml(c.error)}</span></div>` : ''}
+
+    <div class="detail-section">Instance</div>
+    <div class="detail-row"><span class="detail-label">Canvas URL</span><span class="detail-value"><a href="${c.base_url}" target="_blank" style="color:#58a6ff;text-decoration:none">${escHtml(c.base_url)}</a></span></div>
+    <div class="detail-row"><span class="detail-label">Account ID</span><span class="detail-value">${c.account_id || '-'}</span></div>
+    <div class="detail-row"><span class="detail-label">Slug</span><span class="detail-value">${escHtml(c.slug)}</span></div>
+
+    <div class="detail-section">Uptime</div>
+    <div class="detail-row"><span class="detail-label">Uptime (${historyData ? historyData.length : 0} checks)</span><span class="detail-value">${uptimePct}</span></div>
+    ${panelSpark ? `<div class="detail-sparkline">${panelSpark}<div class="detail-sparkline-label">Response time history (48h)</div></div>` : ''}
+  `;
+
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('panel-overlay').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('panel-overlay').classList.remove('open');
+}
+
+document.getElementById('panel-close').addEventListener('click', closePanel);
+document.getElementById('panel-overlay').addEventListener('click', closePanel);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 
 // Auth gate (reuse same password as main dashboard)
 (function() {
