@@ -1,0 +1,771 @@
+{
+  "generated_at": "2026-05-08T09:14:40",
+  "search_term": "Jones",
+  "total": 76,
+  "up": 72,
+  "down": 2,
+  "auth_errors": 2,
+  "avg_response_ms": 801,
+  "colleges": [
+    {
+      "slug": "4cd-contra-costa",
+      "name": "4CD (Contra Costa)",
+      "base_url": "https://contracosta.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1310,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "allen-hancock-college",
+      "name": "Allen Hancock College",
+      "base_url": "https://hancockcollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 620,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "antelope-valley-college",
+      "name": "Antelope Valley College",
+      "base_url": "https://avc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 825,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "barstow-ccd",
+      "name": "Barstow CCD",
+      "base_url": "https://barstow.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 587,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "butte-college",
+      "name": "Butte College",
+      "base_url": "https://canvas.butte.edu",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 691,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "cvc-oei",
+      "name": "CVC-OEI",
+      "base_url": "https://ccconlineed.instructure.com",
+      "status": "auth_error",
+      "http_code": 401,
+      "response_ms": 444,
+      "result_count": null,
+      "error": "Unauthorized (token expired or revoked)"
+    },
+    {
+      "slug": "cabrillo-college",
+      "name": "Cabrillo College",
+      "base_url": "https://cabrillo.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 623,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "cerritos-college",
+      "name": "Cerritos College",
+      "base_url": "https://cerritos.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 662,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "chabot-las-positas-ccd",
+      "name": "Chabot-Las Positas CCD",
+      "base_url": "https://clpccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1002,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "chaffey",
+      "name": "Chaffey",
+      "base_url": "https://canvas.chaffey.edu",
+      "status": "down",
+      "http_code": 200,
+      "response_ms": 775,
+      "result_count": null,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "slug": "citrus-college",
+      "name": "Citrus College",
+      "base_url": "https://citruscollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 732,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "city-college-of-san-francisco",
+      "name": "City College of San Francisco",
+      "base_url": "https://ccsf.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 861,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "coast-district",
+      "name": "Coast District",
+      "base_url": "https://coastdistrict.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1082,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "college-of-the-canyons",
+      "name": "College of the Canyons",
+      "base_url": "https://coc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 766,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "college-of-the-redwoods",
+      "name": "College of the Redwoods",
+      "base_url": "https://redwoods.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 452,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "college-of-the-sequoias",
+      "name": "College of the Sequoias",
+      "base_url": "https://cos.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 623,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "college-of-the-siskiyous",
+      "name": "College of the Siskiyous",
+      "base_url": "https://siskiyous.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 542,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "compton-college",
+      "name": "Compton College",
+      "base_url": "https://compton.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 830,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "copper-mountain",
+      "name": "Copper Mountain",
+      "base_url": "https://cmccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 458,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "cuesta-college",
+      "name": "Cuesta College",
+      "base_url": "https://cuesta.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 806,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "cypress-college",
+      "name": "Cypress College",
+      "base_url": "https://cypresscollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 922,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "de-anza",
+      "name": "De Anza",
+      "base_url": "https://deanza.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1031,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "desert-ccd",
+      "name": "Desert CCD",
+      "base_url": "https://collegeofthedesert.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 563,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "el-camino-ccd",
+      "name": "El Camino CCD",
+      "base_url": "https://elcamino.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 844,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "feather-river-college",
+      "name": "Feather River College",
+      "base_url": "https://frc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 558,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "foothill-college",
+      "name": "Foothill College",
+      "base_url": "https://foothillcollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 784,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "fullerton-college",
+      "name": "Fullerton College",
+      "base_url": "https://fullcoll.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 710,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "gavilan-college",
+      "name": "Gavilan College",
+      "base_url": "https://ilearn.gavilan.edu",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 648,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "glendale-college",
+      "name": "Glendale College",
+      "base_url": "https://gcc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 699,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "grossmont-cuyamaca",
+      "name": "Grossmont Cuyamaca",
+      "base_url": "https://gcccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 790,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "hartnell-college",
+      "name": "Hartnell College",
+      "base_url": "https://hartnell.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 659,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "imperial-valley-college",
+      "name": "Imperial Valley College",
+      "base_url": "https://imperial.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 714,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "kern-ccd",
+      "name": "Kern CCD",
+      "base_url": "https://kccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1062,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "lake-tahoe",
+      "name": "Lake Tahoe",
+      "base_url": "https://laketahoecc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 612,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "lassen-college",
+      "name": "Lassen College",
+      "base_url": "https://lassencollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 669,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "long-beach-city-college",
+      "name": "Long Beach City College",
+      "base_url": "https://lbcc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 766,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "los-angeles-district",
+      "name": "Los Angeles District",
+      "base_url": "https://ilearn.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 2316,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "los-rios",
+      "name": "Los Rios",
+      "base_url": "https://lrccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1807,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "marin-college",
+      "name": "Marin College",
+      "base_url": "https://marin.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 809,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "mendocino-ccd",
+      "name": "Mendocino CCD",
+      "base_url": "https://mendocino.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 558,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "merced-college",
+      "name": "Merced College",
+      "base_url": "https://mccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1004,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "miracosta",
+      "name": "Miracosta",
+      "base_url": "https://miracosta.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 845,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "mission-college",
+      "name": "Mission College",
+      "base_url": "https://wvm.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 618,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "monterey-peninsula-college",
+      "name": "Monterey Peninsula College",
+      "base_url": "https://mpc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 647,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "mt-san-antonio-college",
+      "name": "Mt San Antonio College",
+      "base_url": "https://mtsac.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1510,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "mt-san-jacinto-college",
+      "name": "Mt. San Jacinto College",
+      "base_url": "https://msjc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 654,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "napa-valley-college",
+      "name": "Napa Valley College",
+      "base_url": "https://napavalley.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 982,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "ohlone-college",
+      "name": "Ohlone College",
+      "base_url": "https://ohlone.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 880,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "palo-verde-college",
+      "name": "Palo Verde College",
+      "base_url": "https://paloverde.instructure.com",
+      "status": "auth_error",
+      "http_code": 403,
+      "response_ms": 622,
+      "result_count": null,
+      "error": "Forbidden (insufficient permissions)"
+    },
+    {
+      "slug": "palomar",
+      "name": "Palomar",
+      "base_url": "https://palomar.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 635,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "pasadena-city-college",
+      "name": "Pasadena City College",
+      "base_url": "https://pcc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 863,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "peralta-ccd",
+      "name": "Peralta CCD",
+      "base_url": "https://peralta.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 733,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "rancho-santiago-canyon-district",
+      "name": "Rancho Santiago Canyon District",
+      "base_url": "https://rsccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 927,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "rio-hondo-ccd",
+      "name": "Rio Hondo CCD",
+      "base_url": "https://riohondo.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 777,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "riverside-rccd",
+      "name": "Riverside RCCD",
+      "base_url": "https://rccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 739,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "san-bernardino-ccd",
+      "name": "San Bernardino CCD",
+      "base_url": "https://sbccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 782,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "san-diego-district",
+      "name": "San Diego District",
+      "base_url": "https://sdccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 889,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "san-joaquin-delta-college",
+      "name": "San Joaquin Delta College",
+      "base_url": "https://sjdc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 659,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "san-jose-evergreen-ccd",
+      "name": "San Jose / Evergreen CCD",
+      "base_url": "https://sjeccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 873,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "san-mateo",
+      "name": "San Mateo",
+      "base_url": "https://smccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1401,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "santa-barbara-cc",
+      "name": "Santa Barbara CC",
+      "base_url": "https://sbcc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 959,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "santa-monica-college",
+      "name": "Santa Monica College",
+      "base_url": "https://online.smc.edu",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 907,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "santa-rosa-college",
+      "name": "Santa Rosa College",
+      "base_url": "https://santarosajc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 802,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "shasta-college",
+      "name": "Shasta College",
+      "base_url": "https://shastacollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 539,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "sierra-college",
+      "name": "Sierra College",
+      "base_url": "https://sierra.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1097,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "solano",
+      "name": "Solano",
+      "base_url": "https://solano.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 562,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "south-orange-county-ccd",
+      "name": "South Orange County CCD",
+      "base_url": "https://canvas.socccd.edu",
+      "status": "down",
+      "http_code": 404,
+      "response_ms": 539,
+      "result_count": null,
+      "error": "HTTP 404: Not Found"
+    },
+    {
+      "slug": "southwestern-college",
+      "name": "Southwestern College",
+      "base_url": "https://swccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 753,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "state-center-ccd",
+      "name": "State Center CCD",
+      "base_url": "https://scccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 888,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "taft-college",
+      "name": "Taft College",
+      "base_url": "https://taftcollege.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 442,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "ventura-community-college-district",
+      "name": "Ventura Community College District",
+      "base_url": "https://vcccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 880,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "victor-valley-college",
+      "name": "Victor Valley College",
+      "base_url": "https://vvc.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 481,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "west-hills-ccd",
+      "name": "West Hills CCD",
+      "base_url": "https://whccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 882,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "west-valley-mission",
+      "name": "West Valley Mission",
+      "base_url": "https://wvm.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 537,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "yosemite-district",
+      "name": "Yosemite District",
+      "base_url": "https://yosemite.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 722,
+      "result_count": 5,
+      "error": null
+    },
+    {
+      "slug": "yuba-ccd",
+      "name": "Yuba CCD",
+      "base_url": "https://yccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 643,
+      "result_count": 5,
+      "error": null
+    }
+  ]
+}
