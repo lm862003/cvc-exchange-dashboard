@@ -70,7 +70,10 @@
 <body>
 
 <div class="header">
-  <h1>Canvas API Status Monitor</h1>
+  <div>
+    <h1>Canvas API Status Monitor</h1>
+    <div style="font-size:12px;color:#8b949e;margin-top:4px;">Monitors all Canvas LMS instances by authenticating with each college's API and performing a user search query every hour.</div>
+  </div>
   <div class="header-meta">
     Last checked: <span id="last-updated">loading...</span>
     &nbsp;|&nbsp; Auto-refresh: 60 min
@@ -223,9 +226,9 @@ function renderCards() {
     const badgeCls = c.status === 'up' ? 'badge-up' : c.status === 'auth_error' ? 'badge-auth' : 'badge-down';
     const label = c.status === 'auth_error' ? 'Auth Error' : c.status.toUpperCase();
     const ms = c.response_ms != null ? c.response_ms + 'ms' : '-';
-    const count = c.result_count != null ? c.result_count + ' results' : '';
     const errHtml = c.error ? `<div class="card-error">${escHtml(c.error)}</div>` : '';
     const spark = getSparkline(c.slug);
+    const sparkLabel = spark ? '<div style="font-size:10px;color:#484f58;margin-top:2px;">Response time (24h)</div>' : '';
 
     return `<div class="card">
       <div class="card-header">
@@ -234,10 +237,10 @@ function renderCards() {
       </div>
       <div class="card-details">
         <span>Response: ${ms}</span>
-        ${count ? `<span>${count}</span>` : ''}
       </div>
       ${errHtml}
       ${spark}
+      ${sparkLabel}
     </div>`;
   }).join('');
 }
