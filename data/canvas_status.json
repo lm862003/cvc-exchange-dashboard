@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-08T09:23:32",
+  "generated_at": "2026-05-08T09:28:27",
   "search_term": "Jones",
   "total": 76,
-  "up": 72,
-  "down": 2,
+  "up": 73,
+  "down": 1,
   "auth_errors": 2,
-  "avg_response_ms": 979,
+  "avg_response_ms": 855,
   "colleges": [
     {
       "slug": "4cd-contra-costa",
@@ -13,7 +13,7 @@
       "base_url": "https://contracosta.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 2127,
+      "response_ms": 1235,
       "result_count": 5,
       "error": null
     },
@@ -23,7 +23,7 @@
       "base_url": "https://hancockcollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 849,
+      "response_ms": 639,
       "result_count": 5,
       "error": null
     },
@@ -33,7 +33,7 @@
       "base_url": "https://avc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 851,
+      "response_ms": 565,
       "result_count": 5,
       "error": null
     },
@@ -43,7 +43,7 @@
       "base_url": "https://barstow.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 974,
+      "response_ms": 889,
       "result_count": 5,
       "error": null
     },
@@ -53,7 +53,7 @@
       "base_url": "https://canvas.butte.edu",
       "status": "up",
       "http_code": 200,
-      "response_ms": 985,
+      "response_ms": 695,
       "result_count": 5,
       "error": null
     },
@@ -63,7 +63,7 @@
       "base_url": "https://ccconlineed.instructure.com",
       "status": "auth_error",
       "http_code": 401,
-      "response_ms": 311,
+      "response_ms": 458,
       "result_count": null,
       "error": "Unauthorized (token expired or revoked)"
     },
@@ -73,7 +73,7 @@
       "base_url": "https://cabrillo.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 562,
+      "response_ms": 888,
       "result_count": 5,
       "error": null
     },
@@ -83,7 +83,7 @@
       "base_url": "https://cerritos.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1102,
+      "response_ms": 756,
       "result_count": 5,
       "error": null
     },
@@ -93,7 +93,7 @@
       "base_url": "https://clpccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1175,
+      "response_ms": 682,
       "result_count": 5,
       "error": null
     },
@@ -103,7 +103,7 @@
       "base_url": "https://canvas.chaffey.edu",
       "status": "down",
       "http_code": 200,
-      "response_ms": 776,
+      "response_ms": 667,
       "result_count": null,
       "error": "Expecting value: line 1 column 1 (char 0)"
     },
@@ -113,7 +113,7 @@
       "base_url": "https://citruscollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 757,
+      "response_ms": 610,
       "result_count": 5,
       "error": null
     },
@@ -123,7 +123,7 @@
       "base_url": "https://ccsf.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 986,
+      "response_ms": 933,
       "result_count": 5,
       "error": null
     },
@@ -133,7 +133,7 @@
       "base_url": "https://coastdistrict.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1126,
+      "response_ms": 1160,
       "result_count": 5,
       "error": null
     },
@@ -143,7 +143,7 @@
       "base_url": "https://coc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 841,
+      "response_ms": 595,
       "result_count": 5,
       "error": null
     },
@@ -153,7 +153,7 @@
       "base_url": "https://redwoods.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 638,
+      "response_ms": 461,
       "result_count": 5,
       "error": null
     },
@@ -163,7 +163,7 @@
       "base_url": "https://cos.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 686,
+      "response_ms": 735,
       "result_count": 5,
       "error": null
     },
@@ -173,7 +173,7 @@
       "base_url": "https://siskiyous.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 826,
+      "response_ms": 581,
       "result_count": 5,
       "error": null
     },
@@ -183,7 +183,7 @@
       "base_url": "https://compton.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 685,
+      "response_ms": 639,
       "result_count": 5,
       "error": null
     },
@@ -193,7 +193,7 @@
       "base_url": "https://cmccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 751,
+      "response_ms": 685,
       "result_count": 5,
       "error": null
     },
@@ -203,7 +203,7 @@
       "base_url": "https://cuesta.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 799,
+      "response_ms": 788,
       "result_count": 5,
       "error": null
     },
@@ -213,7 +213,7 @@
       "base_url": "https://cypresscollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 905,
+      "response_ms": 761,
       "result_count": 5,
       "error": null
     },
@@ -223,7 +223,7 @@
       "base_url": "https://deanza.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1056,
+      "response_ms": 1059,
       "result_count": 5,
       "error": null
     },
@@ -233,7 +233,7 @@
       "base_url": "https://collegeofthedesert.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 714,
+      "response_ms": 534,
       "result_count": 5,
       "error": null
     },
@@ -243,7 +243,7 @@
       "base_url": "https://elcamino.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1457,
+      "response_ms": 746,
       "result_count": 5,
       "error": null
     },
@@ -253,7 +253,7 @@
       "base_url": "https://frc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 715,
+      "response_ms": 753,
       "result_count": 5,
       "error": null
     },
@@ -263,7 +263,7 @@
       "base_url": "https://foothillcollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1087,
+      "response_ms": 888,
       "result_count": 5,
       "error": null
     },
@@ -273,7 +273,7 @@
       "base_url": "https://fullcoll.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 837,
+      "response_ms": 604,
       "result_count": 5,
       "error": null
     },
@@ -283,7 +283,7 @@
       "base_url": "https://ilearn.gavilan.edu",
       "status": "up",
       "http_code": 200,
-      "response_ms": 591,
+      "response_ms": 596,
       "result_count": 5,
       "error": null
     },
@@ -293,7 +293,7 @@
       "base_url": "https://gcc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 804,
+      "response_ms": 829,
       "result_count": 5,
       "error": null
     },
@@ -303,7 +303,7 @@
       "base_url": "https://gcccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 810,
+      "response_ms": 870,
       "result_count": 5,
       "error": null
     },
@@ -313,7 +313,7 @@
       "base_url": "https://hartnell.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 764,
+      "response_ms": 493,
       "result_count": 5,
       "error": null
     },
@@ -323,7 +323,7 @@
       "base_url": "https://imperial.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 706,
+      "response_ms": 825,
       "result_count": 5,
       "error": null
     },
@@ -333,7 +333,7 @@
       "base_url": "https://kccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1159,
+      "response_ms": 1609,
       "result_count": 5,
       "error": null
     },
@@ -343,7 +343,7 @@
       "base_url": "https://laketahoecc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 750,
+      "response_ms": 639,
       "result_count": 5,
       "error": null
     },
@@ -353,7 +353,7 @@
       "base_url": "https://lassencollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 499,
+      "response_ms": 565,
       "result_count": 5,
       "error": null
     },
@@ -363,7 +363,7 @@
       "base_url": "https://lbcc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 811,
+      "response_ms": 859,
       "result_count": 5,
       "error": null
     },
@@ -373,7 +373,7 @@
       "base_url": "https://ilearn.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 2195,
+      "response_ms": 2424,
       "result_count": 5,
       "error": null
     },
@@ -383,7 +383,7 @@
       "base_url": "https://lrccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 2638,
+      "response_ms": 1799,
       "result_count": 5,
       "error": null
     },
@@ -393,7 +393,7 @@
       "base_url": "https://marin.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 599,
+      "response_ms": 595,
       "result_count": 5,
       "error": null
     },
@@ -403,7 +403,7 @@
       "base_url": "https://mendocino.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 698,
+      "response_ms": 665,
       "result_count": 5,
       "error": null
     },
@@ -413,7 +413,7 @@
       "base_url": "https://mccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1264,
+      "response_ms": 952,
       "result_count": 5,
       "error": null
     },
@@ -423,7 +423,7 @@
       "base_url": "https://miracosta.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1722,
+      "response_ms": 827,
       "result_count": 5,
       "error": null
     },
@@ -433,7 +433,7 @@
       "base_url": "https://wvm.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 491,
+      "response_ms": 468,
       "result_count": 5,
       "error": null
     },
@@ -443,7 +443,7 @@
       "base_url": "https://mpc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 626,
+      "response_ms": 592,
       "result_count": 5,
       "error": null
     },
@@ -453,7 +453,7 @@
       "base_url": "https://mtsac.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1534,
+      "response_ms": 1406,
       "result_count": 5,
       "error": null
     },
@@ -463,7 +463,7 @@
       "base_url": "https://msjc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1168,
+      "response_ms": 765,
       "result_count": 5,
       "error": null
     },
@@ -473,7 +473,7 @@
       "base_url": "https://napavalley.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 835,
+      "response_ms": 864,
       "result_count": 5,
       "error": null
     },
@@ -483,7 +483,7 @@
       "base_url": "https://ohlone.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 932,
+      "response_ms": 954,
       "result_count": 5,
       "error": null
     },
@@ -493,7 +493,7 @@
       "base_url": "https://paloverde.instructure.com",
       "status": "auth_error",
       "http_code": 403,
-      "response_ms": 561,
+      "response_ms": 662,
       "result_count": null,
       "error": "Forbidden (insufficient permissions)"
     },
@@ -503,7 +503,7 @@
       "base_url": "https://palomar.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1028,
+      "response_ms": 612,
       "result_count": 5,
       "error": null
     },
@@ -513,7 +513,7 @@
       "base_url": "https://pcc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 871,
+      "response_ms": 896,
       "result_count": 5,
       "error": null
     },
@@ -523,7 +523,7 @@
       "base_url": "https://peralta.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 767,
+      "response_ms": 934,
       "result_count": 5,
       "error": null
     },
@@ -533,7 +533,7 @@
       "base_url": "https://rsccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1104,
+      "response_ms": 1098,
       "result_count": 5,
       "error": null
     },
@@ -543,7 +543,7 @@
       "base_url": "https://riohondo.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1018,
+      "response_ms": 675,
       "result_count": 5,
       "error": null
     },
@@ -553,7 +553,7 @@
       "base_url": "https://rccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 2108,
+      "response_ms": 1653,
       "result_count": 5,
       "error": null
     },
@@ -563,7 +563,7 @@
       "base_url": "https://sbccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1267,
+      "response_ms": 987,
       "result_count": 5,
       "error": null
     },
@@ -573,7 +573,7 @@
       "base_url": "https://sdccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1574,
+      "response_ms": 1513,
       "result_count": 5,
       "error": null
     },
@@ -583,7 +583,7 @@
       "base_url": "https://sjdc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 654,
+      "response_ms": 754,
       "result_count": 5,
       "error": null
     },
@@ -593,7 +593,7 @@
       "base_url": "https://sjeccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 877,
+      "response_ms": 809,
       "result_count": 5,
       "error": null
     },
@@ -603,7 +603,7 @@
       "base_url": "https://smccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1324,
+      "response_ms": 1123,
       "result_count": 5,
       "error": null
     },
@@ -613,7 +613,7 @@
       "base_url": "https://sbcc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1093,
+      "response_ms": 1069,
       "result_count": 5,
       "error": null
     },
@@ -623,7 +623,7 @@
       "base_url": "https://online.smc.edu",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1184,
+      "response_ms": 696,
       "result_count": 5,
       "error": null
     },
@@ -633,7 +633,7 @@
       "base_url": "https://santarosajc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 986,
+      "response_ms": 836,
       "result_count": 5,
       "error": null
     },
@@ -643,7 +643,7 @@
       "base_url": "https://shastacollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 828,
+      "response_ms": 591,
       "result_count": 5,
       "error": null
     },
@@ -653,7 +653,7 @@
       "base_url": "https://sierra.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1041,
+      "response_ms": 2085,
       "result_count": 5,
       "error": null
     },
@@ -663,19 +663,19 @@
       "base_url": "https://solano.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 703,
+      "response_ms": 502,
       "result_count": 5,
       "error": null
     },
     {
       "slug": "south-orange-county-ccd",
       "name": "South Orange County CCD",
-      "base_url": "https://canvas.socccd.edu",
-      "status": "down",
-      "http_code": 404,
-      "response_ms": 568,
-      "result_count": null,
-      "error": "HTTP 404: Not Found"
+      "base_url": "https://socccd.instructure.com",
+      "status": "up",
+      "http_code": 200,
+      "response_ms": 1046,
+      "result_count": 5,
+      "error": null
     },
     {
       "slug": "southwestern-college",
@@ -683,7 +683,7 @@
       "base_url": "https://swccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 755,
+      "response_ms": 827,
       "result_count": 5,
       "error": null
     },
@@ -693,7 +693,7 @@
       "base_url": "https://scccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1802,
+      "response_ms": 989,
       "result_count": 5,
       "error": null
     },
@@ -703,7 +703,7 @@
       "base_url": "https://taftcollege.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 911,
+      "response_ms": 453,
       "result_count": 5,
       "error": null
     },
@@ -713,7 +713,7 @@
       "base_url": "https://vcccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 720,
+      "response_ms": 834,
       "result_count": 5,
       "error": null
     },
@@ -723,7 +723,7 @@
       "base_url": "https://vvc.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 901,
+      "response_ms": 664,
       "result_count": 5,
       "error": null
     },
@@ -733,7 +733,7 @@
       "base_url": "https://whccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 1440,
+      "response_ms": 910,
       "result_count": 5,
       "error": null
     },
@@ -743,7 +743,7 @@
       "base_url": "https://wvm.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 578,
+      "response_ms": 643,
       "result_count": 5,
       "error": null
     },
@@ -753,7 +753,7 @@
       "base_url": "https://yosemite.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 950,
+      "response_ms": 765,
       "result_count": 5,
       "error": null
     },
@@ -763,7 +763,7 @@
       "base_url": "https://yccd.instructure.com",
       "status": "up",
       "http_code": 200,
-      "response_ms": 639,
+      "response_ms": 765,
       "result_count": 5,
       "error": null
     }
