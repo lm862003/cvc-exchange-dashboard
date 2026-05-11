@@ -92,11 +92,11 @@
 <div class="header">
   <div>
     <h1>Canvas API Status Monitor</h1>
-    <div style="font-size:12px;color:#8b949e;margin-top:4px;">Monitors all Canvas LMS instances by authenticating with each college's API and performing a user search query every hour.</div>
+    <div style="font-size:12px;color:#8b949e;margin-top:4px;">Monitors all 76 Canvas LMS instances. Authenticates with each college's API, performs a user search query, and auto-refreshes expired keys from Postman.</div>
   </div>
   <div class="header-meta">
     Last checked: <span id="last-updated">loading...</span>
-    &nbsp;|&nbsp; Auto-refresh: 60 min
+    &nbsp;|&nbsp; Refresh: <span id="refresh-cadence">--</span> min
   </div>
 </div>
 
@@ -164,6 +164,7 @@ function render() {
   document.getElementById('sum-down').textContent = statusData.down;
   document.getElementById('sum-auth').textContent = statusData.auth_errors;
   document.getElementById('sum-avg').textContent = statusData.avg_response_ms + 'ms';
+  document.getElementById('refresh-cadence').textContent = statusData.refresh_cadence_min || 60;
 
   // Uptime bar
   renderUptimeBar();
