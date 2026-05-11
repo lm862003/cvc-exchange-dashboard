@@ -48,14 +48,6 @@
   .spark-auth { background: #d2992280; }
   .spark-none { background: #30363d40; }
 
-  .uptime-bar { height: 28px; display: flex; gap: 1px; border-radius: 4px; overflow: hidden; margin: 16px 32px 0; }
-  .uptime-segment { flex: 1; min-width: 2px; cursor: pointer; position: relative; }
-  .uptime-segment:hover { opacity: 0.8; }
-  .seg-up { background: #3fb950; }
-  .seg-down { background: #f85149; }
-  .seg-partial { background: #d29922; }
-  .seg-none { background: #21262d; }
-  .uptime-label { display: flex; justify-content: space-between; padding: 4px 32px 0; font-size: 11px; color: #484f58; }
 
   .card { cursor: pointer; }
 
@@ -106,9 +98,6 @@
   <div class="summary-stat"><div class="dot dot-auth"></div> Auth Error: <span class="val" id="sum-auth">-</span></div>
   <div class="summary-stat"><div class="dot dot-avg"></div> Avg Response: <span class="val" id="sum-avg">-</span></div>
 </div>
-
-<div class="uptime-label" style="margin-top:12px"><span>72 hours ago</span><span>Overall Uptime</span><span>Now</span></div>
-<div class="uptime-bar" id="uptime-bar"></div>
 
 <div class="controls">
   <input class="search-box" id="search" type="text" placeholder="Search colleges...">
@@ -166,54 +155,8 @@ function render() {
   document.getElementById('sum-avg').textContent = statusData.avg_response_ms + 'ms';
   document.getElementById('refresh-cadence').textContent = statusData.refresh_cadence_min || 60;
 
-  // Uptime bar
-  renderUptimeBar();
-
   // Cards
   renderCards();
-}
-
-function renderUptimeBar() {
-  const bar = document.getElementById('uptime-bar');
-  bar.innerHTML = '';
-  if (!historyData || historyData.length === 0) {
-    bar.innerHTML = '<div class="uptime-segment seg-none" style="flex:1" title="No history yet"></div>';
-    return;
-  }
-
-  // Group history into 1-hour buckets
-  const now = Date.now();
-  const buckets = [];
-  for (let h = 71; h >= 0; h--) {
-    const start = now - (h + 1) * 3600000;
-    const end   = now - h * 3600000;
-    // Find snapshots in this bucket
-    const snaps = historyData.filter(s => {
-      const t = new Date(s.timestamp).getTime();
-      return t >= start && t < end;
-    });
-    if (snaps.length === 0) {
-      buckets.push('none');
-    } else {
-      // Check if any college was down in this bucket
-      let anyDown = false;
-      let allUp = true;
-      for (const snap of snaps) {
-        for (const slug in snap.colleges) {
-          const st = snap.colleges[slug].status;
-          if (st === 'down') anyDown = true;
-          if (st !== 'up') allUp = false;
-        }
-      }
-      buckets.push(allUp ? 'up' : anyDown ? 'down' : 'partial');
-    }
-  }
-
-  for (const b of buckets) {
-    const seg = document.createElement('div');
-    seg.className = 'uptime-segment seg-' + b;
-    bar.appendChild(seg);
-  }
 }
 
 function getSparkline(slug) {
@@ -389,9 +332,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel()
       document.querySelector('.summary-bar').style.display = 'none';
       document.querySelector('.controls').style.display = 'none';
       document.getElementById('grid').style.display = 'none';
-      document.querySelector('.uptime-bar').style.display = 'none';
-      document.querySelectorAll('.uptime-label').forEach(el => el.style.display = 'none');
-
       var overlay = document.createElement('div');
       overlay.style.cssText = 'position:fixed;inset:0;background:#0f1923;display:flex;align-items:center;justify-content:center;z-index:9999;';
       overlay.innerHTML = '<div style="background:#161b22;border:1px solid #30363d;border-radius:12px;padding:40px;width:340px;text-align:center">' +
@@ -410,8 +350,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel()
           document.querySelector('.summary-bar').style.display = '';
           document.querySelector('.controls').style.display = '';
           document.getElementById('grid').style.display = '';
-          document.querySelector('.uptime-bar').style.display = '';
-          document.querySelectorAll('.uptime-label').forEach(el => el.style.display = '');
           loadData();
         } else {
           document.getElementById('pw-err').style.display = 'block';
