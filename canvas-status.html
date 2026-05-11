@@ -49,6 +49,36 @@
   .spark-none { background: #30363d40; }
 
 
+  /* Timeline scrubber */
+  .timeline-wrap { padding: 0 32px; margin-top: 12px; }
+  .timeline-label { display: flex; justify-content: space-between; font-size: 11px; color: #484f58; margin-bottom: 4px; }
+  .timeline-bar { display: flex; gap: 1px; height: 24px; border-radius: 4px; overflow: hidden; cursor: pointer; }
+  .timeline-seg { flex: 1; min-width: 2px; position: relative; transition: opacity 0.1s; }
+  .timeline-seg:hover { opacity: 0.7; }
+  .timeline-seg.selected { outline: 2px solid #58a6ff; outline-offset: -1px; border-radius: 2px; z-index: 1; }
+  .tl-up { background: #3fb950; }
+  .tl-down { background: #f85149; }
+  .tl-partial { background: #d29922; }
+  .tl-none { background: #21262d; }
+
+  .snapshot-panel { margin: 8px 32px 0; background: #161b22; border: 1px solid #30363d; border-radius: 8px; display: none; }
+  .snapshot-panel.open { display: block; }
+  .snapshot-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #21262d; }
+  .snapshot-time { font-size: 13px; font-weight: 600; color: #e6edf3; }
+  .snapshot-counts { font-size: 12px; color: #8b949e; display: flex; gap: 12px; }
+  .snapshot-counts .sn-up { color: #3fb950; }
+  .snapshot-counts .sn-down { color: #f85149; }
+  .snapshot-counts .sn-auth { color: #d29922; }
+  .snapshot-close { background: none; border: none; color: #8b949e; font-size: 18px; cursor: pointer; padding: 0 4px; }
+  .snapshot-close:hover { color: #e6edf3; }
+  .snapshot-body { padding: 10px 16px; max-height: 180px; overflow-y: auto; }
+  .snapshot-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .snapshot-item { font-size: 12px; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
+  .snapshot-item.si-down { background: #f8514920; color: #f85149; border: 1px solid #f8514940; }
+  .snapshot-item.si-auth { background: #d2992220; color: #d29922; border: 1px solid #d2992240; }
+  .snapshot-item.si-up { background: #23883620; color: #3fb950; border: 1px solid #23883640; }
+  .snapshot-allgood { font-size: 13px; color: #3fb950; padding: 4px 0; }
+
   .card { cursor: pointer; }
 
   .loading { text-align: center; padding: 80px; color: #8b949e; font-size: 16px; }
@@ -97,6 +127,21 @@
   <div class="summary-stat"><div class="dot dot-down"></div> Down: <span class="val" id="sum-down">-</span></div>
   <div class="summary-stat"><div class="dot dot-auth"></div> Auth Error: <span class="val" id="sum-auth">-</span></div>
   <div class="summary-stat"><div class="dot dot-avg"></div> Avg Response: <span class="val" id="sum-avg">-</span></div>
+</div>
+
+<div class="timeline-wrap" id="timeline-wrap">
+  <div class="timeline-label"><span>72 hours ago</span><span>Status Timeline — click to inspect</span><span>Now</span></div>
+  <div class="timeline-bar" id="timeline-bar"></div>
+</div>
+<div class="snapshot-panel" id="snapshot-panel">
+  <div class="snapshot-header">
+    <div>
+      <div class="snapshot-time" id="snapshot-time"></div>
+      <div class="snapshot-counts" id="snapshot-counts"></div>
+    </div>
+    <button class="snapshot-close" id="snapshot-close">&times;</button>
+  </div>
+  <div class="snapshot-body" id="snapshot-body"></div>
 </div>
 
 <div class="controls">
@@ -155,9 +200,96 @@ function render() {
   document.getElementById('sum-avg').textContent = statusData.avg_response_ms + 'ms';
   document.getElementById('refresh-cadence').textContent = statusData.refresh_cadence_min || 60;
 
+  // Timeline
+  renderTimeline();
+
   // Cards
   renderCards();
 }
+
+function renderTimeline() {
+  const bar = document.getElementById('timeline-bar');
+  bar.innerHTML = '';
+  if (!historyData || historyData.length === 0) {
+    bar.innerHTML = '<div class="timeline-seg tl-none" style="flex:1" title="No history yet"></div>';
+    return;
+  }
+  for (let i = 0; i < historyData.length; i++) {
+    const snap = historyData[i];
+    const slugs = Object.keys(snap.colleges);
+    const total = slugs.length;
+    const upCount = slugs.filter(s => snap.colleges[s].status === 'up').length;
+    const downCount = slugs.filter(s => snap.colleges[s].status === 'down').length;
+    const cls = upCount === total ? 'tl-up' : downCount > 0 ? 'tl-down' : 'tl-partial';
+    const seg = document.createElement('div');
+    seg.className = 'timeline-seg ' + cls;
+    seg.dataset.idx = i;
+    const t = snap.timestamp.replace('T', ' ');
+    seg.title = t + ' — ' + upCount + '/' + total + ' up';
+    seg.addEventListener('click', () => showSnapshot(i));
+    bar.appendChild(seg);
+  }
+}
+
+function showSnapshot(idx) {
+  const snap = historyData[idx];
+  if (!snap) return;
+
+  // Highlight selected segment
+  document.querySelectorAll('.timeline-seg').forEach(s => s.classList.remove('selected'));
+  const seg = document.querySelector(`.timeline-seg[data-idx="${idx}"]`);
+  if (seg) seg.classList.add('selected');
+
+  // Timestamp
+  const dt = new Date(snap.timestamp);
+  document.getElementById('snapshot-time').textContent = dt.toLocaleString();
+
+  // Counts
+  const slugs = Object.keys(snap.colleges);
+  const total = slugs.length;
+  const upCount = slugs.filter(s => snap.colleges[s].status === 'up').length;
+  const downCount = slugs.filter(s => snap.colleges[s].status === 'down').length;
+  const authCount = slugs.filter(s => snap.colleges[s].status === 'auth_error').length;
+  document.getElementById('snapshot-counts').innerHTML =
+    `<span class="sn-up">${upCount} up</span>` +
+    (downCount ? `<span class="sn-down">${downCount} down</span>` : '') +
+    (authCount ? `<span class="sn-auth">${authCount} auth</span>` : '') +
+    `<span>${total} total</span>`;
+
+  // Build list — show issues first, then all-good message
+  const body = document.getElementById('snapshot-body');
+  const issues = [];
+  const nameMap = {};
+  if (statusData) {
+    for (const c of statusData.colleges) nameMap[c.slug] = c.name;
+  }
+
+  for (const slug of slugs) {
+    const c = snap.colleges[slug];
+    if (c.status !== 'up') {
+      issues.push({ slug, status: c.status, ms: c.ms, name: nameMap[slug] || slug });
+    }
+  }
+  issues.sort((a, b) => a.name.localeCompare(b.name));
+
+  if (issues.length === 0) {
+    body.innerHTML = '<div class="snapshot-allgood">All colleges reporting UP</div>';
+  } else {
+    body.innerHTML = '<div class="snapshot-list">' +
+      issues.map(i => {
+        const cls = i.status === 'down' ? 'si-down' : 'si-auth';
+        const label = i.status === 'auth_error' ? 'auth' : 'down';
+        return `<span class="snapshot-item ${cls}" title="${i.name}">${escHtml(i.name)} (${label})</span>`;
+      }).join('') + '</div>';
+  }
+
+  document.getElementById('snapshot-panel').classList.add('open');
+}
+
+document.getElementById('snapshot-close').addEventListener('click', () => {
+  document.getElementById('snapshot-panel').classList.remove('open');
+  document.querySelectorAll('.timeline-seg').forEach(s => s.classList.remove('selected'));
+});
 
 function getSparkline(slug) {
   if (!historyData || historyData.length < 2) return '';
@@ -332,6 +464,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel()
       document.querySelector('.summary-bar').style.display = 'none';
       document.querySelector('.controls').style.display = 'none';
       document.getElementById('grid').style.display = 'none';
+      document.getElementById('timeline-wrap').style.display = 'none';
       var overlay = document.createElement('div');
       overlay.style.cssText = 'position:fixed;inset:0;background:#0f1923;display:flex;align-items:center;justify-content:center;z-index:9999;';
       overlay.innerHTML = '<div style="background:#161b22;border:1px solid #30363d;border-radius:12px;padding:40px;width:340px;text-align:center">' +
@@ -350,6 +483,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel()
           document.querySelector('.summary-bar').style.display = '';
           document.querySelector('.controls').style.display = '';
           document.getElementById('grid').style.display = '';
+          document.getElementById('timeline-wrap').style.display = '';
           loadData();
         } else {
           document.getElementById('pw-err').style.display = 'block';
