@@ -253,8 +253,10 @@
   .csv-btn:hover { background: var(--surface-2); color: var(--text); }
 
   /* ── App shell ──────────────────────────────────────────── */
-  #main-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
-  .app-layout { display: flex; flex: 1; overflow: hidden; }
+  /* min-height:0 is required on flex column children — without it, flex items
+     default to min-height:auto and the map container gets 0 height */
+  #main-content { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+  .app-layout { display: flex; flex: 1; min-height: 0; overflow: hidden; }
 
   /* ── Left sidebar ───────────────────────────────────────── */
   .sidebar-left {
@@ -644,6 +646,9 @@ var collegeLookup = {};
 
 function initApp() {
   leafletMap = L.map('map', { zoomControl: true }).setView([37.2, -119.5], 6);
+  // Unconditional invalidateSize — ensures the map reads correct dimensions
+  // even if Leaflet initialised before the flex layout fully resolved
+  setTimeout(function() { leafletMap.invalidateSize(); resizeSVG(); }, 300);
   // Dark map tiles for maximum arc visibility
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
