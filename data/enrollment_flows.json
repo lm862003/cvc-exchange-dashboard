@@ -555,7 +555,7 @@
   ],
   "terms": {
     "Spring 2026": {
-      "total": 10922,
+      "total": 10937,
       "flows": [
         {
           "from": "Mt. San Antonio College",
@@ -608,11 +608,6 @@
           "count": 28
         },
         {
-          "from": "Santa Rosa Junior College",
-          "to": "Rio Hondo College",
-          "count": 27
-        },
-        {
           "from": "Solano Community College",
           "to": "Santa Ana College",
           "count": 27
@@ -623,19 +618,24 @@
           "count": 27
         },
         {
-          "from": "Diablo Valley College",
-          "to": "Citrus College",
-          "count": 26
-        },
-        {
           "from": "Modesto Junior College",
           "to": "Saddleback College",
+          "count": 25
+        },
+        {
+          "from": "Santa Rosa Junior College",
+          "to": "Rio Hondo College",
           "count": 25
         },
         {
           "from": "Santa Monica College",
           "to": "Saddleback College",
           "count": 25
+        },
+        {
+          "from": "Diablo Valley College",
+          "to": "Citrus College",
+          "count": 24
         },
         {
           "from": "Allan Hancock College",
@@ -738,11 +738,6 @@
           "count": 17
         },
         {
-          "from": "Mt. San Jacinto College",
-          "to": "Santa Ana College",
-          "count": 17
-        },
-        {
           "from": "Foothill College",
           "to": "Santa Ana College",
           "count": 17
@@ -764,6 +759,11 @@
         },
         {
           "from": "Imperial Valley College",
+          "to": "Santa Ana College",
+          "count": 16
+        },
+        {
+          "from": "Mt. San Jacinto College",
           "to": "Santa Ana College",
           "count": 16
         },
@@ -893,11 +893,6 @@
           "count": 13
         },
         {
-          "from": "Bakersfield College",
-          "to": "Santa Ana College",
-          "count": 13
-        },
-        {
           "from": "Pasadena City College",
           "to": "Citrus College",
           "count": 13
@@ -933,8 +928,18 @@
           "count": 12
         },
         {
+          "from": "Bakersfield College",
+          "to": "Santa Ana College",
+          "count": 12
+        },
+        {
           "from": "Santa Rosa Junior College",
           "to": "Compton College",
+          "count": 12
+        },
+        {
+          "from": "Mt. San Jacinto College",
+          "to": "Fullerton College",
           "count": 12
         },
         {
@@ -995,11 +1000,6 @@
         {
           "from": "Diablo Valley College",
           "to": "Santiago Canyon College",
-          "count": 11
-        },
-        {
-          "from": "San Jose City College",
-          "to": "Rio Hondo College",
           "count": 11
         },
         {
@@ -1108,11 +1108,6 @@
           "count": 10
         },
         {
-          "from": "Santa Barbara City College",
-          "to": "Compton College",
-          "count": 10
-        },
-        {
           "from": "Chaffey College",
           "to": "Santa Ana College",
           "count": 10
@@ -1130,6 +1125,16 @@
         {
           "from": "Berkeley City College",
           "to": "Rio Hondo College",
+          "count": 10
+        },
+        {
+          "from": "San Jose City College",
+          "to": "Rio Hondo College",
+          "count": 10
+        },
+        {
+          "from": "Mt. San Antonio College",
+          "to": "Fullerton College",
           "count": 10
         },
         {
@@ -1233,6 +1238,11 @@
           "count": 9
         },
         {
+          "from": "Santa Barbara City College",
+          "to": "Compton College",
+          "count": 9
+        },
+        {
           "from": "Solano Community College",
           "to": "Cerro Coso Community College",
           "count": 9
@@ -1245,21 +1255,6 @@
         {
           "from": "Santa Rosa Junior College",
           "to": "College of the Redwoods",
-          "count": 9
-        },
-        {
-          "from": "Chaffey College",
-          "to": "Rio Hondo College",
-          "count": 9
-        },
-        {
-          "from": "Santa Barbara City College",
-          "to": "Rio Hondo College",
-          "count": 9
-        },
-        {
-          "from": "Santa Rosa Junior College",
-          "to": "College of Alameda",
           "count": 9
         },
         {
@@ -1285,11 +1280,6 @@
         {
           "from": "Sierra College",
           "to": "Saddleback College",
-          "count": 9
-        },
-        {
-          "from": "Mt. San Jacinto College",
-          "to": "Fullerton College",
           "count": 9
         },
         {
@@ -1453,8 +1443,28 @@
           "count": 8
         },
         {
+          "from": "Santa Barbara City College",
+          "to": "Rio Hondo College",
+          "count": 8
+        },
+        {
+          "from": "Santa Rosa Junior College",
+          "to": "College of Alameda",
+          "count": 8
+        },
+        {
+          "from": "Irvine Valley College",
+          "to": "Fullerton College",
+          "count": 8
+        },
+        {
           "from": "Mt. San Antonio College",
           "to": "Golden West College",
+          "count": 8
+        },
+        {
+          "from": "Chaffey College",
+          "to": "Rio Hondo College",
           "count": 8
         },
         {
@@ -1495,6 +1505,11 @@
         {
           "from": "Las Positas College",
           "to": "Rio Hondo College",
+          "count": 8
+        },
+        {
+          "from": "Las Positas College",
+          "to": "Fullerton College",
           "count": 8
         },
         {
@@ -1709,7 +1724,17 @@
         },
         {
           "from": "Glendale Community College",
+          "to": "Fullerton College",
+          "count": 7
+        },
+        {
+          "from": "Glendale Community College",
           "to": "Golden West College",
+          "count": 7
+        },
+        {
+          "from": "Santa Rosa Junior College",
+          "to": "Fullerton College",
           "count": 7
         },
         {
@@ -1725,6 +1750,11 @@
         {
           "from": "Diablo Valley College",
           "to": "Evergreen Valley College",
+          "count": 7
+        },
+        {
+          "from": "Cerritos College",
+          "to": "Fullerton College",
           "count": 7
         },
         {
@@ -1780,11 +1810,6 @@
         {
           "from": "Santa Barbara City College",
           "to": "Ventura College",
-          "count": 7
-        },
-        {
-          "from": "Mt. San Antonio College",
-          "to": "Fullerton College",
           "count": 7
         },
         {
@@ -1923,11 +1948,6 @@
           "count": 6
         },
         {
-          "from": "Foothill College",
-          "to": "Santiago Canyon College",
-          "count": 6
-        },
-        {
           "from": "Berkeley City College",
           "to": "Santa Ana College",
           "count": 6
@@ -2013,6 +2033,11 @@
           "count": 6
         },
         {
+          "from": "MiraCosta College",
+          "to": "Fullerton College",
+          "count": 6
+        },
+        {
           "from": "Santa Monica College",
           "to": "Coastline Community College",
           "count": 6
@@ -2028,8 +2053,8 @@
           "count": 6
         },
         {
-          "from": "College of the Desert",
-          "to": "Rio Hondo College",
+          "from": "Pasadena City College",
+          "to": "Fullerton College",
           "count": 6
         },
         {
@@ -2088,11 +2113,6 @@
           "count": 6
         },
         {
-          "from": "Irvine Valley College",
-          "to": "Fullerton College",
-          "count": 6
-        },
-        {
           "from": "Diablo Valley College",
           "to": "Bakersfield College",
           "count": 6
@@ -2120,11 +2140,6 @@
         {
           "from": "Palomar College",
           "to": "Cerritos College",
-          "count": 6
-        },
-        {
-          "from": "MiraCosta College",
-          "to": "Santiago Canyon College",
           "count": 6
         },
         {
@@ -2173,11 +2188,6 @@
           "count": 6
         },
         {
-          "from": "Glendale Community College",
-          "to": "Fullerton College",
-          "count": 6
-        },
-        {
           "from": "Santa Rosa Junior College",
           "to": "Mendocino College",
           "count": 6
@@ -2193,11 +2203,6 @@
           "count": 6
         },
         {
-          "from": "Santa Rosa Junior College",
-          "to": "Fullerton College",
-          "count": 6
-        },
-        {
           "from": "Diablo Valley College",
           "to": "Laney College",
           "count": 6
@@ -2210,11 +2215,6 @@
         {
           "from": "Palomar College",
           "to": "Saddleback College",
-          "count": 6
-        },
-        {
-          "from": "Cerritos College",
-          "to": "Fullerton College",
           "count": 6
         },
         {
@@ -2538,6 +2538,11 @@
           "count": 5
         },
         {
+          "from": "Foothill College",
+          "to": "Santiago Canyon College",
+          "count": 5
+        },
+        {
           "from": "Santa Rosa Junior College",
           "to": "Palomar College",
           "count": 5
@@ -2678,6 +2683,11 @@
           "count": 5
         },
         {
+          "from": "College of the Desert",
+          "to": "Rio Hondo College",
+          "count": 5
+        },
+        {
           "from": "College of Marin",
           "to": "Fullerton College",
           "count": 5
@@ -2685,11 +2695,6 @@
         {
           "from": "Glendale Community College",
           "to": "Cerro Coso Community College",
-          "count": 5
-        },
-        {
-          "from": "Sierra College",
-          "to": "Coastline Community College",
           "count": 5
         },
         {
@@ -2709,11 +2714,6 @@
         },
         {
           "from": "Palomar College",
-          "to": "Copper Mountain College",
-          "count": 5
-        },
-        {
-          "from": "City College of San Francisco",
           "to": "Copper Mountain College",
           "count": 5
         },
@@ -2759,6 +2759,11 @@
         },
         {
           "from": "Diablo Valley College",
+          "to": "Fullerton College",
+          "count": 5
+        },
+        {
+          "from": "Diablo Valley College",
           "to": "Oxnard College",
           "count": 5
         },
@@ -2773,8 +2778,18 @@
           "count": 5
         },
         {
+          "from": "MiraCosta College",
+          "to": "Santiago Canyon College",
+          "count": 5
+        },
+        {
           "from": "Merced College",
           "to": "San Bernardino Valley College",
+          "count": 5
+        },
+        {
+          "from": "Cuesta College",
+          "to": "Fullerton College",
           "count": 5
         },
         {
@@ -2843,11 +2858,6 @@
           "count": 5
         },
         {
-          "from": "Cabrillo College",
-          "to": "Santiago Canyon College",
-          "count": 5
-        },
-        {
           "from": "City College of San Francisco",
           "to": "West Valley College",
           "count": 5
@@ -2880,6 +2890,11 @@
         {
           "from": "Copper Mountain College",
           "to": "Coastline Community College",
+          "count": 5
+        },
+        {
+          "from": "Long Beach City College",
+          "to": "Fullerton College",
           "count": 5
         },
         {
@@ -2918,8 +2933,18 @@
           "count": 5
         },
         {
+          "from": "Mt. San Jacinto College",
+          "to": "Cypress College",
+          "count": 5
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Porterville College",
+          "count": 5
+        },
+        {
+          "from": "Allan Hancock College",
+          "to": "Cypress College",
           "count": 5
         },
         {
@@ -2940,11 +2965,6 @@
         {
           "from": "Merced College",
           "to": "College of the Redwoods",
-          "count": 5
-        },
-        {
-          "from": "Santa Monica College",
-          "to": "Imperial Valley College",
           "count": 5
         },
         {
@@ -2990,11 +3010,6 @@
         {
           "from": "Fresno City College",
           "to": "College of the Desert",
-          "count": 5
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Fullerton College",
           "count": 5
         },
         {
@@ -3488,11 +3503,6 @@
           "count": 4
         },
         {
-          "from": "MiraCosta College",
-          "to": "Fullerton College",
-          "count": 4
-        },
-        {
           "from": "Fullerton College",
           "to": "Pasadena City College",
           "count": 4
@@ -3513,11 +3523,6 @@
           "count": 4
         },
         {
-          "from": "Pasadena City College",
-          "to": "Fullerton College",
-          "count": 4
-        },
-        {
           "from": "San Bernardino Valley College",
           "to": "Santiago Canyon College",
           "count": 4
@@ -3533,11 +3538,6 @@
           "count": 4
         },
         {
-          "from": "College of the Sequoias",
-          "to": "Cypress College",
-          "count": 4
-        },
-        {
           "from": "Cerritos College",
           "to": "Copper Mountain College",
           "count": 4
@@ -3545,6 +3545,11 @@
         {
           "from": "Glendale Community College",
           "to": "Madera Community College",
+          "count": 4
+        },
+        {
+          "from": "City College of San Francisco",
+          "to": "Copper Mountain College",
           "count": 4
         },
         {
@@ -3560,6 +3565,11 @@
         {
           "from": "City College of San Francisco",
           "to": "Taft College",
+          "count": 4
+        },
+        {
+          "from": "Santa Ana College",
+          "to": "Cypress College",
           "count": 4
         },
         {
@@ -3628,11 +3638,6 @@
           "count": 4
         },
         {
-          "from": "Cuesta College",
-          "to": "Fullerton College",
-          "count": 4
-        },
-        {
           "from": "Ohlone College",
           "to": "College of the Siskiyous",
           "count": 4
@@ -3650,11 +3655,6 @@
         {
           "from": "College of the Canyons",
           "to": "Golden West College",
-          "count": 4
-        },
-        {
-          "from": "Santa Monica College",
-          "to": "College of the Siskiyous",
           "count": 4
         },
         {
@@ -3708,6 +3708,11 @@
           "count": 4
         },
         {
+          "from": "Sierra College",
+          "to": "Coastline Community College",
+          "count": 4
+        },
+        {
           "from": "College of the Canyons",
           "to": "Rio Hondo College",
           "count": 4
@@ -3715,6 +3720,11 @@
         {
           "from": "Compton College",
           "to": "College of the Siskiyous",
+          "count": 4
+        },
+        {
+          "from": "San Joaquin Delta College",
+          "to": "Fullerton College",
           "count": 4
         },
         {
@@ -3745,11 +3755,6 @@
         {
           "from": "Sacramento City College",
           "to": "Cerro Coso Community College",
-          "count": 4
-        },
-        {
-          "from": "Pasadena City College",
-          "to": "Santa Ana College",
           "count": 4
         },
         {
@@ -3793,11 +3798,6 @@
           "count": 4
         },
         {
-          "from": "Palomar College",
-          "to": "Compton College",
-          "count": 4
-        },
-        {
           "from": "Santa Monica College",
           "to": "Laney College",
           "count": 4
@@ -3810,6 +3810,16 @@
         {
           "from": "Modesto Junior College",
           "to": "Palomar College",
+          "count": 4
+        },
+        {
+          "from": "Crafton Hills College",
+          "to": "Cypress College",
+          "count": 4
+        },
+        {
+          "from": "Antelope Valley College",
+          "to": "Fullerton College",
           "count": 4
         },
         {
@@ -3975,11 +3985,6 @@
         {
           "from": "Mt. San Jacinto College",
           "to": "Irvine Valley College",
-          "count": 4
-        },
-        {
-          "from": "Diablo Valley College",
-          "to": "Fullerton College",
           "count": 4
         },
         {
@@ -4263,6 +4268,11 @@
           "count": 4
         },
         {
+          "from": "Cabrillo College",
+          "to": "Santiago Canyon College",
+          "count": 4
+        },
+        {
           "from": "College of the Canyons",
           "to": "East Los Angeles College",
           "count": 4
@@ -4290,11 +4300,6 @@
         {
           "from": "Modesto Junior College",
           "to": "East Los Angeles College",
-          "count": 4
-        },
-        {
-          "from": "Long Beach City College",
-          "to": "Fullerton College",
           "count": 4
         },
         {
@@ -4560,6 +4565,11 @@
         {
           "from": "Foothill College",
           "to": "Saddleback College",
+          "count": 4
+        },
+        {
+          "from": "Santa Monica College",
+          "to": "Imperial Valley College",
           "count": 4
         },
         {
@@ -4843,6 +4853,11 @@
           "count": 3
         },
         {
+          "from": "Gavilan College",
+          "to": "Fullerton College",
+          "count": 3
+        },
+        {
           "from": "Imperial Valley College",
           "to": "Compton College",
           "count": 3
@@ -4928,6 +4943,11 @@
           "count": 3
         },
         {
+          "from": "Southwestern College",
+          "to": "Fullerton College",
+          "count": 3
+        },
+        {
           "from": "San Joaquin Delta College",
           "to": "Fresno City College",
           "count": 3
@@ -4968,18 +4988,8 @@
           "count": 3
         },
         {
-          "from": "Los Medanos College",
-          "to": "Rio Hondo College",
-          "count": 3
-        },
-        {
           "from": "Allan Hancock College",
           "to": "Palomar College",
-          "count": 3
-        },
-        {
-          "from": "Santa Ana College",
-          "to": "Cypress College",
           "count": 3
         },
         {
@@ -4990,6 +5000,11 @@
         {
           "from": "MiraCosta College",
           "to": "Ventura College",
+          "count": 3
+        },
+        {
+          "from": "Foothill College",
+          "to": "Fullerton College",
           "count": 3
         },
         {
@@ -5050,6 +5065,11 @@
         {
           "from": "College of the Sequoias",
           "to": "Laney College",
+          "count": 3
+        },
+        {
+          "from": "Ohlone College",
+          "to": "Cypress College",
           "count": 3
         },
         {
@@ -5208,6 +5228,11 @@
           "count": 3
         },
         {
+          "from": "Santa Monica College",
+          "to": "College of the Siskiyous",
+          "count": 3
+        },
+        {
           "from": "College of the Sequoias",
           "to": "Clovis Community College",
           "count": 3
@@ -5233,8 +5258,18 @@
           "count": 3
         },
         {
+          "from": "Saddleback College",
+          "to": "Cypress College",
+          "count": 3
+        },
+        {
           "from": "Antelope Valley College",
           "to": "San Bernardino Valley College",
+          "count": 3
+        },
+        {
+          "from": "Las Positas College",
+          "to": "Cypress College",
           "count": 3
         },
         {
@@ -5245,6 +5280,11 @@
         {
           "from": "Mt. San Antonio College",
           "to": "Cerritos College",
+          "count": 3
+        },
+        {
+          "from": "Cerro Coso Community College",
+          "to": "Fullerton College",
           "count": 3
         },
         {
@@ -5293,6 +5333,16 @@
           "count": 3
         },
         {
+          "from": "Palomar College",
+          "to": "Compton College",
+          "count": 3
+        },
+        {
+          "from": "Cuesta College",
+          "to": "Cypress College",
+          "count": 3
+        },
+        {
           "from": "Santa Rosa Junior College",
           "to": "Cypress College",
           "count": 3
@@ -5315,6 +5365,26 @@
         {
           "from": "Laney College",
           "to": "Coastline Community College",
+          "count": 3
+        },
+        {
+          "from": "College of the Canyons",
+          "to": "Fullerton College",
+          "count": 3
+        },
+        {
+          "from": "Crafton Hills College",
+          "to": "Fullerton College",
+          "count": 3
+        },
+        {
+          "from": "Cabrillo College",
+          "to": "Fullerton College",
+          "count": 3
+        },
+        {
+          "from": "Orange Coast College",
+          "to": "Cypress College",
           "count": 3
         },
         {
@@ -5718,11 +5788,6 @@
           "count": 3
         },
         {
-          "from": "Mt. San Jacinto College",
-          "to": "Cypress College",
-          "count": 3
-        },
-        {
           "from": "Clovis Community College",
           "to": "San Bernardino Valley College",
           "count": 3
@@ -5813,11 +5878,6 @@
           "count": 3
         },
         {
-          "from": "San Joaquin Delta College",
-          "to": "Fullerton College",
-          "count": 3
-        },
-        {
           "from": "Columbia College",
           "to": "Compton College",
           "count": 3
@@ -5825,11 +5885,6 @@
         {
           "from": "Berkeley City College",
           "to": "Golden West College",
-          "count": 3
-        },
-        {
-          "from": "Antelope Valley College",
-          "to": "Fullerton College",
           "count": 3
         },
         {
@@ -5935,6 +5990,11 @@
         {
           "from": "Hartnell College",
           "to": "Cerro Coso Community College",
+          "count": 3
+        },
+        {
+          "from": "Pasadena City College",
+          "to": "Santa Ana College",
           "count": 3
         },
         {
@@ -7123,11 +7183,6 @@
           "count": 2
         },
         {
-          "from": "Gavilan College",
-          "to": "Fullerton College",
-          "count": 2
-        },
-        {
           "from": "Moorpark College",
           "to": "Compton College",
           "count": 2
@@ -7193,6 +7248,11 @@
           "count": 2
         },
         {
+          "from": "Coastline Community College",
+          "to": "Cypress College",
+          "count": 2
+        },
+        {
           "from": "Cerritos College",
           "to": "College of the Redwoods",
           "count": 2
@@ -7200,11 +7260,6 @@
         {
           "from": "El Camino College",
           "to": "San Bernardino Valley College",
-          "count": 2
-        },
-        {
-          "from": "Glendale Community College",
-          "to": "Fresno City College",
           "count": 2
         },
         {
@@ -7253,12 +7308,22 @@
           "count": 2
         },
         {
+          "from": "Los Medanos College",
+          "to": "Fullerton College",
+          "count": 2
+        },
+        {
           "from": "Antelope Valley College",
           "to": "Oxnard College",
           "count": 2
         },
         {
           "from": "Diablo Valley College",
+          "to": "Cypress College",
+          "count": 2
+        },
+        {
+          "from": "College of the Sequoias",
           "to": "Cypress College",
           "count": 2
         },
@@ -7283,11 +7348,6 @@
           "count": 2
         },
         {
-          "from": "Ohlone College",
-          "to": "Allan Hancock College",
-          "count": 2
-        },
-        {
           "from": "Imperial Valley College",
           "to": "Copper Mountain College",
           "count": 2
@@ -7295,11 +7355,6 @@
         {
           "from": "Barstow Community College",
           "to": "Copper Mountain College",
-          "count": 2
-        },
-        {
-          "from": "Santa Monica College",
-          "to": "Lemoore College",
           "count": 2
         },
         {
@@ -7373,11 +7428,6 @@
           "count": 2
         },
         {
-          "from": "San Jose City College",
-          "to": "Compton College",
-          "count": 2
-        },
-        {
           "from": "Taft College",
           "to": "Coalinga College",
           "count": 2
@@ -7430,11 +7480,6 @@
         {
           "from": "Allan Hancock College",
           "to": "Reedley College",
-          "count": 2
-        },
-        {
-          "from": "Oxnard College",
-          "to": "Rio Hondo College",
           "count": 2
         },
         {
@@ -7633,6 +7678,11 @@
           "count": 2
         },
         {
+          "from": "Los Medanos College",
+          "to": "Rio Hondo College",
+          "count": 2
+        },
+        {
           "from": "Chabot College",
           "to": "Rio Hondo College",
           "count": 2
@@ -7758,18 +7808,8 @@
           "count": 2
         },
         {
-          "from": "Saddleback College",
-          "to": "Cypress College",
-          "count": 2
-        },
-        {
           "from": "Cosumnes River College",
           "to": "College of the Redwoods",
-          "count": 2
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Cypress College",
           "count": 2
         },
         {
@@ -7785,6 +7825,11 @@
         {
           "from": "Cerritos College",
           "to": "Citrus College",
+          "count": 2
+        },
+        {
+          "from": "Shasta College",
+          "to": "Cypress College",
           "count": 2
         },
         {
@@ -7888,7 +7933,7 @@
           "count": 2
         },
         {
-          "from": "Cuesta College",
+          "from": "Contra Costa College",
           "to": "Cypress College",
           "count": 2
         },
@@ -7913,6 +7958,11 @@
           "count": 2
         },
         {
+          "from": "San Diego Mesa College",
+          "to": "Fullerton College",
+          "count": 2
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Fresno City College",
           "count": 2
@@ -7928,13 +7978,23 @@
           "count": 2
         },
         {
-          "from": "Mission College",
-          "to": "Madera Community College",
+          "from": "Merced College",
+          "to": "Fullerton College",
           "count": 2
         },
         {
-          "from": "Crafton Hills College",
+          "from": "Moorpark College",
+          "to": "Fullerton College",
+          "count": 2
+        },
+        {
+          "from": "Santa Barbara City College",
           "to": "Cypress College",
+          "count": 2
+        },
+        {
+          "from": "Mission College",
+          "to": "Madera Community College",
           "count": 2
         },
         {
@@ -8015,11 +8075,6 @@
         {
           "from": "Chabot College",
           "to": "College of the Redwoods",
-          "count": 2
-        },
-        {
-          "from": "Cabrillo College",
-          "to": "Fullerton College",
           "count": 2
         },
         {
@@ -8180,11 +8235,6 @@
         {
           "from": "Taft College",
           "to": "Coastline Community College",
-          "count": 2
-        },
-        {
-          "from": "Mission College",
-          "to": "Saddleback College",
           "count": 2
         },
         {
@@ -8505,11 +8555,6 @@
         {
           "from": "Copper Mountain College",
           "to": "Irvine Valley College",
-          "count": 2
-        },
-        {
-          "from": "College of the Canyons",
-          "to": "Fullerton College",
           "count": 2
         },
         {
@@ -8888,11 +8933,6 @@
           "count": 2
         },
         {
-          "from": "Allan Hancock College",
-          "to": "Cypress College",
-          "count": 2
-        },
-        {
           "from": "Cerro Coso Community College",
           "to": "Golden West College",
           "count": 2
@@ -8958,11 +8998,6 @@
           "count": 2
         },
         {
-          "from": "Cerro Coso Community College",
-          "to": "Fullerton College",
-          "count": 2
-        },
-        {
           "from": "Shasta College",
           "to": "Bakersfield College",
           "count": 2
@@ -8970,11 +9005,6 @@
         {
           "from": "Taft College",
           "to": "Oxnard College",
-          "count": 2
-        },
-        {
-          "from": "Orange Coast College",
-          "to": "Cypress College",
           "count": 2
         },
         {
@@ -8990,11 +9020,6 @@
         {
           "from": "Sierra College",
           "to": "Golden West College",
-          "count": 2
-        },
-        {
-          "from": "Southwestern College",
-          "to": "Fullerton College",
           "count": 2
         },
         {
@@ -9725,11 +9750,6 @@
         {
           "from": "Mission College",
           "to": "Cuesta College",
-          "count": 2
-        },
-        {
-          "from": "Ohlone College",
-          "to": "Cypress College",
           "count": 2
         },
         {
@@ -11798,11 +11818,6 @@
           "count": 1
         },
         {
-          "from": "Golden West College",
-          "to": "San Bernardino Valley College",
-          "count": 1
-        },
-        {
           "from": "Compton College",
           "to": "Cerritos College",
           "count": 1
@@ -11815,6 +11830,11 @@
         {
           "from": "Coastline Community College",
           "to": "Cerritos College",
+          "count": 1
+        },
+        {
+          "from": "Glendale Community College",
+          "to": "Fresno City College",
           "count": 1
         },
         {
@@ -11845,11 +11865,6 @@
         {
           "from": "Sierra College",
           "to": "Berkeley City College",
-          "count": 1
-        },
-        {
-          "from": "Santa Monica College",
-          "to": "Allan Hancock College",
           "count": 1
         },
         {
@@ -11980,6 +11995,11 @@
         {
           "from": "Moorpark College",
           "to": "Merritt College",
+          "count": 1
+        },
+        {
+          "from": "Cosumnes River College",
+          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -12250,11 +12270,6 @@
         {
           "from": "Allan Hancock College",
           "to": "Los Angeles Southwest College",
-          "count": 1
-        },
-        {
-          "from": "Fullerton College",
-          "to": "Los Angeles City College",
           "count": 1
         },
         {
@@ -12553,18 +12568,13 @@
           "count": 1
         },
         {
-          "from": "Fullerton College",
-          "to": "Long Beach City College",
+          "from": "Ohlone College",
+          "to": "Allan Hancock College",
           "count": 1
         },
         {
           "from": "Rio Hondo College",
           "to": "Long Beach City College",
-          "count": 1
-        },
-        {
-          "from": "Shasta College",
-          "to": "Cypress College",
           "count": 1
         },
         {
@@ -12753,6 +12763,26 @@
           "count": 1
         },
         {
+          "from": "Bakersfield College",
+          "to": "Cypress College",
+          "count": 1
+        },
+        {
+          "from": "College of the Canyons",
+          "to": "Cypress College",
+          "count": 1
+        },
+        {
+          "from": "Lassen Community College",
+          "to": "Fullerton College",
+          "count": 1
+        },
+        {
+          "from": "Lassen Community College",
+          "to": "Cypress College",
+          "count": 1
+        },
+        {
           "from": "Cerro Coso Community College",
           "to": "Lassen Community College",
           "count": 1
@@ -12853,11 +12883,6 @@
           "count": 1
         },
         {
-          "from": "Reedley College",
-          "to": "Evergreen Valley College",
-          "count": 1
-        },
-        {
           "from": "College of Marin",
           "to": "San Jose City College",
           "count": 1
@@ -12948,11 +12973,6 @@
           "count": 1
         },
         {
-          "from": "Lemoore College",
-          "to": "Berkeley City College",
-          "count": 1
-        },
-        {
           "from": "Citrus College",
           "to": "Irvine Valley College",
           "count": 1
@@ -13038,11 +13058,6 @@
           "count": 1
         },
         {
-          "from": "Pasadena City College",
-          "to": "Mission College",
-          "count": 1
-        },
-        {
           "from": "Santa Monica College",
           "to": "Reedley College",
           "count": 1
@@ -13110,11 +13125,6 @@
         {
           "from": "Moorpark College",
           "to": "College of Alameda",
-          "count": 1
-        },
-        {
-          "from": "Allan Hancock College",
-          "to": "Berkeley City College",
           "count": 1
         },
         {
@@ -13313,16 +13323,6 @@
           "count": 1
         },
         {
-          "from": "Irvine Valley College",
-          "to": "Oxnard College",
-          "count": 1
-        },
-        {
-          "from": "Coastline Community College",
-          "to": "Merritt College",
-          "count": 1
-        },
-        {
           "from": "El Camino College",
           "to": "Fresno City College",
           "count": 1
@@ -13455,11 +13455,6 @@
         {
           "from": "Santiago Canyon College",
           "to": "Copper Mountain College",
-          "count": 1
-        },
-        {
-          "from": "San Diego Mesa College",
-          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -14013,11 +14008,6 @@
           "count": 1
         },
         {
-          "from": "Coastline Community College",
-          "to": "Cypress College",
-          "count": 1
-        },
-        {
           "from": "Citrus College",
           "to": "Cuesta College",
           "count": 1
@@ -14288,11 +14278,6 @@
           "count": 1
         },
         {
-          "from": "Foothill College",
-          "to": "Glendale Community College",
-          "count": 1
-        },
-        {
           "from": "Mt. San Jacinto College",
           "to": "San Diego Mesa College",
           "count": 1
@@ -14329,11 +14314,6 @@
         },
         {
           "from": "Chabot College",
-          "to": "Fullerton College",
-          "count": 1
-        },
-        {
-          "from": "Foothill College",
           "to": "Fullerton College",
           "count": 1
         },
@@ -15248,6 +15228,11 @@
           "count": 1
         },
         {
+          "from": "Santa Monica College",
+          "to": "Lemoore College",
+          "count": 1
+        },
+        {
           "from": "El Camino College",
           "to": "Palomar College",
           "count": 1
@@ -15578,11 +15563,6 @@
           "count": 1
         },
         {
-          "from": "Moorpark College",
-          "to": "Fullerton College",
-          "count": 1
-        },
-        {
           "from": "Imperial Valley College",
           "to": "Pasadena City College",
           "count": 1
@@ -15615,11 +15595,6 @@
         {
           "from": "MiraCosta College",
           "to": "San Bernardino Valley College",
-          "count": 1
-        },
-        {
-          "from": "Contra Costa College",
-          "to": "Cypress College",
           "count": 1
         },
         {
@@ -16185,6 +16160,11 @@
         {
           "from": "Woodland Community College",
           "to": "Moorpark College",
+          "count": 1
+        },
+        {
+          "from": "San Jose City College",
+          "to": "Compton College",
           "count": 1
         },
         {
@@ -16875,11 +16855,6 @@
         {
           "from": "College of the Canyons",
           "to": "Merritt College",
-          "count": 1
-        },
-        {
-          "from": "Merced College",
-          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -17970,11 +17945,6 @@
         {
           "from": "Long Beach City College",
           "to": "Copper Mountain College",
-          "count": 1
-        },
-        {
-          "from": "Los Medanos College",
-          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -19413,11 +19383,6 @@
           "count": 1
         },
         {
-          "from": "Santa Barbara City College",
-          "to": "Cypress College",
-          "count": 1
-        },
-        {
           "from": "Ventura College",
           "to": "Moorpark College",
           "count": 1
@@ -20468,6 +20433,11 @@
           "count": 1
         },
         {
+          "from": "Mission College",
+          "to": "Saddleback College",
+          "count": 1
+        },
+        {
           "from": "Mt. San Antonio College",
           "to": "Southwestern College",
           "count": 1
@@ -20889,11 +20859,6 @@
         },
         {
           "from": "Irvine Valley College",
-          "to": "Los Angeles Mission College",
-          "count": 1
-        },
-        {
-          "from": "Irvine Valley College",
           "to": "College of the Canyons",
           "count": 1
         },
@@ -21200,11 +21165,6 @@
         {
           "from": "Mission College",
           "to": "Laney College",
-          "count": 1
-        },
-        {
-          "from": "Crafton Hills College",
-          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -21390,12 +21350,12 @@
       ]
     },
     "Summer 2026": {
-      "total": 8679,
+      "total": 8665,
       "flows": [
         {
           "from": "Diablo Valley College",
           "to": "Santa Ana College",
-          "count": 31
+          "count": 30
         },
         {
           "from": "Modesto Junior College",
@@ -21438,11 +21398,6 @@
           "count": 16
         },
         {
-          "from": "Modesto Junior College",
-          "to": "College of the Desert",
-          "count": 16
-        },
-        {
           "from": "San Joaquin Delta College",
           "to": "Santa Ana College",
           "count": 16
@@ -21458,13 +21413,8 @@
           "count": 16
         },
         {
-          "from": "Diablo Valley College",
-          "to": "San Bernardino Valley College",
-          "count": 16
-        },
-        {
-          "from": "Mt. San Antonio College",
-          "to": "Santa Ana College",
+          "from": "Modesto Junior College",
+          "to": "College of the Desert",
           "count": 15
         },
         {
@@ -21475,6 +21425,11 @@
         {
           "from": "Santa Rosa Junior College",
           "to": "Compton College",
+          "count": 15
+        },
+        {
+          "from": "Diablo Valley College",
+          "to": "San Bernardino Valley College",
           "count": 15
         },
         {
@@ -21488,13 +21443,8 @@
           "count": 15
         },
         {
-          "from": "Diablo Valley College",
-          "to": "Ventura College",
-          "count": 14
-        },
-        {
-          "from": "Modesto Junior College",
-          "to": "Saddleback College",
+          "from": "Mt. San Antonio College",
+          "to": "Santa Ana College",
           "count": 14
         },
         {
@@ -21510,6 +21460,16 @@
         {
           "from": "Modesto Junior College",
           "to": "Santiago Canyon College",
+          "count": 13
+        },
+        {
+          "from": "Diablo Valley College",
+          "to": "Ventura College",
+          "count": 13
+        },
+        {
+          "from": "Modesto Junior College",
+          "to": "Saddleback College",
           "count": 13
         },
         {
@@ -21633,13 +21593,13 @@
           "count": 10
         },
         {
-          "from": "Las Positas College",
-          "to": "Santa Ana College",
+          "from": "Diablo Valley College",
+          "to": "Coalinga College",
           "count": 10
         },
         {
-          "from": "Diablo Valley College",
-          "to": "Coalinga College",
+          "from": "Glendale Community College",
+          "to": "Santa Ana College",
           "count": 10
         },
         {
@@ -21688,8 +21648,8 @@
           "count": 10
         },
         {
-          "from": "Allan Hancock College",
-          "to": "Cuesta College",
+          "from": "Diablo Valley College",
+          "to": "Moreno Valley College",
           "count": 10
         },
         {
@@ -21703,6 +21663,11 @@
           "count": 10
         },
         {
+          "from": "Las Positas College",
+          "to": "Santa Ana College",
+          "count": 9
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Shasta College",
           "count": 9
@@ -21710,11 +21675,6 @@
         {
           "from": "College of the Sequoias",
           "to": "Lemoore College",
-          "count": 9
-        },
-        {
-          "from": "Glendale Community College",
-          "to": "Santa Ana College",
           "count": 9
         },
         {
@@ -21743,11 +21703,6 @@
           "count": 9
         },
         {
-          "from": "Modesto Junior College",
-          "to": "Cuesta College",
-          "count": 9
-        },
-        {
           "from": "San Jose City College",
           "to": "Ventura College",
           "count": 9
@@ -21773,6 +21728,11 @@
           "count": 9
         },
         {
+          "from": "Diablo Valley College",
+          "to": "Mendocino College",
+          "count": 9
+        },
+        {
           "from": "City College of San Francisco",
           "to": "Saddleback College",
           "count": 9
@@ -21788,13 +21748,13 @@
           "count": 9
         },
         {
-          "from": "College of Marin",
-          "to": "Ventura College",
+          "from": "Mt. San Antonio College",
+          "to": "San Bernardino Valley College",
           "count": 9
         },
         {
-          "from": "Mt. San Antonio College",
-          "to": "San Bernardino Valley College",
+          "from": "Allan Hancock College",
+          "to": "Cuesta College",
           "count": 9
         },
         {
@@ -21810,11 +21770,6 @@
         {
           "from": "Glendale Community College",
           "to": "Ventura College",
-          "count": 9
-        },
-        {
-          "from": "Diablo Valley College",
-          "to": "Moreno Valley College",
           "count": 9
         },
         {
@@ -21834,16 +21789,6 @@
         },
         {
           "from": "Columbia College",
-          "to": "Santa Ana College",
-          "count": 8
-        },
-        {
-          "from": "Woodland Community College",
-          "to": "Santa Ana College",
-          "count": 8
-        },
-        {
-          "from": "Sacramento City College",
           "to": "Santa Ana College",
           "count": 8
         },
@@ -21938,6 +21883,11 @@
           "count": 8
         },
         {
+          "from": "Modesto Junior College",
+          "to": "Cuesta College",
+          "count": 8
+        },
+        {
           "from": "Ohlone College",
           "to": "Saddleback College",
           "count": 8
@@ -21955,11 +21905,6 @@
         {
           "from": "Chaffey College",
           "to": "Moorpark College",
-          "count": 8
-        },
-        {
-          "from": "Solano Community College",
-          "to": "Ventura College",
           "count": 8
         },
         {
@@ -21988,6 +21933,11 @@
           "count": 8
         },
         {
+          "from": "College of Marin",
+          "to": "Ventura College",
+          "count": 8
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Reedley College",
           "count": 8
@@ -22003,12 +21953,17 @@
           "count": 8
         },
         {
-          "from": "Bakersfield College",
-          "to": "Ventura College",
+          "from": "Santa Monica College",
+          "to": "Saddleback College",
           "count": 8
         },
         {
           "from": "College of Marin",
+          "to": "Saddleback College",
+          "count": 8
+        },
+        {
+          "from": "American River College",
           "to": "Saddleback College",
           "count": 8
         },
@@ -22043,6 +21998,11 @@
           "count": 7
         },
         {
+          "from": "Woodland Community College",
+          "to": "Santa Ana College",
+          "count": 7
+        },
+        {
           "from": "Antelope Valley College",
           "to": "Rio Hondo College",
           "count": 7
@@ -22069,11 +22029,6 @@
         },
         {
           "from": "De Anza College",
-          "to": "Santa Ana College",
-          "count": 7
-        },
-        {
-          "from": "Fresno City College",
           "to": "Santa Ana College",
           "count": 7
         },
@@ -22153,23 +22108,18 @@
           "count": 7
         },
         {
-          "from": "Diablo Valley College",
-          "to": "Mendocino College",
-          "count": 7
-        },
-        {
           "from": "Chaffey College",
           "to": "Saddleback College",
           "count": 7
         },
         {
-          "from": "Merced College",
-          "to": "Compton College",
+          "from": "Solano Community College",
+          "to": "Ventura College",
           "count": 7
         },
         {
-          "from": "Hartnell College",
-          "to": "Cuesta College",
+          "from": "Merced College",
+          "to": "Compton College",
           "count": 7
         },
         {
@@ -22208,11 +22158,6 @@
           "count": 7
         },
         {
-          "from": "Foothill College",
-          "to": "Compton College",
-          "count": 7
-        },
-        {
           "from": "Long Beach City College",
           "to": "Compton College",
           "count": 7
@@ -22238,6 +22183,11 @@
           "count": 7
         },
         {
+          "from": "Sierra College",
+          "to": "Santa Barbara City College",
+          "count": 7
+        },
+        {
           "from": "Santa Barbara City College",
           "to": "Compton College",
           "count": 7
@@ -22253,13 +22203,13 @@
           "count": 7
         },
         {
-          "from": "Santa Monica College",
+          "from": "Napa Valley College",
           "to": "Saddleback College",
           "count": 7
         },
         {
-          "from": "Napa Valley College",
-          "to": "Saddleback College",
+          "from": "Bakersfield College",
+          "to": "Ventura College",
           "count": 7
         },
         {
@@ -22268,13 +22218,18 @@
           "count": 7
         },
         {
-          "from": "American River College",
-          "to": "Saddleback College",
+          "from": "Mt. San Antonio College",
+          "to": "Moreno Valley College",
           "count": 7
         },
         {
           "from": "De Anza College",
           "to": "Citrus College",
+          "count": 7
+        },
+        {
+          "from": "Cabrillo College",
+          "to": "Saddleback College",
           "count": 7
         },
         {
@@ -22323,6 +22278,11 @@
           "count": 7
         },
         {
+          "from": "Hartnell College",
+          "to": "Coalinga College",
+          "count": 6
+        },
+        {
           "from": "Evergreen Valley College",
           "to": "Santa Ana College",
           "count": 6
@@ -22338,8 +22298,18 @@
           "count": 6
         },
         {
+          "from": "Sacramento City College",
+          "to": "Santa Ana College",
+          "count": 6
+        },
+        {
           "from": "Santa Rosa Junior College",
           "to": "Lemoore College",
+          "count": 6
+        },
+        {
+          "from": "Fresno City College",
+          "to": "Santa Ana College",
           "count": 6
         },
         {
@@ -22378,13 +22348,13 @@
           "count": 6
         },
         {
-          "from": "City College of San Francisco",
-          "to": "Coalinga College",
+          "from": "Chaffey College",
+          "to": "Mt. San Antonio College",
           "count": 6
         },
         {
-          "from": "Chaffey College",
-          "to": "Mt. San Antonio College",
+          "from": "Merced College",
+          "to": "Coalinga College",
           "count": 6
         },
         {
@@ -22405,11 +22375,6 @@
         {
           "from": "San Joaquin Delta College",
           "to": "Compton College",
-          "count": 6
-        },
-        {
-          "from": "Foothill College",
-          "to": "Santiago Canyon College",
           "count": 6
         },
         {
@@ -22488,6 +22453,11 @@
           "count": 6
         },
         {
+          "from": "Hartnell College",
+          "to": "Cuesta College",
+          "count": 6
+        },
+        {
           "from": "Mt. San Jacinto College",
           "to": "Taft College",
           "count": 6
@@ -22505,16 +22475,6 @@
         {
           "from": "Fresno City College",
           "to": "Moorpark College",
-          "count": 6
-        },
-        {
-          "from": "College of the Sequoias",
-          "to": "Cuesta College",
-          "count": 6
-        },
-        {
-          "from": "Diablo Valley College",
-          "to": "Santa Barbara City College",
           "count": 6
         },
         {
@@ -22543,6 +22503,11 @@
           "count": 6
         },
         {
+          "from": "Foothill College",
+          "to": "Compton College",
+          "count": 6
+        },
+        {
           "from": "College of Marin",
           "to": "Compton College",
           "count": 6
@@ -22550,6 +22515,11 @@
         {
           "from": "Modesto Junior College",
           "to": "Madera Community College",
+          "count": 6
+        },
+        {
+          "from": "Sierra College",
+          "to": "Mendocino College",
           "count": 6
         },
         {
@@ -22565,6 +22535,11 @@
         {
           "from": "Chabot College",
           "to": "Cerritos College",
+          "count": 6
+        },
+        {
+          "from": "Las Positas College",
+          "to": "Mendocino College",
           "count": 6
         },
         {
@@ -22618,16 +22593,6 @@
           "count": 6
         },
         {
-          "from": "College of Marin",
-          "to": "Rio Hondo College",
-          "count": 6
-        },
-        {
-          "from": "Mt. San Antonio College",
-          "to": "Moreno Valley College",
-          "count": 6
-        },
-        {
           "from": "Santa Rosa Junior College",
           "to": "College of the Canyons",
           "count": 6
@@ -22638,13 +22603,13 @@
           "count": 6
         },
         {
-          "from": "Cabrillo College",
-          "to": "Saddleback College",
+          "from": "Mt. San Jacinto College",
+          "to": "Moreno Valley College",
           "count": 6
         },
         {
-          "from": "Mt. San Jacinto College",
-          "to": "Moreno Valley College",
+          "from": "College of the Canyons",
+          "to": "Citrus College",
           "count": 6
         },
         {
@@ -22661,11 +22626,6 @@
           "from": "San Diego Mesa College",
           "to": "College of the Canyons",
           "count": 6
-        },
-        {
-          "from": "Hartnell College",
-          "to": "Coalinga College",
-          "count": 5
         },
         {
           "from": "Solano Community College",
@@ -22698,8 +22658,18 @@
           "count": 5
         },
         {
+          "from": "Las Positas College",
+          "to": "Taft College",
+          "count": 5
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Lemoore College",
+          "count": 5
+        },
+        {
+          "from": "Mt. San Antonio College",
+          "to": "Rio Hondo College",
           "count": 5
         },
         {
@@ -22715,11 +22685,6 @@
         {
           "from": "Cuesta College",
           "to": "Santiago Canyon College",
-          "count": 5
-        },
-        {
-          "from": "Gavilan College",
-          "to": "Santa Ana College",
           "count": 5
         },
         {
@@ -22758,18 +22723,23 @@
           "count": 5
         },
         {
+          "from": "City College of San Francisco",
+          "to": "Coalinga College",
+          "count": 5
+        },
+        {
           "from": "College of the Sequoias",
           "to": "Coalinga College",
           "count": 5
         },
         {
-          "from": "Shasta College",
-          "to": "Copper Mountain College",
+          "from": "San Jose City College",
+          "to": "Long Beach City College",
           "count": 5
         },
         {
-          "from": "Merced College",
-          "to": "Coalinga College",
+          "from": "Shasta College",
+          "to": "Copper Mountain College",
           "count": 5
         },
         {
@@ -22784,11 +22754,6 @@
         },
         {
           "from": "Merced College",
-          "to": "Long Beach City College",
-          "count": 5
-        },
-        {
-          "from": "Shasta College",
           "to": "Long Beach City College",
           "count": 5
         },
@@ -22818,6 +22783,11 @@
           "count": 5
         },
         {
+          "from": "College of the Sequoias",
+          "to": "Ohlone College",
+          "count": 5
+        },
+        {
           "from": "Santa Barbara City College",
           "to": "Moorpark College",
           "count": 5
@@ -22825,6 +22795,11 @@
         {
           "from": "Mt. San Antonio College",
           "to": "Santa Barbara City College",
+          "count": 5
+        },
+        {
+          "from": "Foothill College",
+          "to": "Santiago Canyon College",
           "count": 5
         },
         {
@@ -22908,11 +22883,6 @@
           "count": 5
         },
         {
-          "from": "Cerro Coso Community College",
-          "to": "Cerritos College",
-          "count": 5
-        },
-        {
           "from": "Cuesta College",
           "to": "Ventura College",
           "count": 5
@@ -22930,6 +22900,11 @@
         {
           "from": "Diablo Valley College",
           "to": "Oxnard College",
+          "count": 5
+        },
+        {
+          "from": "Sacramento City College",
+          "to": "Taft College",
           "count": 5
         },
         {
@@ -22968,11 +22943,6 @@
           "count": 5
         },
         {
-          "from": "Modesto Junior College",
-          "to": "Mendocino College",
-          "count": 5
-        },
-        {
           "from": "Irvine Valley College",
           "to": "College of the Siskiyous",
           "count": 5
@@ -22980,11 +22950,6 @@
         {
           "from": "Allan Hancock College",
           "to": "Lassen Community College",
-          "count": 5
-        },
-        {
-          "from": "College of the Sequoias",
-          "to": "Santa Barbara City College",
           "count": 5
         },
         {
@@ -23015,11 +22980,6 @@
         {
           "from": "Santa Barbara City College",
           "to": "Crafton Hills College",
-          "count": 5
-        },
-        {
-          "from": "Modesto Junior College",
-          "to": "Reedley College",
           "count": 5
         },
         {
@@ -23088,6 +23048,11 @@
           "count": 5
         },
         {
+          "from": "Diablo Valley College",
+          "to": "Santa Barbara City College",
+          "count": 5
+        },
+        {
           "from": "Los Medanos College",
           "to": "Ventura College",
           "count": 5
@@ -23100,11 +23065,6 @@
         {
           "from": "Diablo Valley College",
           "to": "Las Positas College",
-          "count": 5
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Mendocino College",
           "count": 5
         },
         {
@@ -23253,11 +23213,6 @@
           "count": 5
         },
         {
-          "from": "Imperial Valley College",
-          "to": "Moreno Valley College",
-          "count": 5
-        },
-        {
           "from": "Pasadena City College",
           "to": "Grossmont College",
           "count": 5
@@ -23265,6 +23220,11 @@
         {
           "from": "Allan Hancock College",
           "to": "Citrus College",
+          "count": 5
+        },
+        {
+          "from": "Sierra College",
+          "to": "Moreno Valley College",
           "count": 5
         },
         {
@@ -23378,11 +23338,6 @@
           "count": 5
         },
         {
-          "from": "College of the Canyons",
-          "to": "Citrus College",
-          "count": 5
-        },
-        {
           "from": "Fullerton College",
           "to": "Mt. San Antonio College",
           "count": 5
@@ -23423,13 +23378,13 @@
           "count": 4
         },
         {
-          "from": "College of the Canyons",
+          "from": "Laney College",
           "to": "Santiago Canyon College",
           "count": 4
         },
         {
-          "from": "Laney College",
-          "to": "Santiago Canyon College",
+          "from": "Las Positas College",
+          "to": "Lemoore College",
           "count": 4
         },
         {
@@ -23440,11 +23395,6 @@
         {
           "from": "Antelope Valley College",
           "to": "Santiago Canyon College",
-          "count": 4
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Taft College",
           "count": 4
         },
         {
@@ -23483,6 +23433,11 @@
           "count": 4
         },
         {
+          "from": "Gavilan College",
+          "to": "Santa Ana College",
+          "count": 4
+        },
+        {
           "from": "Cosumnes River College",
           "to": "Santa Ana College",
           "count": 4
@@ -23498,22 +23453,7 @@
           "count": 4
         },
         {
-          "from": "Mt. San Antonio College",
-          "to": "Rio Hondo College",
-          "count": 4
-        },
-        {
-          "from": "College of the Sequoias",
-          "to": "Rio Hondo College",
-          "count": 4
-        },
-        {
           "from": "Cerro Coso Community College",
-          "to": "Long Beach City College",
-          "count": 4
-        },
-        {
-          "from": "San Jose City College",
           "to": "Long Beach City College",
           "count": 4
         },
@@ -23523,12 +23463,12 @@
           "count": 4
         },
         {
-          "from": "Saddleback College",
-          "to": "Long Beach City College",
+          "from": "Clovis Community College",
+          "to": "Santa Ana College",
           "count": 4
         },
         {
-          "from": "Clovis Community College",
+          "from": "Allan Hancock College",
           "to": "Santa Ana College",
           "count": 4
         },
@@ -23583,6 +23523,11 @@
           "count": 4
         },
         {
+          "from": "Shasta College",
+          "to": "Long Beach City College",
+          "count": 4
+        },
+        {
           "from": "American River College",
           "to": "Cerritos College",
           "count": 4
@@ -23605,11 +23550,6 @@
         {
           "from": "Diablo Valley College",
           "to": "Merritt College",
-          "count": 4
-        },
-        {
-          "from": "City College of San Francisco",
-          "to": "Sacramento City College",
           "count": 4
         },
         {
@@ -23788,11 +23728,6 @@
           "count": 4
         },
         {
-          "from": "Sacramento City College",
-          "to": "Taft College",
-          "count": 4
-        },
-        {
           "from": "Ohlone College",
           "to": "Santa Barbara City College",
           "count": 4
@@ -23805,11 +23740,6 @@
         {
           "from": "Merritt College",
           "to": "Clovis Community College",
-          "count": 4
-        },
-        {
-          "from": "Ohlone College",
-          "to": "Chabot College",
           "count": 4
         },
         {
@@ -23853,13 +23783,13 @@
           "count": 4
         },
         {
-          "from": "Mission College",
-          "to": "Santa Ana College",
+          "from": "College of the Sequoias",
+          "to": "College of the Desert",
           "count": 4
         },
         {
-          "from": "Berkeley City College",
-          "to": "Ventura College",
+          "from": "Mission College",
+          "to": "Santa Ana College",
           "count": 4
         },
         {
@@ -23870,6 +23800,16 @@
         {
           "from": "San Diego City College",
           "to": "Cypress College",
+          "count": 4
+        },
+        {
+          "from": "College of the Sequoias",
+          "to": "Santa Barbara City College",
+          "count": 4
+        },
+        {
+          "from": "Cerro Coso Community College",
+          "to": "Cerritos College",
           "count": 4
         },
         {
@@ -23908,6 +23848,11 @@
           "count": 4
         },
         {
+          "from": "College of the Sequoias",
+          "to": "Cuesta College",
+          "count": 4
+        },
+        {
           "from": "Cerro Coso Community College",
           "to": "Santa Barbara City College",
           "count": 4
@@ -23930,11 +23875,6 @@
         {
           "from": "Los Medanos College",
           "to": "Mendocino College",
-          "count": 4
-        },
-        {
-          "from": "Allan Hancock College",
-          "to": "Cerritos College",
           "count": 4
         },
         {
@@ -23968,6 +23908,11 @@
           "count": 4
         },
         {
+          "from": "Modesto Junior College",
+          "to": "Reedley College",
+          "count": 4
+        },
+        {
           "from": "Folsom Lake College",
           "to": "Cuesta College",
           "count": 4
@@ -23983,11 +23928,6 @@
           "count": 4
         },
         {
-          "from": "Berkeley City College",
-          "to": "Merritt College",
-          "count": 4
-        },
-        {
           "from": "Sierra College",
           "to": "Cerritos College",
           "count": 4
@@ -24000,11 +23940,6 @@
         {
           "from": "Modesto Junior College",
           "to": "West Valley College",
-          "count": 4
-        },
-        {
-          "from": "Berkeley City College",
-          "to": "Compton College",
           "count": 4
         },
         {
@@ -24043,6 +23978,11 @@
           "count": 4
         },
         {
+          "from": "Modesto Junior College",
+          "to": "Mendocino College",
+          "count": 4
+        },
+        {
           "from": "Cypress College",
           "to": "Long Beach City College",
           "count": 4
@@ -24058,11 +23998,6 @@
           "count": 4
         },
         {
-          "from": "Sierra College",
-          "to": "Mendocino College",
-          "count": 4
-        },
-        {
           "from": "Santa Barbara City College",
           "to": "Cerro Coso Community College",
           "count": 4
@@ -24070,11 +24005,6 @@
         {
           "from": "Diablo Valley College",
           "to": "Mission College",
-          "count": 4
-        },
-        {
-          "from": "College of Marin",
-          "to": "Reedley College",
           "count": 4
         },
         {
@@ -24130,11 +24060,6 @@
         {
           "from": "Irvine Valley College",
           "to": "Cypress College",
-          "count": 4
-        },
-        {
-          "from": "Sierra College",
-          "to": "Santa Barbara City College",
           "count": 4
         },
         {
@@ -24268,11 +24193,6 @@
           "count": 4
         },
         {
-          "from": "Irvine Valley College",
-          "to": "Foothill College",
-          "count": 4
-        },
-        {
           "from": "Imperial Valley College",
           "to": "Ventura College",
           "count": 4
@@ -24280,6 +24200,11 @@
         {
           "from": "Antelope Valley College",
           "to": "Moorpark College",
+          "count": 4
+        },
+        {
+          "from": "San Diego Mesa College",
+          "to": "Ventura College",
           "count": 4
         },
         {
@@ -24310,11 +24235,6 @@
         {
           "from": "Woodland Community College",
           "to": "Mendocino College",
-          "count": 4
-        },
-        {
-          "from": "Cabrillo College",
-          "to": "Norco College",
           "count": 4
         },
         {
@@ -24358,18 +24278,18 @@
           "count": 4
         },
         {
-          "from": "Glendale Community College",
-          "to": "Victor Valley College",
-          "count": 4
-        },
-        {
           "from": "Imperial Valley College",
           "to": "Victor Valley College",
           "count": 4
         },
         {
-          "from": "Mt. San Jacinto College",
+          "from": "College of Marin",
           "to": "Rio Hondo College",
+          "count": 4
+        },
+        {
+          "from": "Imperial Valley College",
+          "to": "Moreno Valley College",
           "count": 4
         },
         {
@@ -24448,6 +24368,11 @@
           "count": 4
         },
         {
+          "from": "Victor Valley College",
+          "to": "Lake Tahoe Community College",
+          "count": 4
+        },
+        {
           "from": "Chabot College",
           "to": "Lake Tahoe Community College",
           "count": 4
@@ -24460,11 +24385,6 @@
         {
           "from": "Antelope Valley College",
           "to": "Gavilan College",
-          "count": 4
-        },
-        {
-          "from": "College of the Desert",
-          "to": "College of the Canyons",
           "count": 4
         },
         {
@@ -24518,6 +24438,11 @@
           "count": 4
         },
         {
+          "from": "Chabot College",
+          "to": "Citrus College",
+          "count": 4
+        },
+        {
           "from": "Saddleback College",
           "to": "Compton College",
           "count": 4
@@ -24538,8 +24463,8 @@
           "count": 4
         },
         {
-          "from": "Sierra College",
-          "to": "Moreno Valley College",
+          "from": "Santa Ana College",
+          "to": "College of the Siskiyous",
           "count": 4
         },
         {
@@ -24630,11 +24555,6 @@
         {
           "from": "El Camino College",
           "to": "College of the Desert",
-          "count": 3
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Lemoore College",
           "count": 3
         },
         {
@@ -24733,18 +24653,13 @@
           "count": 3
         },
         {
+          "from": "Saddleback College",
+          "to": "Long Beach City College",
+          "count": 3
+        },
+        {
           "from": "Merced College",
           "to": "Santiago Canyon College",
-          "count": 3
-        },
-        {
-          "from": "Allan Hancock College",
-          "to": "Santa Ana College",
-          "count": 3
-        },
-        {
-          "from": "Bakersfield College",
-          "to": "Coalinga College",
           "count": 3
         },
         {
@@ -24868,6 +24783,11 @@
           "count": 3
         },
         {
+          "from": "City College of San Francisco",
+          "to": "Sacramento City College",
+          "count": 3
+        },
+        {
           "from": "Clovis Community College",
           "to": "College of the Desert",
           "count": 3
@@ -24900,11 +24820,6 @@
         {
           "from": "Modesto Junior College",
           "to": "Fullerton College",
-          "count": 3
-        },
-        {
-          "from": "College of the Sequoias",
-          "to": "Ohlone College",
           "count": 3
         },
         {
@@ -24960,11 +24875,6 @@
         {
           "from": "American River College",
           "to": "Coastline Community College",
-          "count": 3
-        },
-        {
-          "from": "Gavilan College",
-          "to": "Santiago Canyon College",
           "count": 3
         },
         {
@@ -25078,6 +24988,11 @@
           "count": 3
         },
         {
+          "from": "College of the Sequoias",
+          "to": "Rio Hondo College",
+          "count": 3
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Palomar College",
           "count": 3
@@ -25118,6 +25033,11 @@
           "count": 3
         },
         {
+          "from": "Ohlone College",
+          "to": "Chabot College",
+          "count": 3
+        },
+        {
           "from": "Diablo Valley College",
           "to": "Madera Community College",
           "count": 3
@@ -25140,6 +25060,11 @@
         {
           "from": "Cabrillo College",
           "to": "Porterville College",
+          "count": 3
+        },
+        {
+          "from": "American River College",
+          "to": "Mendocino College",
           "count": 3
         },
         {
@@ -25173,13 +25098,13 @@
           "count": 3
         },
         {
-          "from": "College of the Sequoias",
-          "to": "College of the Desert",
+          "from": "Foothill College",
+          "to": "Lassen Community College",
           "count": 3
         },
         {
-          "from": "Foothill College",
-          "to": "Lassen Community College",
+          "from": "Berkeley City College",
+          "to": "Ventura College",
           "count": 3
         },
         {
@@ -25208,6 +25133,11 @@
           "count": 3
         },
         {
+          "from": "College of the Canyons",
+          "to": "Santiago Canyon College",
+          "count": 3
+        },
+        {
           "from": "College of the Redwoods",
           "to": "College of the Desert",
           "count": 3
@@ -25230,11 +25160,6 @@
         {
           "from": "Cabrillo College",
           "to": "College of the Desert",
-          "count": 3
-        },
-        {
-          "from": "College of Marin",
-          "to": "Taft College",
           "count": 3
         },
         {
@@ -25308,6 +25233,11 @@
           "count": 3
         },
         {
+          "from": "Mt. San Jacinto College",
+          "to": "Lemoore College",
+          "count": 3
+        },
+        {
           "from": "Mt. San Antonio College",
           "to": "Lemoore College",
           "count": 3
@@ -25338,6 +25268,11 @@
           "count": 3
         },
         {
+          "from": "Allan Hancock College",
+          "to": "Cerritos College",
+          "count": 3
+        },
+        {
           "from": "Los Medanos College",
           "to": "Shasta College",
           "count": 3
@@ -25345,6 +25280,11 @@
         {
           "from": "Glendale Community College",
           "to": "Cerro Coso Community College",
+          "count": 3
+        },
+        {
+          "from": "Sierra College",
+          "to": "San Bernardino Valley College",
           "count": 3
         },
         {
@@ -25420,6 +25360,11 @@
         {
           "from": "Fresno City College",
           "to": "Mendocino College",
+          "count": 3
+        },
+        {
+          "from": "Berkeley City College",
+          "to": "Compton College",
           "count": 3
         },
         {
@@ -25525,6 +25470,11 @@
         {
           "from": "Long Beach City College",
           "to": "Cerritos College",
+          "count": 3
+        },
+        {
+          "from": "College of Marin",
+          "to": "Reedley College",
           "count": 3
         },
         {
@@ -25668,11 +25618,6 @@
           "count": 3
         },
         {
-          "from": "Chabot College",
-          "to": "Reedley College",
-          "count": 3
-        },
-        {
           "from": "Merced College",
           "to": "Fresno City College",
           "count": 3
@@ -25743,6 +25688,11 @@
           "count": 3
         },
         {
+          "from": "Berkeley City College",
+          "to": "Merritt College",
+          "count": 3
+        },
+        {
           "from": "Merced College",
           "to": "Merritt College",
           "count": 3
@@ -25793,8 +25743,18 @@
           "count": 3
         },
         {
+          "from": "San Diego Miramar College",
+          "to": "Ohlone College",
+          "count": 3
+        },
+        {
           "from": "Santa Rosa Junior College",
           "to": "Sacramento City College",
+          "count": 3
+        },
+        {
+          "from": "Sierra College",
+          "to": "Chabot College",
           "count": 3
         },
         {
@@ -25833,11 +25793,6 @@
           "count": 3
         },
         {
-          "from": "San Joaquin Delta College",
-          "to": "Palomar College",
-          "count": 3
-        },
-        {
           "from": "Gavilan College",
           "to": "Moorpark College",
           "count": 3
@@ -25870,11 +25825,6 @@
         {
           "from": "Las Positas College",
           "to": "Fullerton College",
-          "count": 3
-        },
-        {
-          "from": "College of Marin",
-          "to": "Chabot College",
           "count": 3
         },
         {
@@ -25915,11 +25865,6 @@
         {
           "from": "San Bernardino Valley College",
           "to": "Las Positas College",
-          "count": 3
-        },
-        {
-          "from": "San Diego Mesa College",
-          "to": "Ventura College",
           "count": 3
         },
         {
@@ -25988,6 +25933,11 @@
           "count": 3
         },
         {
+          "from": "Cabrillo College",
+          "to": "Norco College",
+          "count": 3
+        },
+        {
           "from": "MiraCosta College",
           "to": "San Bernardino Valley College",
           "count": 3
@@ -25998,8 +25948,8 @@
           "count": 3
         },
         {
-          "from": "Antelope Valley College",
-          "to": "Cuesta College",
+          "from": "Sierra College",
+          "to": "Norco College",
           "count": 3
         },
         {
@@ -26068,6 +26018,11 @@
           "count": 3
         },
         {
+          "from": "Glendale Community College",
+          "to": "Victor Valley College",
+          "count": 3
+        },
+        {
           "from": "Imperial Valley College",
           "to": "Citrus College",
           "count": 3
@@ -26128,6 +26083,11 @@
           "count": 3
         },
         {
+          "from": "Mt. San Jacinto College",
+          "to": "Rio Hondo College",
+          "count": 3
+        },
+        {
           "from": "Imperial Valley College",
           "to": "Saddleback College",
           "count": 3
@@ -26135,11 +26095,6 @@
         {
           "from": "College of Marin",
           "to": "Norco College",
-          "count": 3
-        },
-        {
-          "from": "Fresno City College",
-          "to": "Victor Valley College",
           "count": 3
         },
         {
@@ -26198,13 +26153,28 @@
           "count": 3
         },
         {
+          "from": "Las Positas College",
+          "to": "Los Angeles Harbor College",
+          "count": 3
+        },
+        {
           "from": "Long Beach City College",
           "to": "Norco College",
           "count": 3
         },
         {
+          "from": "Pasadena City College",
+          "to": "Golden West College",
+          "count": 3
+        },
+        {
           "from": "Santa Monica College",
           "to": "Cuyamaca College",
+          "count": 3
+        },
+        {
+          "from": "Irvine Valley College",
+          "to": "Foothill College",
           "count": 3
         },
         {
@@ -26253,13 +26223,13 @@
           "count": 3
         },
         {
-          "from": "Cuesta College",
-          "to": "Coalinga College",
+          "from": "College of the Desert",
+          "to": "College of the Canyons",
           "count": 3
         },
         {
-          "from": "College of Marin",
-          "to": "College of the Canyons",
+          "from": "Cuesta College",
+          "to": "Coalinga College",
           "count": 3
         },
         {
@@ -26353,11 +26323,6 @@
           "count": 3
         },
         {
-          "from": "Chabot College",
-          "to": "Citrus College",
-          "count": 3
-        },
-        {
           "from": "Ohlone College",
           "to": "Woodland Community College",
           "count": 3
@@ -26420,11 +26385,6 @@
         {
           "from": "Las Positas College",
           "to": "College of the Canyons",
-          "count": 3
-        },
-        {
-          "from": "Santa Ana College",
-          "to": "College of the Siskiyous",
           "count": 3
         },
         {
@@ -26515,11 +26475,6 @@
         {
           "from": "Pasadena City College",
           "to": "Moreno Valley College",
-          "count": 3
-        },
-        {
-          "from": "Victor Valley College",
-          "to": "Lake Tahoe Community College",
           "count": 3
         },
         {
@@ -26773,6 +26728,11 @@
           "count": 2
         },
         {
+          "from": "Sierra College",
+          "to": "Coalinga College",
+          "count": 2
+        },
+        {
           "from": "Saddleback College",
           "to": "Santiago Canyon College",
           "count": 2
@@ -26800,6 +26760,11 @@
         {
           "from": "Palomar College",
           "to": "Shasta College",
+          "count": 2
+        },
+        {
+          "from": "Bakersfield College",
+          "to": "Coalinga College",
           "count": 2
         },
         {
@@ -26863,6 +26828,11 @@
           "count": 2
         },
         {
+          "from": "Merced College",
+          "to": "Bakersfield College",
+          "count": 2
+        },
+        {
           "from": "Contra Costa College",
           "to": "Coalinga College",
           "count": 2
@@ -26884,11 +26854,6 @@
         },
         {
           "from": "Shasta College",
-          "to": "Porterville College",
-          "count": 2
-        },
-        {
-          "from": "Long Beach City College",
           "to": "Porterville College",
           "count": 2
         },
@@ -26955,6 +26920,11 @@
         {
           "from": "Shasta College",
           "to": "Rio Hondo College",
+          "count": 2
+        },
+        {
+          "from": "Napa Valley College",
+          "to": "Santiago Canyon College",
           "count": 2
         },
         {
@@ -27183,11 +27153,6 @@
           "count": 2
         },
         {
-          "from": "Sierra College",
-          "to": "Rio Hondo College",
-          "count": 2
-        },
-        {
           "from": "Modesto Junior College",
           "to": "Irvine Valley College",
           "count": 2
@@ -27383,11 +27348,6 @@
           "count": 2
         },
         {
-          "from": "Saddleback College",
-          "to": "Palomar College",
-          "count": 2
-        },
-        {
           "from": "Contra Costa College",
           "to": "Lemoore College",
           "count": 2
@@ -27508,11 +27468,6 @@
           "count": 2
         },
         {
-          "from": "American River College",
-          "to": "Mendocino College",
-          "count": 2
-        },
-        {
           "from": "Imperial Valley College",
           "to": "Lassen Community College",
           "count": 2
@@ -27533,11 +27488,6 @@
           "count": 2
         },
         {
-          "from": "Foothill College",
-          "to": "Oxnard College",
-          "count": 2
-        },
-        {
           "from": "Las Positas College",
           "to": "Chaffey College",
           "count": 2
@@ -27545,6 +27495,11 @@
         {
           "from": "Irvine Valley College",
           "to": "Shasta College",
+          "count": 2
+        },
+        {
+          "from": "Sierra College",
+          "to": "Fullerton College",
           "count": 2
         },
         {
@@ -27748,11 +27703,6 @@
           "count": 2
         },
         {
-          "from": "Mt. San Jacinto College",
-          "to": "Lemoore College",
-          "count": 2
-        },
-        {
           "from": "Cosumnes River College",
           "to": "Chabot College",
           "count": 2
@@ -27818,6 +27768,11 @@
           "count": 2
         },
         {
+          "from": "College of Marin",
+          "to": "Taft College",
+          "count": 2
+        },
+        {
           "from": "American River College",
           "to": "Chabot College",
           "count": 2
@@ -27878,18 +27833,8 @@
           "count": 2
         },
         {
-          "from": "Sierra College",
-          "to": "San Bernardino Valley College",
-          "count": 2
-        },
-        {
           "from": "Hartnell College",
           "to": "Mission College",
-          "count": 2
-        },
-        {
-          "from": "Mission College",
-          "to": "Long Beach City College",
           "count": 2
         },
         {
@@ -28038,11 +27983,6 @@
           "count": 2
         },
         {
-          "from": "Long Beach City College",
-          "to": "Chabot College",
-          "count": 2
-        },
-        {
           "from": "Moorpark College",
           "to": "Cypress College",
           "count": 2
@@ -28103,11 +28043,6 @@
           "count": 2
         },
         {
-          "from": "Hartnell College",
-          "to": "West Valley College",
-          "count": 2
-        },
-        {
           "from": "College of the Sequoias",
           "to": "Reedley College",
           "count": 2
@@ -28115,6 +28050,11 @@
         {
           "from": "Santa Monica College",
           "to": "Chabot College",
+          "count": 2
+        },
+        {
+          "from": "Gavilan College",
+          "to": "Santiago Canyon College",
           "count": 2
         },
         {
@@ -28173,6 +28113,11 @@
           "count": 2
         },
         {
+          "from": "Merritt College",
+          "to": "Mt. San Antonio College",
+          "count": 2
+        },
+        {
           "from": "MiraCosta College",
           "to": "Santiago Canyon College",
           "count": 2
@@ -28220,11 +28165,6 @@
         {
           "from": "Gavilan College",
           "to": "Evergreen Valley College",
-          "count": 2
-        },
-        {
-          "from": "City College of San Francisco",
-          "to": "Lassen Community College",
           "count": 2
         },
         {
@@ -28333,6 +28273,11 @@
           "count": 2
         },
         {
+          "from": "El Camino College",
+          "to": "Cypress College",
+          "count": 2
+        },
+        {
           "from": "Woodland Community College",
           "to": "Mission College",
           "count": 2
@@ -28423,11 +28368,6 @@
           "count": 2
         },
         {
-          "from": "Santa Monica College",
-          "to": "Glendale Community College",
-          "count": 2
-        },
-        {
           "from": "Porterville College",
           "to": "Long Beach City College",
           "count": 2
@@ -28460,6 +28400,11 @@
         {
           "from": "Hartnell College",
           "to": "Clovis Community College",
+          "count": 2
+        },
+        {
+          "from": "Fresno City College",
+          "to": "Taft College",
           "count": 2
         },
         {
@@ -28518,8 +28463,18 @@
           "count": 2
         },
         {
+          "from": "Chabot College",
+          "to": "Reedley College",
+          "count": 2
+        },
+        {
           "from": "Santa Ana College",
           "to": "Evergreen Valley College",
+          "count": 2
+        },
+        {
+          "from": "Sierra College",
+          "to": "Copper Mountain College",
           "count": 2
         },
         {
@@ -28708,6 +28663,11 @@
           "count": 2
         },
         {
+          "from": "Sierra College",
+          "to": "Golden West College",
+          "count": 2
+        },
+        {
           "from": "Berkeley City College",
           "to": "Chaffey College",
           "count": 2
@@ -28750,6 +28710,11 @@
         {
           "from": "Pasadena City College",
           "to": "San Bernardino Valley College",
+          "count": 2
+        },
+        {
+          "from": "San Joaquin Delta College",
+          "to": "Palomar College",
           "count": 2
         },
         {
@@ -28803,11 +28768,6 @@
           "count": 2
         },
         {
-          "from": "Santa Monica College",
-          "to": "Santiago Canyon College",
-          "count": 2
-        },
-        {
           "from": "Contra Costa College",
           "to": "Chaffey College",
           "count": 2
@@ -28850,6 +28810,11 @@
         {
           "from": "Folsom Lake College",
           "to": "San Bernardino Valley College",
+          "count": 2
+        },
+        {
+          "from": "College of Marin",
+          "to": "Chabot College",
           "count": 2
         },
         {
@@ -28920,6 +28885,11 @@
         {
           "from": "Las Positas College",
           "to": "Cuesta College",
+          "count": 2
+        },
+        {
+          "from": "Los Angeles City College",
+          "to": "San Bernardino Valley College",
           "count": 2
         },
         {
@@ -29098,11 +29068,6 @@
           "count": 2
         },
         {
-          "from": "San Jose City College",
-          "to": "Irvine Valley College",
-          "count": 2
-        },
-        {
           "from": "College of Marin",
           "to": "Moreno Valley College",
           "count": 2
@@ -29188,6 +29153,11 @@
           "count": 2
         },
         {
+          "from": "Sierra College",
+          "to": "Crafton Hills College",
+          "count": 2
+        },
+        {
           "from": "Cuesta College",
           "to": "Moreno Valley College",
           "count": 2
@@ -29195,6 +29165,11 @@
         {
           "from": "Cosumnes River College",
           "to": "Madera Community College",
+          "count": 2
+        },
+        {
+          "from": "Antelope Valley College",
+          "to": "Cuesta College",
           "count": 2
         },
         {
@@ -29348,8 +29323,8 @@
           "count": 2
         },
         {
-          "from": "Los Angeles City College",
-          "to": "Foothill College",
+          "from": "Moorpark College",
+          "to": "Moreno Valley College",
           "count": 2
         },
         {
@@ -29359,11 +29334,6 @@
         },
         {
           "from": "Sacramento City College",
-          "to": "Ohlone College",
-          "count": 2
-        },
-        {
-          "from": "San Diego Miramar College",
           "to": "Ohlone College",
           "count": 2
         },
@@ -29508,11 +29478,6 @@
           "count": 2
         },
         {
-          "from": "San Diego Mesa College",
-          "to": "Fullerton College",
-          "count": 2
-        },
-        {
           "from": "Shasta College",
           "to": "Yuba College",
           "count": 2
@@ -29528,13 +29493,13 @@
           "count": 2
         },
         {
-          "from": "Sierra College",
-          "to": "Norco College",
+          "from": "Cuesta College",
+          "to": "Palomar College",
           "count": 2
         },
         {
-          "from": "Cuesta College",
-          "to": "Palomar College",
+          "from": "Imperial Valley College",
+          "to": "Taft College",
           "count": 2
         },
         {
@@ -29593,11 +29558,6 @@
           "count": 2
         },
         {
-          "from": "Evergreen Valley College",
-          "to": "Moreno Valley College",
-          "count": 2
-        },
-        {
           "from": "Antelope Valley College",
           "to": "Moreno Valley College",
           "count": 2
@@ -29618,13 +29578,13 @@
           "count": 2
         },
         {
-          "from": "Woodland Community College",
-          "to": "Palomar College",
+          "from": "Southwestern College",
+          "to": "Victor Valley College",
           "count": 2
         },
         {
-          "from": "Southwestern College",
-          "to": "Victor Valley College",
+          "from": "Sierra College",
+          "to": "Rio Hondo College",
           "count": 2
         },
         {
@@ -29733,6 +29693,11 @@
           "count": 2
         },
         {
+          "from": "Antelope Valley College",
+          "to": "Los Angeles Harbor College",
+          "count": 2
+        },
+        {
           "from": "Coastline Community College",
           "to": "Las Positas College",
           "count": 2
@@ -29788,8 +29753,18 @@
           "count": 2
         },
         {
+          "from": "Ventura College",
+          "to": "Imperial Valley College",
+          "count": 2
+        },
+        {
           "from": "Berkeley City College",
           "to": "Saddleback College",
+          "count": 2
+        },
+        {
+          "from": "Cabrillo College",
+          "to": "Coalinga College",
           "count": 2
         },
         {
@@ -29814,6 +29789,11 @@
         },
         {
           "from": "Merced College",
+          "to": "Imperial Valley College",
+          "count": 2
+        },
+        {
+          "from": "Sierra College",
           "to": "Imperial Valley College",
           "count": 2
         },
@@ -29923,6 +29903,11 @@
           "count": 2
         },
         {
+          "from": "Fresno City College",
+          "to": "Victor Valley College",
+          "count": 2
+        },
+        {
           "from": "El Camino College",
           "to": "Pasadena City College",
           "count": 2
@@ -29960,6 +29945,16 @@
         {
           "from": "College of the Canyons",
           "to": "Santa Barbara City College",
+          "count": 2
+        },
+        {
+          "from": "Bakersfield College",
+          "to": "Citrus College",
+          "count": 2
+        },
+        {
+          "from": "West Los Angeles College",
+          "to": "Citrus College",
           "count": 2
         },
         {
@@ -30354,6 +30349,11 @@
         },
         {
           "from": "Allan Hancock College",
+          "to": "College of the Canyons",
+          "count": 2
+        },
+        {
+          "from": "College of Marin",
           "to": "College of the Canyons",
           "count": 2
         },
@@ -30748,11 +30748,6 @@
           "count": 2
         },
         {
-          "from": "Pasadena City College",
-          "to": "Golden West College",
-          "count": 2
-        },
-        {
           "from": "Diablo Valley College",
           "to": "East Los Angeles College",
           "count": 2
@@ -31028,11 +31023,6 @@
           "count": 1
         },
         {
-          "from": "Sierra College",
-          "to": "Coalinga College",
-          "count": 1
-        },
-        {
           "from": "Golden West College",
           "to": "Cerritos College",
           "count": 1
@@ -31100,11 +31090,6 @@
         {
           "from": "Santa Barbara City College",
           "to": "Coalinga College",
-          "count": 1
-        },
-        {
-          "from": "Merced College",
-          "to": "Bakersfield College",
           "count": 1
         },
         {
@@ -31180,11 +31165,6 @@
         {
           "from": "Santa Ana College",
           "to": "Taft College",
-          "count": 1
-        },
-        {
-          "from": "Napa Valley College",
-          "to": "Santiago Canyon College",
           "count": 1
         },
         {
@@ -31408,11 +31388,6 @@
           "count": 1
         },
         {
-          "from": "Contra Costa College",
-          "to": "Mission College",
-          "count": 1
-        },
-        {
           "from": "Cypress College",
           "to": "Cuesta College",
           "count": 1
@@ -31595,6 +31570,11 @@
         {
           "from": "Santiago Canyon College",
           "to": "Oxnard College",
+          "count": 1
+        },
+        {
+          "from": "Long Beach City College",
+          "to": "Porterville College",
           "count": 1
         },
         {
@@ -31913,11 +31893,6 @@
           "count": 1
         },
         {
-          "from": "Feather River College",
-          "to": "Compton College",
-          "count": 1
-        },
-        {
           "from": "Coalinga College",
           "to": "Mission College",
           "count": 1
@@ -31930,11 +31905,6 @@
         {
           "from": "Orange Coast College",
           "to": "Mendocino College",
-          "count": 1
-        },
-        {
-          "from": "Los Angeles Harbor College",
-          "to": "Merritt College",
           "count": 1
         },
         {
@@ -31978,8 +31948,8 @@
           "count": 1
         },
         {
-          "from": "San Bernardino Valley College",
-          "to": "Foothill College",
+          "from": "Foothill College",
+          "to": "Oxnard College",
           "count": 1
         },
         {
@@ -32015,11 +31985,6 @@
         {
           "from": "Moorpark College",
           "to": "Mission College",
-          "count": 1
-        },
-        {
-          "from": "Sierra College",
-          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -32400,11 +32365,6 @@
         {
           "from": "Feather River College",
           "to": "Taft College",
-          "count": 1
-        },
-        {
-          "from": "West Valley College",
-          "to": "Sacramento City College",
           "count": 1
         },
         {
@@ -32603,11 +32563,6 @@
           "count": 1
         },
         {
-          "from": "Antelope Valley College",
-          "to": "Taft College",
-          "count": 1
-        },
-        {
           "from": "San Jose City College",
           "to": "Bakersfield College",
           "count": 1
@@ -32653,6 +32608,11 @@
           "count": 1
         },
         {
+          "from": "Hartnell College",
+          "to": "West Valley College",
+          "count": 1
+        },
+        {
           "from": "Cerro Coso Community College",
           "to": "Chabot College",
           "count": 1
@@ -32680,11 +32640,6 @@
         {
           "from": "Solano Community College",
           "to": "Mission College",
-          "count": 1
-        },
-        {
-          "from": "Glendale Community College",
-          "to": "West Valley College",
           "count": 1
         },
         {
@@ -32735,11 +32690,6 @@
         {
           "from": "Citrus College",
           "to": "Long Beach City College",
-          "count": 1
-        },
-        {
-          "from": "Merritt College",
-          "to": "Mt. San Antonio College",
           "count": 1
         },
         {
@@ -32893,6 +32843,11 @@
           "count": 1
         },
         {
+          "from": "City College of San Francisco",
+          "to": "Lassen Community College",
+          "count": 1
+        },
+        {
           "from": "Antelope Valley College",
           "to": "Porterville College",
           "count": 1
@@ -32915,11 +32870,6 @@
         {
           "from": "Napa Valley College",
           "to": "Clovis Community College",
-          "count": 1
-        },
-        {
-          "from": "El Camino College",
-          "to": "Cypress College",
           "count": 1
         },
         {
@@ -33128,6 +33078,11 @@
           "count": 1
         },
         {
+          "from": "Santa Monica College",
+          "to": "Glendale Community College",
+          "count": 1
+        },
+        {
           "from": "Hartnell College",
           "to": "Gavilan College",
           "count": 1
@@ -33140,11 +33095,6 @@
         {
           "from": "Cuesta College",
           "to": "Cypress College",
-          "count": 1
-        },
-        {
-          "from": "Citrus College",
-          "to": "College of the Redwoods",
           "count": 1
         },
         {
@@ -33215,11 +33165,6 @@
         {
           "from": "Bakersfield College",
           "to": "Fullerton College",
-          "count": 1
-        },
-        {
-          "from": "Fresno City College",
-          "to": "Taft College",
           "count": 1
         },
         {
@@ -33333,11 +33278,6 @@
           "count": 1
         },
         {
-          "from": "Sierra College",
-          "to": "Copper Mountain College",
-          "count": 1
-        },
-        {
           "from": "Solano Community College",
           "to": "Evergreen Valley College",
           "count": 1
@@ -33365,11 +33305,6 @@
         {
           "from": "Cosumnes River College",
           "to": "San Bernardino Valley College",
-          "count": 1
-        },
-        {
-          "from": "Cuesta College",
-          "to": "Las Positas College",
           "count": 1
         },
         {
@@ -33593,11 +33528,6 @@
           "count": 1
         },
         {
-          "from": "Cerritos College",
-          "to": "Santa Barbara City College",
-          "count": 1
-        },
-        {
           "from": "Merced College",
           "to": "College of the Redwoods",
           "count": 1
@@ -33610,11 +33540,6 @@
         {
           "from": "Contra Costa College",
           "to": "Moorpark College",
-          "count": 1
-        },
-        {
-          "from": "Diablo Valley College",
-          "to": "Chaffey College",
           "count": 1
         },
         {
@@ -33650,11 +33575,6 @@
         {
           "from": "Mendocino College",
           "to": "Clovis Community College",
-          "count": 1
-        },
-        {
-          "from": "Sierra College",
-          "to": "Chabot College",
           "count": 1
         },
         {
@@ -34053,6 +33973,11 @@
           "count": 1
         },
         {
+          "from": "Reedley College",
+          "to": "Ohlone College",
+          "count": 1
+        },
+        {
           "from": "Sierra College",
           "to": "College of Alameda",
           "count": 1
@@ -34103,6 +34028,11 @@
           "count": 1
         },
         {
+          "from": "Fresno City College",
+          "to": "Crafton Hills College",
+          "count": 1
+        },
+        {
           "from": "Las Positas College",
           "to": "Oxnard College",
           "count": 1
@@ -34150,6 +34080,16 @@
         {
           "from": "Napa Valley College",
           "to": "Cypress College",
+          "count": 1
+        },
+        {
+          "from": "Sierra College",
+          "to": "Merritt College",
+          "count": 1
+        },
+        {
+          "from": "Sierra College",
+          "to": "El Camino College",
           "count": 1
         },
         {
@@ -34270,6 +34210,11 @@
         {
           "from": "Feather River College",
           "to": "Saddleback College",
+          "count": 1
+        },
+        {
+          "from": "Southwestern College",
+          "to": "Cypress College",
           "count": 1
         },
         {
@@ -34528,11 +34473,6 @@
           "count": 1
         },
         {
-          "from": "Los Medanos College",
-          "to": "Coastline Community College",
-          "count": 1
-        },
-        {
           "from": "Palomar College",
           "to": "Orange Coast College",
           "count": 1
@@ -34598,6 +34538,11 @@
           "count": 1
         },
         {
+          "from": "San Jose City College",
+          "to": "Irvine Valley College",
+          "count": 1
+        },
+        {
           "from": "San Bernardino Valley College",
           "to": "Compton College",
           "count": 1
@@ -34620,6 +34565,11 @@
         {
           "from": "City College of San Francisco",
           "to": "Mendocino College",
+          "count": 1
+        },
+        {
+          "from": "Mission College",
+          "to": "Long Beach City College",
           "count": 1
         },
         {
@@ -34740,11 +34690,6 @@
         {
           "from": "College of the Redwoods",
           "to": "Mendocino College",
-          "count": 1
-        },
-        {
-          "from": "Sierra College",
-          "to": "Crafton Hills College",
           "count": 1
         },
         {
@@ -35165,11 +35110,6 @@
         {
           "from": "Shasta College",
           "to": "Gavilan College",
-          "count": 1
-        },
-        {
-          "from": "Moorpark College",
-          "to": "Moreno Valley College",
           "count": 1
         },
         {
@@ -35528,11 +35468,6 @@
           "count": 1
         },
         {
-          "from": "Imperial Valley College",
-          "to": "Taft College",
-          "count": 1
-        },
-        {
           "from": "Merced College",
           "to": "Antelope Valley College",
           "count": 1
@@ -35618,11 +35553,6 @@
           "count": 1
         },
         {
-          "from": "Madera Community College",
-          "to": "Bakersfield College",
-          "count": 1
-        },
-        {
           "from": "Santa Rosa Junior College",
           "to": "Cosumnes River College",
           "count": 1
@@ -35675,6 +35605,11 @@
         {
           "from": "Taft College",
           "to": "Cerritos College",
+          "count": 1
+        },
+        {
+          "from": "Golden West College",
+          "to": "Bakersfield College",
           "count": 1
         },
         {
@@ -35883,18 +35818,13 @@
           "count": 1
         },
         {
-          "from": "Shasta College",
-          "to": "Antelope Valley College",
+          "from": "Cypress College",
+          "to": "Cuyamaca College",
           "count": 1
         },
         {
           "from": "Norco College",
           "to": "Ventura College",
-          "count": 1
-        },
-        {
-          "from": "West Valley College",
-          "to": "Cypress College",
           "count": 1
         },
         {
@@ -36073,6 +36003,11 @@
           "count": 1
         },
         {
+          "from": "Southwestern College",
+          "to": "Norco College",
+          "count": 1
+        },
+        {
           "from": "Crafton Hills College",
           "to": "Compton College",
           "count": 1
@@ -36085,6 +36020,11 @@
         {
           "from": "Chaffey College",
           "to": "Golden West College",
+          "count": 1
+        },
+        {
+          "from": "Riverside City College",
+          "to": "Los Angeles Valley College",
           "count": 1
         },
         {
@@ -36128,6 +36068,16 @@
           "count": 1
         },
         {
+          "from": "Los Medanos College",
+          "to": "Woodland Community College",
+          "count": 1
+        },
+        {
+          "from": "Palomar College",
+          "to": "Porterville College",
+          "count": 1
+        },
+        {
           "from": "Barstow Community College",
           "to": "Imperial Valley College",
           "count": 1
@@ -36165,11 +36115,6 @@
         {
           "from": "Berkeley City College",
           "to": "College of the Desert",
-          "count": 1
-        },
-        {
-          "from": "Los Medanos College",
-          "to": "Cuyamaca College",
           "count": 1
         },
         {
@@ -36233,6 +36178,11 @@
           "count": 1
         },
         {
+          "from": "Coastline Community College",
+          "to": "Los Angeles Harbor College",
+          "count": 1
+        },
+        {
           "from": "MiraCosta College",
           "to": "Taft College",
           "count": 1
@@ -36268,6 +36218,11 @@
           "count": 1
         },
         {
+          "from": "Cerritos College",
+          "to": "Contra Costa College",
+          "count": 1
+        },
+        {
           "from": "San Joaquin Delta College",
           "to": "Moreno Valley College",
           "count": 1
@@ -36295,6 +36250,11 @@
         {
           "from": "East Los Angeles College",
           "to": "Contra Costa College",
+          "count": 1
+        },
+        {
+          "from": "Grossmont College",
+          "to": "Bakersfield College",
           "count": 1
         },
         {
@@ -36448,11 +36408,6 @@
           "count": 1
         },
         {
-          "from": "Norco College",
-          "to": "Victor Valley College",
-          "count": 1
-        },
-        {
           "from": "Foothill College",
           "to": "Evergreen Valley College",
           "count": 1
@@ -36498,11 +36453,6 @@
           "count": 1
         },
         {
-          "from": "Rio Hondo College",
-          "to": "Chabot College",
-          "count": 1
-        },
-        {
           "from": "Fresno City College",
           "to": "Berkeley City College",
           "count": 1
@@ -36530,16 +36480,6 @@
         {
           "from": "San Diego Miramar College",
           "to": "Pasadena City College",
-          "count": 1
-        },
-        {
-          "from": "Napa Valley College",
-          "to": "Allan Hancock College",
-          "count": 1
-        },
-        {
-          "from": "Fullerton College",
-          "to": "College of the Redwoods",
           "count": 1
         },
         {
@@ -36590,11 +36530,6 @@
         {
           "from": "San Diego Mesa College",
           "to": "Orange Coast College",
-          "count": 1
-        },
-        {
-          "from": "Santa Monica College",
-          "to": "Woodland Community College",
           "count": 1
         },
         {
@@ -36828,6 +36763,11 @@
           "count": 1
         },
         {
+          "from": "College of Marin",
+          "to": "San Diego City College",
+          "count": 1
+        },
+        {
           "from": "Mt. San Antonio College",
           "to": "Victor Valley College",
           "count": 1
@@ -36843,8 +36783,18 @@
           "count": 1
         },
         {
+          "from": "Clovis Community College",
+          "to": "Taft College",
+          "count": 1
+        },
+        {
           "from": "Allan Hancock College",
           "to": "Gavilan College",
+          "count": 1
+        },
+        {
+          "from": "Woodland Community College",
+          "to": "Los Angeles Harbor College",
           "count": 1
         },
         {
@@ -37138,6 +37088,11 @@
           "count": 1
         },
         {
+          "from": "Saddleback College",
+          "to": "Palomar College",
+          "count": 1
+        },
+        {
           "from": "College of Alameda",
           "to": "Coastline Community College",
           "count": 1
@@ -37265,6 +37220,11 @@
         {
           "from": "Sierra College",
           "to": "Ohlone College",
+          "count": 1
+        },
+        {
+          "from": "Los Angeles City College",
+          "to": "Foothill College",
           "count": 1
         },
         {
@@ -37938,11 +37898,6 @@
           "count": 1
         },
         {
-          "from": "Cabrillo College",
-          "to": "Coalinga College",
-          "count": 1
-        },
-        {
           "from": "Hartnell College",
           "to": "Lassen Community College",
           "count": 1
@@ -38000,6 +37955,11 @@
         {
           "from": "Glendale Community College",
           "to": "Palomar College",
+          "count": 1
+        },
+        {
+          "from": "Evergreen Valley College",
+          "to": "Moreno Valley College",
           "count": 1
         },
         {
@@ -38195,11 +38155,6 @@
         {
           "from": "San Jose City College",
           "to": "Gavilan College",
-          "count": 1
-        },
-        {
-          "from": "Los Angeles City College",
-          "to": "San Bernardino Valley College",
           "count": 1
         },
         {
@@ -38518,11 +38473,6 @@
           "count": 1
         },
         {
-          "from": "Fresno City College",
-          "to": "Merritt College",
-          "count": 1
-        },
-        {
           "from": "Columbia College",
           "to": "Imperial Valley College",
           "count": 1
@@ -38550,11 +38500,6 @@
         {
           "from": "Antelope Valley College",
           "to": "Coastline Community College",
-          "count": 1
-        },
-        {
-          "from": "Antelope Valley College",
-          "to": "Los Angeles Harbor College",
           "count": 1
         },
         {
@@ -38590,6 +38535,11 @@
         {
           "from": "Coastline Community College",
           "to": "Lake Tahoe Community College",
+          "count": 1
+        },
+        {
+          "from": "Woodland Community College",
+          "to": "Palomar College",
           "count": 1
         },
         {
@@ -38660,11 +38610,6 @@
         {
           "from": "Allan Hancock College",
           "to": "Moorpark College",
-          "count": 1
-        },
-        {
-          "from": "Las Positas College",
-          "to": "Los Angeles Harbor College",
           "count": 1
         },
         {
@@ -38815,11 +38760,6 @@
         {
           "from": "MiraCosta College",
           "to": "Cuyamaca College",
-          "count": 1
-        },
-        {
-          "from": "Bakersfield College",
-          "to": "Citrus College",
           "count": 1
         },
         {
@@ -39283,11 +39223,6 @@
           "count": 1
         },
         {
-          "from": "Ventura College",
-          "to": "Imperial Valley College",
-          "count": 1
-        },
-        {
           "from": "El Camino College",
           "to": "Los Angeles Valley College",
           "count": 1
@@ -39425,6 +39360,11 @@
         {
           "from": "Grossmont College",
           "to": "Moorpark College",
+          "count": 1
+        },
+        {
+          "from": "Long Beach City College",
+          "to": "Chabot College",
           "count": 1
         },
         {
@@ -39573,11 +39513,6 @@
           "count": 1
         },
         {
-          "from": "Sierra College",
-          "to": "Imperial Valley College",
-          "count": 1
-        },
-        {
           "from": "West Los Angeles College",
           "to": "Fullerton College",
           "count": 1
@@ -39640,6 +39575,11 @@
         {
           "from": "Citrus College",
           "to": "College of the Siskiyous",
+          "count": 1
+        },
+        {
+          "from": "Santa Monica College",
+          "to": "Santiago Canyon College",
           "count": 1
         },
         {
@@ -39795,6 +39735,11 @@
         {
           "from": "Berkeley City College",
           "to": "Los Angeles Mission College",
+          "count": 1
+        },
+        {
+          "from": "San Diego Mesa College",
+          "to": "Fullerton College",
           "count": 1
         },
         {
@@ -40270,11 +40215,6 @@
         {
           "from": "Woodland Community College",
           "to": "Lake Tahoe Community College",
-          "count": 1
-        },
-        {
-          "from": "West Los Angeles College",
-          "to": "Citrus College",
           "count": 1
         },
         {
