@@ -17,24 +17,24 @@
       document.getElementById('main-content').style.display = 'none';
       var overlay = document.createElement('div');
       overlay.id = 'auth-overlay';
-      overlay.style.cssText = 'position:fixed;inset:0;background:#090c12;display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.style.cssText = 'position:fixed;inset:0;background:#f4f5f7;display:flex;align-items:center;justify-content:center;z-index:9999;';
       overlay.innerHTML =
-        '<div style="background:#0f1420;border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:52px 44px;width:380px;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,0.04)">' +
-        '<div style="font-family:Syne,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(214,189,142,0.55);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px">' +
-        '<span style="display:inline-block;width:20px;height:1px;background:rgba(214,189,142,0.3)"></span>California Virtual Campus<span style="display:inline-block;width:20px;height:1px;background:rgba(214,189,142,0.3)"></span>' +
+        '<div style="background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:20px;padding:52px 44px;width:380px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.1)">' +
+        '<div style="font-family:Syne,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(154,111,42,0.7);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px">' +
+        '<span style="display:inline-block;width:20px;height:1px;background:rgba(154,111,42,0.3)"></span>California Virtual Campus<span style="display:inline-block;width:20px;height:1px;background:rgba(154,111,42,0.3)"></span>' +
         '</div>' +
-        '<div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#eef0f5;margin-bottom:4px;letter-spacing:-0.02em">Exchange Dashboard</div>' +
-        '<div style="font-family:DM Sans,sans-serif;font-size:13px;color:rgba(238,240,245,0.38);margin-bottom:36px">Enrollment Intelligence Platform</div>' +
-        '<input id="pw-input" type="password" placeholder="Access code" style="width:100%;padding:13px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-family:JetBrains Mono,monospace;font-size:15px;color:#eef0f5;margin-bottom:12px;outline:none;box-sizing:border-box;letter-spacing:0.12em;transition:border-color .15s" />' +
-        '<button id="pw-btn" style="width:100%;padding:13px;background:#d6bd8e;color:#1a1510;border:none;border-radius:10px;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.06em;transition:opacity .15s">ENTER →</button>' +
-        '<div id="pw-err" style="color:#ff7a5a;font-family:DM Sans,sans-serif;font-size:12px;margin-top:14px;display:none">Invalid access code</div>' +
+        '<div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#1c1e21;margin-bottom:4px;letter-spacing:-0.02em">Exchange Dashboard</div>' +
+        '<div style="font-family:DM Sans,sans-serif;font-size:13px;color:rgba(28,30,33,0.4);margin-bottom:36px">Enrollment Intelligence Platform</div>' +
+        '<input id="pw-input" type="password" placeholder="Access code" style="width:100%;padding:13px 18px;background:#f8f9fa;border:1px solid rgba(0,0,0,0.13);border-radius:10px;font-family:JetBrains Mono,monospace;font-size:15px;color:#1c1e21;margin-bottom:12px;outline:none;box-sizing:border-box;letter-spacing:0.12em;transition:border-color .15s" />' +
+        '<button id="pw-btn" style="width:100%;padding:13px;background:#9a6f2a;color:#fff;border:none;border-radius:10px;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.06em">ENTER →</button>' +
+        '<div id="pw-err" style="color:#e03d3d;font-family:DM Sans,sans-serif;font-size:12px;margin-top:14px;display:none">Invalid access code</div>' +
         '</div>';
       document.body.appendChild(overlay);
       document.getElementById('pw-input').addEventListener('focus', function() {
-        this.style.borderColor = 'rgba(214,189,142,0.5)';
+        this.style.borderColor = 'rgba(154,111,42,0.5)';
       });
       document.getElementById('pw-input').addEventListener('blur', function() {
-        this.style.borderColor = 'rgba(255,255,255,0.1)';
+        this.style.borderColor = 'rgba(0,0,0,0.13)';
       });
       function attempt() {
         if (document.getElementById('pw-input').value === 'cvc-oei') {
@@ -59,20 +59,20 @@
 </script>
 <style>
   :root {
-    --bg:           #090c12;
-    --surface:      #0f1420;
-    --surface-2:    #141928;
-    --surface-3:    #1a2033;
-    --border:       rgba(255,255,255,0.07);
-    --border-med:   rgba(255,255,255,0.11);
-    --text:         #eef0f5;
-    --text-2:       rgba(238,240,245,0.55);
-    --text-3:       rgba(238,240,245,0.3);
-    --gold:         #d6bd8e;
-    --gold-dim:     rgba(214,189,142,0.18);
-    --cyan:         #4dd9ff;
-    --cyan-dim:     rgba(77,217,255,0.12);
-    --danger:       #ff7a5a;
+    --bg:           #f4f5f7;
+    --surface:      #ffffff;
+    --surface-2:    #f8f9fa;
+    --surface-3:    #eef0f3;
+    --border:       rgba(0,0,0,0.08);
+    --border-med:   rgba(0,0,0,0.13);
+    --text:         #1c1e21;
+    --text-2:       rgba(28,30,33,0.55);
+    --text-3:       rgba(28,30,33,0.38);
+    --gold:         #9a6f2a;
+    --gold-dim:     rgba(154,111,42,0.1);
+    --cyan:         #1a6ef5;
+    --cyan-dim:     rgba(26,110,245,0.08);
+    --danger:       #e03d3d;
     --sidebar-l:    260px;
     --sidebar-r:    284px;
     --nav-h:        50px;
@@ -365,11 +365,7 @@
   .map-wrap { flex: 1; position: relative; min-height: 0; }
   #map { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
-  /* Dark filter applied to tile pane only — inverts OSM light tiles to a dark basemap
-     without affecting markers, arcs, or tooltips which live in separate Leaflet panes */
-  .leaflet-tile-pane { filter: grayscale(1) invert(1) brightness(0.88); }
-
-  /* College labels on dark map */
+  /* College labels on light map */
   .college-label {
     background: none !important;
     border: none !important;
@@ -377,8 +373,8 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 10px;
     font-weight: 600;
-    color: rgba(255,255,255,0.92);
-    text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8);
+    color: #1c1e21;
+    text-shadow: 0 1px 3px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.9);
     white-space: nowrap;
     pointer-events: none !important;
     letter-spacing: 0.025em;
@@ -386,21 +382,21 @@
 
   /* Leaflet chrome overrides */
   .leaflet-control-zoom a {
-    background: var(--surface-2) !important;
+    background: var(--surface) !important;
     border-color: var(--border-med) !important;
     color: var(--text-2) !important;
   }
-  .leaflet-control-zoom a:hover { background: var(--surface-3) !important; color: var(--text) !important; }
-  .leaflet-bar { border-color: var(--border-med) !important; box-shadow: 0 2px 8px rgba(0,0,0,.4) !important; }
+  .leaflet-control-zoom a:hover { background: var(--surface-2) !important; color: var(--text) !important; }
+  .leaflet-bar { border-color: var(--border-med) !important; box-shadow: 0 1px 4px rgba(0,0,0,.15) !important; }
   .leaflet-tooltip {
-    background: var(--surface-2) !important;
+    background: var(--surface) !important;
     border: 1px solid var(--border-med) !important;
     color: var(--text) !important;
     border-radius: 6px !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 12px !important;
     padding: 5px 10px !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,.5) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12) !important;
   }
   .leaflet-tooltip::before { display: none !important; }
 
@@ -637,12 +633,12 @@ var currentMode = 'home';
 var showLabels = false;
 var collapsedSections = {};
 
-// Vivid palette for dark map tiles
+// Saturated palette for light map tiles — dark enough to read against OSM background
 var COLORS = [
-  '#ff6b35','#4dd9ff','#ff3d71','#2ecc71','#bd93f9','#f1c40f',
-  '#1abc9c','#74b9ff','#fd79a8','#a8e063','#e17055','#00cec9',
-  '#a29bfe','#55efc4','#d35400','#0984e3','#e84393','#6c5ce7',
-  '#b8e994','#fdcb6e'
+  '#e8450a','#1a6ef5','#c0392b','#16a085','#7b2fbe','#d4a017',
+  '#27ae60','#2471a3','#c2185b','#5d8a0e','#bf5a00','#0d6b8c',
+  '#6a1fc2','#0f7c57','#a93226','#b8860b','#1a7a5e','#a8105a',
+  '#3d6b21','#e67e22'
 ];
 
 var activeTerms = {};
@@ -805,7 +801,7 @@ function plotColleges() {
   DATA.colleges.forEach(function(c) {
     if (c.lat === 0 && c.lon === 0) return;
     var marker = L.circleMarker([c.lat, c.lon], {
-      radius: 4, fillColor: '#c8a050', fillOpacity: 0.7, color: '#e0b865', weight: 1.5
+      radius: 4, fillColor: '#c87d0a', fillOpacity: 0.85, color: '#8a5500', weight: 1.5
     }).addTo(leafletMap);
     marker.bindTooltip(c.name, { direction: 'top', offset: [0, -8] });
     marker.on('click', function() { toggleCollege(c.name); });
@@ -822,7 +818,7 @@ function updateMarkers() {
       var col = getColor(c.name);
       m.setStyle({ radius: 9, fillColor: col, fillOpacity: 1, color: '#fff', weight: 2 });
     } else {
-      m.setStyle({ radius: 4, fillColor: '#c8a050', fillOpacity: 0.7, color: '#e0b865', weight: 1.5 });
+      m.setStyle({ radius: 4, fillColor: '#c87d0a', fillOpacity: 0.85, color: '#8a5500', weight: 1.5 });
     }
   });
 }
