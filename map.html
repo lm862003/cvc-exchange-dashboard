@@ -365,6 +365,10 @@
   .map-wrap { flex: 1; position: relative; min-height: 0; }
   #map { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
+  /* Dark filter applied to tile pane only — inverts OSM light tiles to a dark basemap
+     without affecting markers, arcs, or tooltips which live in separate Leaflet panes */
+  .leaflet-tile-pane { filter: grayscale(1) invert(1) brightness(0.88); }
+
   /* College labels on dark map */
   .college-label {
     background: none !important;
@@ -649,10 +653,11 @@ function initApp() {
   // Unconditional invalidateSize — ensures the map reads correct dimensions
   // even if Leaflet initialised before the flex layout fully resolved
   setTimeout(function() { leafletMap.invalidateSize(); resizeSVG(); }, 300);
-  // Dark map tiles for maximum arc visibility
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 19
+  // OSM tiles with CSS invert filter (see .leaflet-tile-pane) — more reliable than
+  // CartoDB Dark Matter which is blocked by Chromium's ORB policy in cross-origin contexts
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
   }).addTo(leafletMap);
 
   // SVG overlay for arcs
