@@ -56,6 +56,14 @@
     document.addEventListener('DOMContentLoaded', initApp);
   }
 })();
+
+// Leaflet tiles go blank when the page is restored from the browser's
+// back-forward cache (bfcache). Re-trigger invalidateSize on bfcache restore.
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted && typeof leafletMap !== 'undefined' && leafletMap) {
+    setTimeout(function() { leafletMap.invalidateSize(); resizeSVG(); }, 50);
+  }
+});
 </script>
 <style>
   :root {
