@@ -333,6 +333,7 @@ function getColor(name) {
 function toggleCollege(name) {
   if (selectedColleges[name]) {
     delete selectedColleges[name];
+    delete collapsedSections[name];  // clean up stale sidebar state
   } else {
     selectedColleges[name] = true;
     getColor(name);
@@ -619,7 +620,16 @@ function updateStats() {
       }
     }
 
-    if (outgoing.length === 0 && incoming.length === 0) {
+    if (incoming.length === 0 && currentMode === 'teaching') {
+      html += '<div style="color:#888;font-size:11px;margin-top:4px;padding:4px 0;">';
+      if (outgoing.length > 0) {
+        html += 'No validated cross-enrollment students at this college for the selected terms.<br>' +
+                '<span style="color:#bbb;">This college is active as a home college (see below).</span>';
+      } else {
+        html += 'No enrollment data for this college in the selected terms.';
+      }
+      html += '</div>';
+    } else if (outgoing.length === 0 && incoming.length === 0) {
       html += '<div style="color:#888;font-size:11px;margin-top:4px;">No flows for selected terms.</div>';
     }
 
